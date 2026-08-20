@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#0a0a0b"/>
+
+  <!-- 12-column grid, the organising principle of the site -->
+  <g stroke="#2a2a2e" stroke-width="1">
+    <path d="M96 0v630M188 0v630M280 0v630M372 0v630M464 0v630M556 0v630M648 0v630M740 0v630M832 0v630M924 0v630M1016 0v630M1108 0v630"/>
+  </g>
+
+  <rect x="96" y="96" width="40" height="40" fill="none" stroke="#fafafa" stroke-width="3"/>
+  <rect x="109" y="109" width="14" height="14" fill="#fafafa"/>
+
+  <text x="96" y="330" fill="#fafafa" font-family="'Familjen Grotesk', Helvetica, Arial, sans-serif" font-size="88" letter-spacing="-3">Decode<tspan fill="#6e6e76">.designers</tspan></text>
+
+  <text x="96" y="396" fill="#c7c7cc" font-family="'Familjen Grotesk', Helvetica, Arial, sans-serif" font-size="30">Digital design consultancy &amp; design education</text>
+
+  <text x="96" y="534" fill="#6e6e76" font-family="'Space Mono', ui-monospace, monospace" font-size="19" letter-spacing="2.4">MVP · UX AUDIT · SAAS · DESIGN SYSTEMS · STRATEGY</text>
+</svg>

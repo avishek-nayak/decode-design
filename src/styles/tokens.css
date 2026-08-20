@@ -1,0 +1,118 @@
+/* ==========================================================================
+   Decode.designers — Design tokens
+   Single source of truth. Nothing below this file should hardcode a value.
+   ========================================================================== */
+
+:root {
+  /* ---- Charcoal ramp ------------------------------------------------------
+     One tone only. No accent hue anywhere in the system.
+     Emphasis is carried by value contrast, weight and space — never colour. */
+  --ink-000: #0a0a0b; /* page ground (dark surfaces, footer)    */
+  --ink-100: #141416; /* raised dark surface                    */
+  --ink-200: #2a2a2e; /* primary text on light, borders on dark */
+  --ink-300: #46464c; /* secondary text                         */
+  --ink-400: #6e6e76; /* tertiary text, captions                */
+  --ink-500: #9a9aa2; /* disabled, placeholder                  */
+  --ink-600: #c7c7cc; /* hairlines on light                     */
+  --ink-700: #e4e4e7; /* subtle fills                           */
+  --ink-800: #f2f2f3; /* alternate section background           */
+  --ink-900: #fafafa; /* page ground (light)                    */
+
+  /* ---- Semantic surface roles (light default) --------------------------- */
+  --surface: var(--ink-900);
+  --surface-alt: var(--ink-800);
+  --surface-inverse: var(--ink-000);
+  --text: var(--ink-200);
+  --text-muted: var(--ink-300);
+  --text-subtle: var(--ink-400);
+  --hairline: var(--ink-600);
+  --hairline-strong: var(--ink-500);
+
+  /* ---- Typography -------------------------------------------------------- */
+  --font-sans:
+    'Familjen Grotesk', ui-sans-serif, system-ui, -apple-system, 'Segoe UI',
+    Roboto, Helvetica, Arial, sans-serif;
+  --font-mono:
+    'Space Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+  --fs-display: clamp(2.75rem, 6vw, 5.25rem);
+  --fs-h1: clamp(2.25rem, 4.5vw, 3.5rem);
+  --fs-h2: clamp(1.75rem, 3vw, 2.5rem);
+  --fs-h3: 1.375rem;
+  --fs-body-lg: 1.1875rem;
+  --fs-body: 1.0625rem;
+  --fs-small: 0.9375rem;
+  --fs-mono: 0.75rem;
+
+  --lh-display: 1.02;
+  --lh-h1: 1.06;
+  --lh-h2: 1.12;
+  --lh-h3: 1.25;
+  --lh-body: 1.6;
+
+  --tr-display: -0.03em;
+  --tr-h1: -0.02em;
+  --tr-h2: -0.015em;
+  --tr-mono: 0.08em;
+
+  --measure: 68ch;
+  --measure-tight: 46ch;
+
+  /* ---- Grid -------------------------------------------------------------- */
+  --grid-max: 1440px;
+  --grid-gutter: clamp(20px, 4vw, 72px);
+  --grid-gap: 24px;
+  --grid-cols: 12;
+
+  /* ---- Space (8-based) --------------------------------------------------- */
+  --s-1: 4px;
+  --s-2: 8px;
+  --s-3: 12px;
+  --s-4: 16px;
+  --s-5: 24px;
+  --s-6: 32px;
+  --s-7: 48px;
+  --s-8: 64px;
+  --s-9: 96px;
+  --s-10: 128px;
+  --s-11: 192px;
+
+  --section-y: clamp(64px, 9vw, 128px);
+
+  /* ---- Motion ------------------------------------------------------------ */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --dur-fast: 180ms;
+  --dur-mid: 240ms;
+  --dur-slow: 480ms;
+
+  /* ---- Misc -------------------------------------------------------------- */
+  --radius: 2px; /* near-square. The system is grid-led, not pill-led. */
+  --border: 1px;
+  --header-h: 72px;
+}
+
+/* Inverted context — applied to dark bands and the footer.
+   Any component inside inherits the flipped roles without knowing about it. */
+.inverse {
+  --surface: var(--ink-000);
+  --surface-alt: var(--ink-100);
+  --surface-inverse: var(--ink-900);
+  --text: var(--ink-900);
+  --text-muted: var(--ink-600);
+  --text-subtle: var(--ink-500);
+  --hairline: #2f2f34;
+  --hairline-strong: var(--ink-400);
+
+  background-color: var(--surface);
+  color: var(--text);
+}
+
+/* The track count stays at 12 across all breakpoints; components narrow their
+   span instead (12 / 6 / 4 / 3). This keeps every element on one continuous
+   structure rather than three unrelated ones. */
+@media (max-width: 767px) {
+  :root {
+    --grid-gap: 16px;
+  }
+}

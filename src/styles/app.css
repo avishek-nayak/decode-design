@@ -1,0 +1,518 @@
+/* ==========================================================================
+   App — Tailwind bridge + design-system component classes
+   ========================================================================== */
+
+@import './tokens.css';
+@import 'tailwindcss';
+@import './base.css';
+@import './chrome.css';
+@import './pages.css';
+
+/* Expose the tokens to Tailwind so utilities stay on-system.
+   Anything not listed here simply isn't available as a utility — that's
+   the point: the constraint is the design system. */
+@theme {
+  --color-ink-000: #0a0a0b;
+  --color-ink-100: #141416;
+  --color-ink-200: #2a2a2e;
+  --color-ink-300: #46464c;
+  --color-ink-400: #6e6e76;
+  --color-ink-500: #9a9aa2;
+  --color-ink-600: #c7c7cc;
+  --color-ink-700: #e4e4e7;
+  --color-ink-800: #f2f2f3;
+  --color-ink-900: #fafafa;
+
+  --font-sans:
+    'Familjen Grotesk', ui-sans-serif, system-ui, -apple-system, 'Segoe UI',
+    Roboto, Helvetica, Arial, sans-serif;
+  --font-mono: 'Space Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --breakpoint-sm: 480px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1280px;
+  --breakpoint-2xl: 1440px;
+}
+
+/* ==========================================================================
+   Layout — the 12-column grid is the organising principle
+   ========================================================================== */
+
+.container {
+  width: 100%;
+  max-width: var(--grid-max);
+  margin-inline: auto;
+  padding-inline: var(--grid-gutter);
+}
+
+.grid-12 {
+  display: grid;
+  grid-template-columns: repeat(var(--grid-cols), minmax(0, 1fr));
+  column-gap: var(--grid-gap);
+  row-gap: var(--row-gap, var(--grid-gap));
+}
+
+/* Col resolves its span/start from breakpoint-scoped custom properties set
+   inline by <Col>. Defaults to full width, which is what mobile wants. */
+.col {
+  --col-span: var(--col-span-base, 12);
+  --col-start: var(--col-start-base, auto);
+
+  grid-column: var(--col-start) / span var(--col-span);
+}
+
+@media (min-width: 768px) {
+  .col {
+    --col-span: var(--col-span-md, var(--col-span-base, 12));
+    --col-start: var(--col-start-md, var(--col-start-base, auto));
+  }
+}
+
+@media (min-width: 1024px) {
+  .col {
+    --col-span: var(
+      --col-span-lg,
+      var(--col-span-md, var(--col-span-base, 12))
+    );
+    --col-start: var(
+      --col-start-lg,
+      var(--col-start-md, var(--col-start-base, auto))
+    );
+  }
+}
+
+.section {
+  padding-block: var(--section-y);
+}
+
+.section--alt {
+  background-color: var(--surface-alt);
+}
+
+.section--tight {
+  padding-block: clamp(48px, 6vw, 80px);
+}
+
+/* Hairline rules between sections are what make the grid *read* as a grid
+   rather than merely be one. Borders, never shadows. */
+.rule-t {
+  border-top: var(--border) solid var(--hairline);
+}
+.rule-b {
+  border-bottom: var(--border) solid var(--hairline);
+}
+
+/* ---- Dev-only grid overlay (Ctrl+G) ------------------------------------- */
+.grid-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 300;
+  pointer-events: none;
+}
+
+.grid-overlay__inner {
+  height: 100%;
+}
+
+.grid-overlay__col {
+  background-color: color-mix(in srgb, var(--ink-400) 12%, transparent);
+  border-inline: 1px solid color-mix(in srgb, var(--ink-400) 22%, transparent);
+}
+
+/* ==========================================================================
+   Typography
+   ========================================================================== */
+
+.t-display {
+  font-size: var(--fs-display);
+  line-height: var(--lh-display);
+  letter-spacing: var(--tr-display);
+}
+
+.t-h1 {
+  font-size: var(--fs-h1);
+  line-height: var(--lh-h1);
+  letter-spacing: var(--tr-h1);
+}
+
+.t-h2 {
+  font-size: var(--fs-h2);
+  line-height: var(--lh-h2);
+  letter-spacing: var(--tr-h2);
+}
+
+.t-h3 {
+  font-size: var(--fs-h3);
+  line-height: var(--lh-h3);
+}
+
+.t-body-lg {
+  font-size: var(--fs-body-lg);
+  line-height: 1.55;
+}
+
+.t-body {
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+}
+
+.t-small {
+  font-size: var(--fs-small);
+  line-height: 1.5;
+}
+
+/* Space Mono is reserved for labels, indices, metadata, prices and tags. */
+.t-mono {
+  font-family: var(--font-mono);
+  font-size: var(--fs-mono);
+  letter-spacing: var(--tr-mono);
+  text-transform: uppercase;
+  line-height: 1.4;
+}
+
+.t-mono--plain {
+  text-transform: none;
+  letter-spacing: 0.02em;
+}
+
+.measure {
+  max-width: var(--measure);
+}
+
+.measure-tight {
+  max-width: var(--measure-tight);
+}
+
+.muted {
+  color: var(--text-muted);
+}
+
+.subtle {
+  color: var(--text-subtle);
+}
+
+/* The single sanctioned use of weight 700 inside running copy. */
+.em {
+  font-weight: 700;
+}
+
+/* ==========================================================================
+   Eyebrow — mono index + label, the recurring section marker
+   ========================================================================== */
+
+.eyebrow {
+  display: flex;
+  align-items: baseline;
+  gap: var(--s-3);
+  color: var(--text-subtle);
+}
+
+.eyebrow__index {
+  color: var(--text-subtle);
+}
+
+/* ==========================================================================
+   Buttons
+   ========================================================================== */
+
+.btn {
+  --btn-bg: transparent;
+  --btn-fg: var(--text);
+  --btn-bd: var(--hairline-strong);
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--s-2);
+  padding: 14px var(--s-5);
+  min-height: 48px;
+  background-color: var(--btn-bg);
+  color: var(--btn-fg);
+  border: var(--border) solid var(--btn-bd);
+  border-radius: var(--radius);
+  font-family: var(--font-mono);
+  font-size: var(--fs-mono);
+  letter-spacing: var(--tr-mono);
+  text-transform: uppercase;
+  white-space: nowrap;
+  transition:
+    background-color var(--dur-fast) var(--ease-out),
+    color var(--dur-fast) var(--ease-out),
+    border-color var(--dur-fast) var(--ease-out);
+}
+
+.btn__icon {
+  transition: transform var(--dur-fast) var(--ease-out);
+}
+
+.btn:hover .btn__icon {
+  transform: translateX(3px);
+}
+
+.btn--primary {
+  --btn-bg: var(--surface-inverse);
+  --btn-fg: var(--surface);
+  --btn-bd: var(--surface-inverse);
+  font-weight: 700;
+}
+
+.btn--primary:hover {
+  --btn-bg: var(--ink-300);
+  --btn-bd: var(--ink-300);
+}
+
+.inverse .btn--primary:hover {
+  --btn-bg: var(--ink-700);
+  --btn-bd: var(--ink-700);
+}
+
+.btn--secondary:hover {
+  --btn-bd: var(--text);
+  --btn-bg: color-mix(in srgb, var(--text) 6%, transparent);
+}
+
+.btn--ghost {
+  --btn-bd: transparent;
+  padding-inline: 0;
+  min-height: 0;
+}
+
+.btn--ghost:hover {
+  --btn-fg: var(--text);
+}
+
+.btn[disabled],
+.btn[aria-disabled='true'] {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.btn[disabled] .btn__icon,
+.btn[aria-disabled='true'] .btn__icon {
+  transform: none;
+}
+
+/* ==========================================================================
+   Links — 1px underline wipe, no colour change (single-tone system)
+   ========================================================================== */
+
+.link-wipe {
+  position: relative;
+  display: inline-block;
+  padding-bottom: 2px;
+}
+
+.link-wipe::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 1px;
+  background-color: currentColor;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform var(--dur-fast) var(--ease-out);
+}
+
+.link-wipe:hover::after,
+.link-wipe:focus-visible::after,
+.link-wipe[aria-current='page']::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+/* ==========================================================================
+   Tag
+   ========================================================================== */
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 5px var(--s-3) 4px;
+  border: var(--border) solid var(--hairline);
+  border-radius: var(--radius);
+  color: var(--text-muted);
+}
+
+/* ==========================================================================
+   Forms
+   ========================================================================== */
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-2);
+}
+
+.field__label {
+  color: var(--text-subtle);
+}
+
+.field__control {
+  width: 100%;
+  padding: 14px 0;
+  background: transparent;
+  border: none;
+  border-bottom: var(--border) solid var(--hairline);
+  border-radius: 0;
+  color: var(--text);
+  transition: border-color var(--dur-fast) var(--ease-out);
+}
+
+.field__control::placeholder {
+  color: var(--ink-500);
+}
+
+.field__control:hover {
+  border-bottom-color: var(--hairline-strong);
+}
+
+.field__control:focus {
+  border-bottom-color: var(--text);
+}
+
+.field__control:focus-visible {
+  outline-offset: 4px;
+}
+
+select.field__control {
+  appearance: none;
+  cursor: pointer;
+}
+
+textarea.field__control {
+  resize: vertical;
+  min-height: 120px;
+}
+
+.field--invalid .field__control {
+  border-bottom-color: var(--text);
+  border-bottom-width: 2px;
+}
+
+.field__error {
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+  color: var(--text);
+  font-weight: 700;
+}
+
+/* ==========================================================================
+   Accordion
+   ========================================================================== */
+
+.accordion__item {
+  border-bottom: var(--border) solid var(--hairline);
+}
+
+.accordion__trigger {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--s-5);
+  width: 100%;
+  padding-block: var(--s-5);
+  text-align: left;
+  color: var(--text);
+  transition: color var(--dur-fast) var(--ease-out);
+}
+
+.accordion__trigger:hover {
+  color: var(--text-muted);
+}
+
+.accordion__icon {
+  flex-shrink: 0;
+  margin-top: 4px;
+  transition: transform var(--dur-mid) var(--ease-out);
+}
+
+.accordion__trigger[aria-expanded='true'] .accordion__icon {
+  transform: rotate(45deg);
+}
+
+/* ==========================================================================
+   Card / row hover — border tone shift only. No lift, no scale.
+   ========================================================================== */
+
+.hover-row {
+  transition: background-color var(--dur-fast) var(--ease-out);
+}
+
+.hover-row:hover {
+  background-color: color-mix(in srgb, var(--text) 4%, transparent);
+}
+
+/* ==========================================================================
+   Placeholder media — charcoal duotone stand-ins until real imagery lands
+   ========================================================================== */
+
+.placeholder {
+  position: relative;
+  overflow: hidden;
+  background-color: var(--ink-700);
+  background-image: repeating-linear-gradient(
+    135deg,
+    transparent 0 10px,
+    color-mix(in srgb, var(--ink-500) 40%, transparent) 10px 11px
+  );
+  border: var(--border) solid var(--hairline);
+}
+
+.inverse .placeholder {
+  background-color: var(--ink-100);
+  background-image: repeating-linear-gradient(
+    135deg,
+    transparent 0 10px,
+    color-mix(in srgb, var(--ink-400) 34%, transparent) 10px 11px
+  );
+}
+
+.placeholder__label {
+  position: absolute;
+  left: var(--s-4);
+  bottom: var(--s-4);
+  color: var(--text-subtle);
+}
+
+/* ==========================================================================
+   Marquee
+   ========================================================================== */
+
+.marquee {
+  display: flex;
+  overflow: hidden;
+  user-select: none;
+  mask-image: linear-gradient(
+    to right,
+    transparent,
+    black 8%,
+    black 92%,
+    transparent
+  );
+}
+
+.marquee__track {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: var(--s-9);
+  padding-right: var(--s-9);
+  animation: marquee-scroll 38s linear infinite;
+}
+
+.marquee:hover .marquee__track {
+  animation-play-state: paused;
+}
+
+@keyframes marquee-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-100%);
+  }
+}
