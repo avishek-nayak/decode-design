@@ -219,7 +219,6 @@ export default function Checkout() {
                         <Field
                           label="Company"
                           autoComplete="organization"
-                          hint="For a company invoice"
                           error={errors.company?.message}
                           {...register('company')}
                         />
@@ -227,7 +226,6 @@ export default function Checkout() {
                       <Col span={{ base: 12, md: 6 }}>
                         <Field
                           label="GSTIN"
-                          hint="Optional, for Indian input-tax credit"
                           error={errors.gstin?.message}
                           {...register('gstin')}
                         />

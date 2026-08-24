@@ -133,7 +133,6 @@ export default function Contact() {
                         as="textarea"
                         rows={6}
                         required
-                        hint="What is happening now, what should be happening, and what you have already tried."
                         error={errors.message?.message}
                         {...register('message')}
                       />

@@ -94,44 +94,57 @@
   border-top: var(--border) solid var(--hairline);
 }
 
-/* ---- Process donut -------------------------------------------------------
-   "How it runs" as a 4-segment chart instead of four flat text blocks. The
-   donut is decorative (aria-hidden); the ordered list beside it is the real,
-   always-visible content and drives which segment is highlighted. */
+/* ---- Process line chart ---------------------------------------------------
+   "How it runs" as a 4-point x/y line chart instead of four flat text
+   blocks. The chart is decorative (aria-hidden); the ordered list beside it
+   is the real, always-visible content and drives which point highlights. */
 
-.process-donut-col {
+.process-chart-col {
   display: flex;
   justify-content: center;
 }
 
 @media (min-width: 1024px) {
-  .process-donut-col {
+  .process-chart-col {
     justify-content: flex-start;
   }
 }
 
-.process-donut {
-  position: relative;
-  width: 220px;
-  height: 220px;
+.process-line-chart {
+  width: 100%;
+  max-width: 460px;
 }
 
-.process-donut__segment {
+.process-line-chart svg {
+  width: 100%;
+  height: auto;
+}
+
+.process-line-chart__axis-label {
+  fill: var(--text-subtle);
+}
+
+.process-line-chart__tick {
+  fill: var(--text-subtle);
+}
+
+.process-line-chart__guides line {
+  stroke: var(--hairline-strong);
+  stroke-width: 1;
+}
+
+.process-line-chart__point {
   transition:
-    stroke var(--dur-mid) var(--ease-out),
+    r var(--dur-mid) var(--ease-out),
+    fill var(--dur-mid) var(--ease-out),
     stroke-width var(--dur-mid) var(--ease-out);
 }
 
-.process-donut__center {
-  position: absolute;
-  inset: 0;
+.process-line-chart__label {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: var(--s-2);
-  text-align: center;
-  padding: var(--s-6);
+  align-items: baseline;
+  gap: var(--s-3);
+  margin-top: var(--s-5);
 }
 
 .process-list {
@@ -240,16 +253,37 @@
    course-card treatment so the two catalogues (services, courses) read as
    one system. */
 
-.services-preview__cta {
+.services-preview__intro {
   display: flex;
-  align-items: flex-end;
-  justify-content: flex-start;
+  flex-direction: column;
+  justify-content: center;
 }
 
-@media (min-width: 1024px) {
-  .services-preview__cta {
-    justify-content: flex-end;
-  }
+.services-preview__arrows {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--s-3);
+  margin-bottom: var(--s-5);
+}
+
+/* Horizontal scroll-snap track — same mechanics as the work carousel below,
+   kept as separate classes since the card width and gap differ. */
+.services-carousel__track {
+  display: flex;
+  gap: var(--s-5);
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+
+.services-carousel__track::-webkit-scrollbar {
+  display: none;
+}
+
+.services-carousel__track .service-card {
+  flex: 0 0 auto;
+  width: clamp(260px, 32vw, 340px);
+  scroll-snap-align: start;
 }
 
 .service-card {
@@ -346,7 +380,6 @@
 
 .work-carousel__track {
   display: flex;
-  gap: var(--s-5);
   overflow-x: auto;
   scroll-snap-type: x mandatory;
   scrollbar-width: none;

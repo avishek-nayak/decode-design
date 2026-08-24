@@ -11,7 +11,7 @@ import { Placeholder } from '@/components/ui/Placeholder';
 import { Spotlight } from '@/components/ui/Spotlight';
 import { Seo } from '@/components/ui/Seo';
 import { CTABand } from '@/components/blocks/CTABand';
-import { ProcessDonut } from '@/components/blocks/ProcessDonut';
+import { ProcessLineChart } from '@/components/blocks/ProcessLineChart';
 import { services, engagementProcess, work } from '@/data/services';
 import { courses } from '@/data/courses';
 import { clients, contact, site } from '@/data/siteConfig';
@@ -117,11 +117,21 @@ function Hero() {
 }
 
 function ServicesPreview() {
+  const trackRef = useRef(null);
+
+  const scrollByCard = (direction) => {
+    const track = trackRef.current;
+    if (!track) return;
+    const card = track.querySelector('.service-card');
+    const amount = (card?.offsetWidth ?? 340) + 20;
+    track.scrollBy({ left: direction * amount, behavior: 'smooth' });
+  };
+
   return (
     <section className="section" id="services">
       <Container>
         <Grid rowGap="var(--s-8)">
-          <Col span={{ base: 12, lg: 7 }}>
+          <Col span={{ base: 12, lg: 4 }} className="services-preview__intro">
             <Reveal>
               <Eyebrow>Services</Eyebrow>
               <h2 className="t-h2" style={{ marginTop: 'var(--s-5)' }}>
@@ -131,49 +141,74 @@ function ServicesPreview() {
                 Every engagement is fixed-scope and fixed-price. You know what
                 you are getting and when, before anything is signed.
               </p>
+              <div style={{ marginTop: 'var(--s-6)' }}>
+                <Button variant="secondary" to="/services" arrow>
+                  All services
+                </Button>
+              </div>
             </Reveal>
           </Col>
 
-          <Col span={{ base: 12, lg: 3 }} start={{ lg: 10 }} className="services-preview__cta">
-            <Reveal index={1}>
-              <Button variant="secondary" to="/services" arrow>
-                All services
-              </Button>
+          <Col span={{ base: 12, lg: 8 }}>
+            <Reveal index={1} className="services-preview__arrows">
+              <button
+                type="button"
+                className="work-carousel__arrow"
+                onClick={() => scrollByCard(-1)}
+                aria-label="Scroll to previous service"
+              >
+                <ArrowLeft size={16} strokeWidth={1.5} aria-hidden="true" />
+              </button>
+              <button
+                type="button"
+                className="work-carousel__arrow"
+                onClick={() => scrollByCard(1)}
+                aria-label="Scroll to next service"
+              >
+                <ArrowRight size={16} strokeWidth={1.5} aria-hidden="true" />
+              </button>
             </Reveal>
-          </Col>
-        </Grid>
 
-        <Grid rowGap="var(--s-6)" style={{ marginTop: 'var(--s-8)' }}>
-          {services.map((service, i) => (
-            <Col key={service.slug} span={{ base: 12, md: 6, lg: 4 }}>
-              <Reveal index={i % 3} className="service-card">
-                <Link
-                  to={`/services/${service.slug}`}
-                  className="service-card__link"
-                >
-                  <div className="service-card__head">
-                    <span className="t-mono subtle">{service.index}</span>
-                    <span className="t-mono subtle">{service.timeline}</span>
+            <Reveal index={2}>
+              <div
+                className="services-carousel__track"
+                ref={trackRef}
+                role="region"
+                aria-label="Services, scroll horizontally"
+              >
+                {services.map((service) => (
+                  <div key={service.slug} className="service-card">
+                    <Link
+                      to={`/services/${service.slug}`}
+                      className="service-card__link"
+                    >
+                      <div className="service-card__head">
+                        <span className="t-mono subtle">{service.index}</span>
+                        <span className="t-mono subtle">
+                          {service.timeline}
+                        </span>
+                      </div>
+
+                      <h3 className="t-h3 service-card__title">
+                        {service.title}
+                        <ArrowUpRight
+                          size={18}
+                          strokeWidth={1.5}
+                          className="service-card__arrow"
+                          aria-hidden="true"
+                        />
+                      </h3>
+                      <p className="t-small muted">{service.outcome}</p>
+
+                      <p className="t-mono service-card__price">
+                        From {service.startingAt}
+                      </p>
+                    </Link>
                   </div>
-
-                  <h3 className="t-h3 service-card__title">
-                    {service.title}
-                    <ArrowUpRight
-                      size={18}
-                      strokeWidth={1.5}
-                      className="service-card__arrow"
-                      aria-hidden="true"
-                    />
-                  </h3>
-                  <p className="t-small muted">{service.outcome}</p>
-
-                  <p className="t-mono service-card__price">
-                    From {service.startingAt}
-                  </p>
-                </Link>
-              </Reveal>
-            </Col>
-          ))}
+                ))}
+              </div>
+            </Reveal>
+          </Col>
         </Grid>
       </Container>
     </section>
@@ -191,9 +226,9 @@ function Process() {
         </Reveal>
 
         <Grid rowGap="var(--s-8)" style={{ marginTop: 'var(--s-8)' }}>
-          <Col span={{ base: 12, lg: 5 }} className="process-donut-col">
+          <Col span={{ base: 12, lg: 5 }} className="process-chart-col">
             <Reveal>
-              <ProcessDonut steps={engagementProcess} active={active} />
+              <ProcessLineChart steps={engagementProcess} active={active} />
             </Reveal>
           </Col>
 
@@ -245,9 +280,6 @@ function SelectedWork() {
             <Eyebrow>Selected work</Eyebrow>
           </Reveal>
           <Reveal index={1} className="work-carousel__controls">
-            <p className="t-mono subtle">
-              Placeholder case studies — hover or focus a card for details
-            </p>
             <div className="work-carousel__arrows">
               <button
                 type="button"

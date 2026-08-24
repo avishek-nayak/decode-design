@@ -13,35 +13,20 @@ import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
  * screen readers hear it exactly as before.
  */
 export const Field = forwardRef(function Field(
-  {
-    label,
-    as = 'input',
-    error,
-    hint,
-    required,
-    className,
-    options,
-    id: idProp,
-    ...rest
-  },
+  { label, as = 'input', error, required, className, options, id: idProp, ...rest },
   ref,
 ) {
   const generatedId = useId();
   const id = idProp ?? generatedId;
   const errorId = `${id}-error`;
-  const hintId = `${id}-hint`;
   const reduced = usePrefersReducedMotion();
-
-  const describedBy =
-    [error ? errorId : null, hint ? hintId : null].filter(Boolean).join(' ') ||
-    undefined;
 
   const controlProps = {
     id,
     ref,
     className: 'field__control',
     'aria-invalid': error ? 'true' : undefined,
-    'aria-describedby': describedBy,
+    'aria-describedby': error ? errorId : undefined,
     required,
     ...rest,
   };
@@ -72,12 +57,6 @@ export const Field = forwardRef(function Field(
       ) : (
         <input {...controlProps} />
       )}
-
-      {hint ? (
-        <p id={hintId} className="t-small subtle">
-          {hint}
-        </p>
-      ) : null}
 
       <AnimatePresence>
         {error ? (
