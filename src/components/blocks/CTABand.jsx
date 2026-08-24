@@ -5,7 +5,6 @@ import { Reveal } from '@/components/ui/Reveal';
 
 export function CTABand({
   eyebrow = 'Next step',
-  index = '→',
   title = 'Tell me what is not working.',
   body = 'A 45-minute diagnostic call, free, with a written summary afterwards. If the practice is not the right fit, you will be told that on the call.',
   primary = { label: 'Book a diagnostic call', to: '/contact' },
@@ -17,7 +16,7 @@ export function CTABand({
         <Grid rowGap="var(--s-7)">
           <Col span={{ base: 12, lg: 6 }}>
             <Reveal>
-              <Eyebrow index={index}>{eyebrow}</Eyebrow>
+              <Eyebrow>{eyebrow}</Eyebrow>
               <h2 className="t-h2" style={{ marginTop: 'var(--s-5)' }}>
                 {title}
               </h2>

@@ -48,7 +48,7 @@ export default function ServiceDetail() {
           <Grid rowGap="var(--s-8)" style={{ marginTop: 'var(--s-7)' }}>
             <Col span={{ base: 12, lg: 8 }}>
               <Reveal index={1}>
-                <Eyebrow index={service.index}>Service</Eyebrow>
+                <Eyebrow>Service</Eyebrow>
                 <h1 className="t-h1" style={{ marginTop: 'var(--s-5)' }}>
                   {service.title}
                 </h1>
@@ -100,7 +100,7 @@ export default function ServiceDetail() {
           <Grid rowGap="var(--s-8)">
             <Col span={{ base: 12, lg: 4 }}>
               <Reveal>
-                <Eyebrow index="—">What you get</Eyebrow>
+                <Eyebrow>What you get</Eyebrow>
               </Reveal>
             </Col>
 
@@ -126,7 +126,7 @@ export default function ServiceDetail() {
       <section className="section rule-t section--alt">
         <Container>
           <Reveal>
-            <Eyebrow index="—">How it runs</Eyebrow>
+            <Eyebrow>How it runs</Eyebrow>
           </Reveal>
 
           <Grid rowGap="var(--s-7)" style={{ marginTop: 'var(--s-8)' }}>
@@ -148,7 +148,7 @@ export default function ServiceDetail() {
       <section className="section rule-t">
         <Container>
           <Reveal>
-            <Eyebrow index="—">Other services</Eyebrow>
+            <Eyebrow>Other services</Eyebrow>
           </Reveal>
 
           <Grid rowGap="var(--s-6)" style={{ marginTop: 'var(--s-7)' }}>

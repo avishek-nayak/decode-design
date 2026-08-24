@@ -42,7 +42,6 @@ export default function Courses() {
 
       <PageHeader
         eyebrow="Courses"
-        index="01"
         title="Learn the method behind the work, not a set of screenshots."
         lead="Four courses built out of live client engagements. Small cohorts, weekly critique on your actual work, and one project you carry from brief to finished case study."
         aside={
@@ -122,7 +121,7 @@ export default function Courses() {
       <section className="section rule-t section--alt">
         <Container>
           <Reveal>
-            <Eyebrow index="02">How the teaching works</Eyebrow>
+            <Eyebrow>How the teaching works</Eyebrow>
           </Reveal>
 
           <Grid rowGap="var(--s-7)" style={{ marginTop: 'var(--s-8)' }}>
@@ -142,27 +141,19 @@ export default function Courses() {
       <section className="section rule-t">
         <Container>
           <Reveal>
-            <Eyebrow index="03">From past cohorts</Eyebrow>
+            <Eyebrow>From past cohorts</Eyebrow>
           </Reveal>
 
-          <Grid rowGap="var(--s-8)" style={{ marginTop: 'var(--s-8)' }}>
-            {courseQuotes.map((item, i) => (
-              <Col
-                key={item.company}
-                span={{ base: 12, lg: 10 }}
-                start={{ lg: i % 2 === 0 ? 1 : 3 }}
-              >
-                <Reveal index={i}>
-                  <figure className="quote">
-                    <blockquote className="t-h2">“{item.quote}”</blockquote>
-                    <figcaption className="t-mono subtle">
-                      {item.name} · {item.role}, {item.company}
-                    </figcaption>
-                  </figure>
-                </Reveal>
-              </Col>
+          <Reveal index={1} className="testimonial-row">
+            {courseQuotes.map((item) => (
+              <figure key={item.name + item.role} className="testimonial-card">
+                <blockquote className="t-small">“{item.quote}”</blockquote>
+                <figcaption className="t-mono subtle">
+                  {item.name} — {item.role}
+                </figcaption>
+              </figure>
             ))}
-          </Grid>
+          </Reveal>
         </Container>
       </section>
 

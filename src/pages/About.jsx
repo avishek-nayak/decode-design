@@ -5,7 +5,7 @@ import { Placeholder } from '@/components/ui/Placeholder';
 import { Seo } from '@/components/ui/Seo';
 import { CTABand } from '@/components/blocks/CTABand';
 import { intro, principles, timeline, toolkit } from '@/data/about';
-import { contact, site, stats } from '@/data/siteConfig';
+import { contact, site } from '@/data/siteConfig';
 
 const jsonLd = {
   '@context': 'https://schema.org',
@@ -30,7 +30,7 @@ export default function About() {
           <Grid rowGap="var(--s-8)">
             <Col span={{ base: 12, lg: 7 }}>
               <Reveal>
-                <Eyebrow index="01">{intro.eyebrow}</Eyebrow>
+                <Eyebrow>{intro.eyebrow}</Eyebrow>
                 <h1 className="t-h1" style={{ marginTop: 'var(--s-5)' }}>
                   {intro.heading}
                 </h1>
@@ -57,7 +57,7 @@ export default function About() {
           <Grid rowGap="var(--s-8)">
             <Col span={{ base: 12, lg: 3 }}>
               <Reveal>
-                <Eyebrow index="02">The practice</Eyebrow>
+                <Eyebrow>The practice</Eyebrow>
               </Reveal>
             </Col>
 
@@ -74,27 +74,12 @@ export default function About() {
         </Container>
       </section>
 
-      <section className="section--tight rule-t rule-b">
-        <Container>
-          <Grid rowGap="var(--s-6)">
-            {stats.map((stat, i) => (
-              <Col key={stat.label} span={{ base: 6, md: 3 }}>
-                <Reveal index={i}>
-                  <p className="t-h2 stat__value">{stat.value}</p>
-                  <p className="t-mono subtle">{stat.label}</p>
-                </Reveal>
-              </Col>
-            ))}
-          </Grid>
-        </Container>
-      </section>
-
       <section className="section">
         <Container>
           <Grid rowGap="var(--s-8)">
             <Col span={{ base: 12, lg: 3 }}>
               <Reveal>
-                <Eyebrow index="03">Background</Eyebrow>
+                <Eyebrow>Background</Eyebrow>
               </Reveal>
             </Col>
 
@@ -128,7 +113,7 @@ export default function About() {
       <section className="section inverse">
         <Container>
           <Reveal>
-            <Eyebrow index="04">How I work</Eyebrow>
+            <Eyebrow>How I work</Eyebrow>
           </Reveal>
 
           <Grid rowGap="var(--s-8)" style={{ marginTop: 'var(--s-8)' }}>

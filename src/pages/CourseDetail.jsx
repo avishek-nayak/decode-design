@@ -60,7 +60,7 @@ export default function CourseDetail() {
           <Grid rowGap="var(--s-8)" style={{ marginTop: 'var(--s-7)' }}>
             <Col span={{ base: 12, lg: 7 }}>
               <Reveal index={1}>
-                <Eyebrow index={course.index}>Course</Eyebrow>
+                <Eyebrow>Course</Eyebrow>
                 <h1 className="t-h1" style={{ marginTop: 'var(--s-5)' }}>
                   {course.title}
                 </h1>
@@ -130,7 +130,7 @@ export default function CourseDetail() {
           <Grid rowGap="var(--s-8)">
             <Col span={{ base: 12, lg: 4 }}>
               <Reveal>
-                <Eyebrow index="—">What you will be able to do</Eyebrow>
+                <Eyebrow>What you will be able to do</Eyebrow>
               </Reveal>
             </Col>
 
@@ -158,7 +158,7 @@ export default function CourseDetail() {
           <Grid rowGap="var(--s-8)">
             <Col span={{ base: 12, lg: 4 }}>
               <Reveal>
-                <Eyebrow index="—">Curriculum</Eyebrow>
+                <Eyebrow>Curriculum</Eyebrow>
                 <p className="t-body muted" style={{ marginTop: 'var(--s-5)' }}>
                   {course.modules} modules, {lessonCount} lessons. Each module
                   ends with a piece of the capstone project rather than a quiz.
@@ -182,7 +182,7 @@ export default function CourseDetail() {
       <section className="section rule-t">
         <Container>
           <Reveal>
-            <Eyebrow index="—">Other courses</Eyebrow>
+            <Eyebrow>Other courses</Eyebrow>
           </Reveal>
 
           <Grid rowGap="var(--s-6)" style={{ marginTop: 'var(--s-7)' }}>

@@ -204,11 +204,6 @@
 .eyebrow {
   display: flex;
   align-items: baseline;
-  gap: var(--s-3);
-  color: var(--text-subtle);
-}
-
-.eyebrow__index {
   color: var(--text-subtle);
 }
 

@@ -33,7 +33,6 @@ export default function Services() {
 
       <PageHeader
         eyebrow="Services"
-        index="01"
         title="Seven engagements, each with a fixed scope and a fixed price."
         lead="Most briefs land between two of these. The scoping call works out which combination is actually needed — sometimes it is a smaller engagement than the one you came for."
         aside={

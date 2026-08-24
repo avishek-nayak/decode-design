@@ -101,7 +101,7 @@ export default function Checkout() {
       <section className="section rule-b">
         <Container>
           <Reveal>
-            <Eyebrow index="01">Checkout</Eyebrow>
+            <Eyebrow>Checkout</Eyebrow>
             <h1 className="t-h1" style={{ marginTop: 'var(--s-5)' }}>
               {result ? 'Order confirmed.' : 'Confirm and pay.'}
             </h1>

@@ -3,14 +3,14 @@ import { Eyebrow } from '@/components/ui/Eyebrow';
 import { Reveal } from '@/components/ui/Reveal';
 
 /** The standard opening block for every page except Home. */
-export function PageHeader({ eyebrow, index, title, lead, aside }) {
+export function PageHeader({ eyebrow, title, lead, aside }) {
   return (
     <section className="section rule-b">
       <Container>
         <Grid rowGap="var(--s-7)">
           <Col span={{ base: 12, lg: 8 }}>
             <Reveal>
-              <Eyebrow index={index}>{eyebrow}</Eyebrow>
+              <Eyebrow>{eyebrow}</Eyebrow>
             </Reveal>
             <Reveal index={1}>
               <h1 className="t-h1" style={{ marginTop: 'var(--s-5)' }}>

@@ -49,7 +49,7 @@ export default function Contact() {
           <Grid rowGap="var(--s-9)">
             <Col span={{ base: 12, lg: 6 }}>
               <Reveal>
-                <Eyebrow index="01">Contact</Eyebrow>
+                <Eyebrow>Contact</Eyebrow>
                 <h1 className="t-h1" style={{ marginTop: 'var(--s-5)' }}>
                   Tell me what is not working.
                 </h1>
@@ -219,7 +219,7 @@ export default function Contact() {
       <section className="section">
         <Container>
           <Reveal>
-            <Eyebrow index="02">What happens next</Eyebrow>
+            <Eyebrow>What happens next</Eyebrow>
           </Reveal>
 
           <Grid rowGap="var(--s-7)" style={{ marginTop: 'var(--s-8)' }}>

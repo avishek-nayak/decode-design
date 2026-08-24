@@ -85,17 +85,26 @@
   color: var(--text-subtle);
 }
 
-.quote {
-  display: grid;
+/* Single-line row of small testimonial cards: quote, then name — role. */
+.testimonial-row {
+  display: flex;
+  flex-wrap: wrap;
   gap: var(--s-5);
+  margin-top: var(--s-8);
 }
 
-.quote blockquote {
-  text-wrap: balance;
+.testimonial-card {
+  display: grid;
+  gap: var(--s-4);
+  flex: 1 1 300px;
+  max-width: 380px;
+  padding: var(--s-5);
+  border: var(--border) solid var(--hairline);
+  border-radius: var(--radius);
 }
 
-.stat__value {
-  margin-bottom: var(--s-2);
+.testimonial-card blockquote {
+  text-wrap: pretty;
 }
 
 .process-step {

@@ -29,7 +29,6 @@ export default function Faq() {
 
       <PageHeader
         eyebrow="FAQ"
-        index="01"
         title="Questions that come up before people get in touch."
         lead="If what you need is not answered here, ask directly — every enquiry gets a reply within one working day."
         aside={
@@ -57,7 +56,7 @@ export default function Faq() {
             <Grid rowGap="var(--s-7)">
               <Col span={{ base: 12, lg: 3 }}>
                 <Reveal>
-                  <Eyebrow index={String(groupIndex + 1).padStart(2, '0')}>
+                  <Eyebrow>
                     {group.title}
                   </Eyebrow>
                 </Reveal>

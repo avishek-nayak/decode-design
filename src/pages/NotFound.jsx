@@ -12,7 +12,7 @@ export default function NotFound() {
         <Container>
           <Grid>
             <Col span={{ base: 12, lg: 7 }}>
-              <Eyebrow index="404">Not found</Eyebrow>
+              <Eyebrow>Not found</Eyebrow>
               <h1 className="t-h1" style={{ marginTop: 'var(--s-5)' }}>
                 This page does not exist.
               </h1>

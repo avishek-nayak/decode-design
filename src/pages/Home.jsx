@@ -10,7 +10,7 @@ import { CTABand } from '@/components/blocks/CTABand';
 import { services, engagementProcess, work } from '@/data/services';
 import { courses } from '@/data/courses';
 import { testimonials } from '@/data/testimonials';
-import { clients, contact, site, stats } from '@/data/siteConfig';
+import { clients, contact, site } from '@/data/siteConfig';
 
 const jsonLd = {
   '@context': 'https://schema.org',
@@ -35,7 +35,6 @@ export default function Home() {
       <Seo path="/" jsonLd={jsonLd} />
 
       <Hero />
-      <Stats />
       <ServicesPreview />
       <Process />
       <SelectedWork />
@@ -55,10 +54,6 @@ function Hero() {
         <Grid rowGap="var(--s-8)">
           <Col span={{ base: 12, lg: 9 }}>
             <Reveal>
-              <Eyebrow index="—">{site.tagline}</Eyebrow>
-            </Reveal>
-
-            <Reveal index={1}>
               <h1 className="t-display hero__title">
                 Design that decides what to build,
                 <br className="hide-sm" /> not just how it looks.
@@ -92,25 +87,6 @@ function Hero() {
   );
 }
 
-function Stats() {
-  return (
-    <section className="section--tight rule-t rule-b">
-      <Container>
-        <Grid rowGap="var(--s-6)">
-          {stats.map((stat, i) => (
-            <Col key={stat.label} span={{ base: 6, md: 3 }}>
-              <Reveal index={i}>
-                <p className="t-h2 stat__value">{stat.value}</p>
-                <p className="t-mono subtle">{stat.label}</p>
-              </Reveal>
-            </Col>
-          ))}
-        </Grid>
-      </Container>
-    </section>
-  );
-}
-
 function ServicesPreview() {
   return (
     <section className="section" id="services">
@@ -118,7 +94,7 @@ function ServicesPreview() {
         <Grid rowGap="var(--s-8)">
           <Col span={{ base: 12, lg: 4 }}>
             <Reveal>
-              <Eyebrow index="01">Services</Eyebrow>
+              <Eyebrow>Services</Eyebrow>
               <h2 className="t-h2" style={{ marginTop: 'var(--s-5)' }}>
                 Seven ways to work together.
               </h2>
@@ -171,7 +147,7 @@ function Process() {
     <section className="section rule-t section--alt">
       <Container>
         <Reveal>
-          <Eyebrow index="02">How it runs</Eyebrow>
+          <Eyebrow>How it runs</Eyebrow>
         </Reveal>
 
         <Grid rowGap="var(--s-7)" style={{ marginTop: 'var(--s-8)' }}>
@@ -196,7 +172,7 @@ function SelectedWork() {
       <Container>
         <div className="section-head">
           <Reveal>
-            <Eyebrow index="03">Selected work</Eyebrow>
+            <Eyebrow>Selected work</Eyebrow>
           </Reveal>
           <Reveal index={1}>
             <p className="t-mono subtle">Placeholder case studies</p>
@@ -246,7 +222,7 @@ function TeachingBand() {
         <Grid rowGap="var(--s-8)">
           <Col span={{ base: 12, lg: 5 }}>
             <Reveal>
-              <Eyebrow index="04">Learn</Eyebrow>
+              <Eyebrow>Learn</Eyebrow>
               <h2 className="t-h1" style={{ marginTop: 'var(--s-5)' }}>
                 The same method, taught properly.
               </h2>
@@ -298,27 +274,19 @@ function Testimonials() {
     <section className="section">
       <Container>
         <Reveal>
-          <Eyebrow index="05">What people say</Eyebrow>
+          <Eyebrow>What people say</Eyebrow>
         </Reveal>
 
-        <Grid rowGap="var(--s-9)" style={{ marginTop: 'var(--s-8)' }}>
-          {testimonials.slice(0, 3).map((item, i) => (
-            <Col
-              key={item.company}
-              span={{ base: 12, lg: 10 }}
-              start={{ lg: i % 2 === 0 ? 1 : 3 }}
-            >
-              <Reveal index={i}>
-                <figure className="quote">
-                  <blockquote className="t-h2">“{item.quote}”</blockquote>
-                  <figcaption className="t-mono subtle">
-                    {item.name} · {item.role}, {item.company}
-                  </figcaption>
-                </figure>
-              </Reveal>
-            </Col>
+        <Reveal index={1} className="testimonial-row">
+          {testimonials.map((item) => (
+            <figure key={item.name + item.role} className="testimonial-card">
+              <blockquote className="t-small">“{item.quote}”</blockquote>
+              <figcaption className="t-mono subtle">
+                {item.name} — {item.role}
+              </figcaption>
+            </figure>
           ))}
-        </Grid>
+        </Reveal>
       </Container>
     </section>
   );
