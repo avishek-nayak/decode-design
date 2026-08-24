@@ -1,16 +1,21 @@
+import { useRef } from 'react';
 import { Link } from 'react-router-dom';
+import { motion, useScroll, useTransform } from 'motion/react';
 import { ArrowUpRight } from 'lucide-react';
 import { Container, Grid, Col } from '@/components/layout/Grid';
 import { Button } from '@/components/ui/Button';
 import { Eyebrow } from '@/components/ui/Eyebrow';
 import { Reveal } from '@/components/ui/Reveal';
+import { SplitReveal } from '@/components/ui/SplitReveal';
 import { Placeholder } from '@/components/ui/Placeholder';
+import { Spotlight } from '@/components/ui/Spotlight';
 import { Seo } from '@/components/ui/Seo';
 import { CTABand } from '@/components/blocks/CTABand';
 import { services, engagementProcess, work } from '@/data/services';
 import { courses } from '@/data/courses';
 import { testimonials } from '@/data/testimonials';
 import { clients, contact, site } from '@/data/siteConfig';
+import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
 
 const jsonLd = {
   '@context': 'https://schema.org',
@@ -47,41 +52,66 @@ export default function Home() {
 
 /* -------------------------------------------------------------------------- */
 
+/**
+ * The hero scrubs directly against scroll position as it exits — not a
+ * one-shot reveal, but tied to how far the user has actually scrolled.
+ * Neutralised (identity ranges) under reduced motion; the hooks are still
+ * called so this never violates the rules of hooks.
+ */
 function Hero() {
+  const heroRef = useRef(null);
+  const reduced = usePrefersReducedMotion();
+  const { scrollYProgress } = useScroll({
+    target: heroRef,
+    offset: ['start start', 'end start'],
+  });
+
+  const y = useTransform(scrollYProgress, [0, 1], reduced ? [0, 0] : [0, -72]);
+  const opacity = useTransform(
+    scrollYProgress,
+    [0, 1],
+    reduced ? [1, 1] : [1, 0.2],
+  );
+  const scale = useTransform(
+    scrollYProgress,
+    [0, 1],
+    reduced ? [1, 1] : [1, 0.95],
+  );
+
   return (
-    <section className="section hero">
+    <section ref={heroRef} className="section hero">
       <Container>
-        <Grid rowGap="var(--s-8)">
-          <Col span={{ base: 12, lg: 9 }}>
-            <Reveal>
-              <h1 className="t-display hero__title">
-                Design that decides what to build,
-                <br className="hide-sm" /> not just how it looks.
-              </h1>
-            </Reveal>
-          </Col>
+        <motion.div style={{ y, opacity, scale }}>
+          <Grid rowGap="var(--s-8)">
+            <Col span={{ base: 12, lg: 9 }}>
+              <SplitReveal as="h1" className="t-display hero__title">
+                Design that decides what to build, not just how it looks.
+              </SplitReveal>
+            </Col>
 
-          <Col span={{ base: 12, md: 6, lg: 5 }}>
-            <Reveal index={2}>
-              <p className="t-body-lg muted">
-                Decode.designers is a product design practice for teams shipping
-                software that has to work — and a school for designers who want
-                to understand <span className="em">why</span> it works.
-              </p>
-            </Reveal>
-          </Col>
+            <Col span={{ base: 12, md: 6, lg: 5 }}>
+              <Reveal index={2}>
+                <p className="t-body-lg muted">
+                  Decode.designers is a product design practice for teams
+                  shipping software that has to work — and a school for
+                  designers who want to understand{' '}
+                  <span className="em">why</span> it works.
+                </p>
+              </Reveal>
+            </Col>
 
-          <Col span={{ base: 12, md: 6, lg: 5 }} start={{ lg: 8 }}>
-            <Reveal index={3} className="hero__actions">
-              <Button variant="primary" to="/contact" arrow>
-                Book a consultation
-              </Button>
-              <Button variant="secondary" to="/courses">
-                Explore courses
-              </Button>
-            </Reveal>
-          </Col>
-        </Grid>
+            <Col span={{ base: 12, md: 6, lg: 5 }} start={{ lg: 8 }}>
+              <Reveal index={3} className="hero__actions">
+                <Button variant="primary" to="/contact" arrow>
+                  Book a consultation
+                </Button>
+                <Button variant="secondary" to="/courses">
+                  Explore courses
+                </Button>
+              </Reveal>
+            </Col>
+          </Grid>
+        </motion.div>
       </Container>
     </section>
   );
@@ -217,15 +247,17 @@ function SelectedWork() {
 /** The one inverted band on the page. It is the emphasis device — used once. */
 function TeachingBand() {
   return (
-    <section className="section inverse">
+    <Spotlight as="section" className="section inverse">
       <Container>
         <Grid rowGap="var(--s-8)">
           <Col span={{ base: 12, lg: 5 }}>
             <Reveal>
               <Eyebrow>Learn</Eyebrow>
-              <h2 className="t-h1" style={{ marginTop: 'var(--s-5)' }}>
-                The same method, taught properly.
-              </h2>
+            </Reveal>
+            <SplitReveal as="h2" className="t-h1" style={{ marginTop: 'var(--s-5)' }}>
+              The same method, taught properly.
+            </SplitReveal>
+            <Reveal>
               <p className="t-body muted" style={{ marginTop: 'var(--s-6)' }}>
                 Four courses covering UX, design fundamentals, product design
                 and accessibility. Everything taught comes out of live client
@@ -265,7 +297,7 @@ function TeachingBand() {
           </Col>
         </Grid>
       </Container>
-    </section>
+    </Spotlight>
   );
 }
 

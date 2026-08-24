@@ -4,6 +4,7 @@ import { Container, Grid, Col } from '@/components/layout/Grid';
 import { Button } from '@/components/ui/Button';
 import { Eyebrow } from '@/components/ui/Eyebrow';
 import { Reveal } from '@/components/ui/Reveal';
+import { SplitReveal } from '@/components/ui/SplitReveal';
 import { Seo } from '@/components/ui/Seo';
 import { CTABand } from '@/components/blocks/CTABand';
 import { getService, services } from '@/data/services';
@@ -49,9 +50,16 @@ export default function ServiceDetail() {
             <Col span={{ base: 12, lg: 8 }}>
               <Reveal index={1}>
                 <Eyebrow>Service</Eyebrow>
-                <h1 className="t-h1" style={{ marginTop: 'var(--s-5)' }}>
-                  {service.title}
-                </h1>
+              </Reveal>
+              <SplitReveal
+                as="h1"
+                layoutId={`service-title-${service.slug}`}
+                className="t-h1"
+                style={{ marginTop: 'var(--s-5)' }}
+              >
+                {service.title}
+              </SplitReveal>
+              <Reveal index={1}>
                 <p
                   className="t-body-lg measure"
                   style={{ marginTop: 'var(--s-6)' }}

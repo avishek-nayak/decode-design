@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { motion } from 'motion/react';
 import { ArrowUpRight } from 'lucide-react';
 import { Container, Grid, Col } from '@/components/layout/Grid';
 import { Reveal } from '@/components/ui/Reveal';
@@ -68,7 +69,10 @@ export default function Services() {
                     </Col>
 
                     <Col span={{ base: 12, md: 4 }}>
-                      <h2 className="t-h2 service-detail-row__title">
+                      <motion.h2
+                        layoutId={`service-title-${service.slug}`}
+                        className="t-h2 service-detail-row__title"
+                      >
                         {service.title}
                         <ArrowUpRight
                           size={20}
@@ -76,7 +80,7 @@ export default function Services() {
                           className="service-detail-row__arrow"
                           aria-hidden="true"
                         />
-                      </h2>
+                      </motion.h2>
                       <p className="t-small muted">{service.outcome}</p>
                     </Col>
 

@@ -4,6 +4,7 @@ import { Container, Grid, Col } from '@/components/layout/Grid';
 import { Button } from '@/components/ui/Button';
 import { Eyebrow } from '@/components/ui/Eyebrow';
 import { Reveal } from '@/components/ui/Reveal';
+import { SplitReveal } from '@/components/ui/SplitReveal';
 import { Accordion } from '@/components/ui/Accordion';
 import { Seo } from '@/components/ui/Seo';
 import { CTABand } from '@/components/blocks/CTABand';
@@ -61,9 +62,16 @@ export default function CourseDetail() {
             <Col span={{ base: 12, lg: 7 }}>
               <Reveal index={1}>
                 <Eyebrow>Course</Eyebrow>
-                <h1 className="t-h1" style={{ marginTop: 'var(--s-5)' }}>
-                  {course.title}
-                </h1>
+              </Reveal>
+              <SplitReveal
+                as="h1"
+                layoutId={`course-title-${course.slug}`}
+                className="t-h1"
+                style={{ marginTop: 'var(--s-5)' }}
+              >
+                {course.title}
+              </SplitReveal>
+              <Reveal index={1}>
                 <p className="t-body-lg" style={{ marginTop: 'var(--s-4)' }}>
                   {course.subtitle}
                 </p>

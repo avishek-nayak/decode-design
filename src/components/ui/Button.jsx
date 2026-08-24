@@ -1,12 +1,19 @@
 import clsx from 'clsx';
 import { Link } from 'react-router-dom';
+import { motion } from 'motion/react';
 import { ArrowRight } from 'lucide-react';
+import { useMagnetic } from '@/hooks/useMagnetic';
+
+const MotionLink = motion.create(Link);
 
 /**
  * One button component covering the three variants in the system.
  *
  * Renders <Link> for internal `to`, <a> for external `href`, <button>
  * otherwise — so an interactive element is always a real interactive element.
+ *
+ * `primary` and `secondary` get a magnetic pull toward the cursor — a no-op
+ * on touch devices and under reduced motion, see useMagnetic().
  */
 export function Button({
   variant = 'secondary',
@@ -14,11 +21,14 @@ export function Button({
   href,
   arrow = false,
   icon: Icon,
+  cursorLabel,
   className,
   children,
   ...rest
 }) {
   const cls = clsx('btn', `btn--${variant}`, className);
+  const magnetic = useMagnetic(variant === 'primary' ? 0.4 : 0.28);
+  const magnetEnabled = variant === 'primary' || variant === 'secondary';
 
   const content = (
     <>
@@ -35,33 +45,44 @@ export function Button({
     </>
   );
 
+  const magnetProps = magnetEnabled
+    ? {
+        ref: magnetic.ref,
+        style: magnetic.style,
+        onPointerMove: magnetic.onPointerMove,
+        onPointerLeave: magnetic.onPointerLeave,
+        'data-cursor-label': cursorLabel,
+      }
+    : { 'data-cursor-label': cursorLabel };
+
   if (to) {
     return (
-      <Link to={to} className={cls} {...rest}>
+      <MotionLink to={to} className={cls} {...magnetProps} {...rest}>
         {content}
-      </Link>
+      </MotionLink>
     );
   }
 
   if (href) {
     const external = /^https?:/.test(href);
     return (
-      <a
+      <motion.a
         href={href}
         className={cls}
         {...(external
           ? { target: '_blank', rel: 'noreferrer noopener' }
           : null)}
+        {...magnetProps}
         {...rest}
       >
         {content}
-      </a>
+      </motion.a>
     );
   }
 
   return (
-    <button type="button" className={cls} {...rest}>
+    <motion.button type="button" className={cls} {...magnetProps} {...rest}>
       {content}
-    </button>
+    </motion.button>
   );
 }

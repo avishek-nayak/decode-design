@@ -1,7 +1,9 @@
 import { Container, Grid, Col } from '@/components/layout/Grid';
 import { Eyebrow } from '@/components/ui/Eyebrow';
 import { Reveal } from '@/components/ui/Reveal';
+import { SplitReveal } from '@/components/ui/SplitReveal';
 import { Placeholder } from '@/components/ui/Placeholder';
+import { Spotlight } from '@/components/ui/Spotlight';
 import { Seo } from '@/components/ui/Seo';
 import { CTABand } from '@/components/blocks/CTABand';
 import { intro, principles, timeline, toolkit } from '@/data/about';
@@ -31,9 +33,11 @@ export default function About() {
             <Col span={{ base: 12, lg: 7 }}>
               <Reveal>
                 <Eyebrow>{intro.eyebrow}</Eyebrow>
-                <h1 className="t-h1" style={{ marginTop: 'var(--s-5)' }}>
-                  {intro.heading}
-                </h1>
+              </Reveal>
+              <SplitReveal as="h1" className="t-h1" style={{ marginTop: 'var(--s-5)' }}>
+                {intro.heading}
+              </SplitReveal>
+              <Reveal>
                 <p
                   className="t-body-lg muted measure"
                   style={{ marginTop: 'var(--s-6)' }}
@@ -110,7 +114,7 @@ export default function About() {
         </Container>
       </section>
 
-      <section className="section inverse">
+      <Spotlight as="section" className="section inverse">
         <Container>
           <Reveal>
             <Eyebrow>How I work</Eyebrow>
@@ -128,7 +132,7 @@ export default function About() {
             ))}
           </Grid>
         </Container>
-      </section>
+      </Spotlight>
 
       <section className="section--tight rule-b">
         <Container>

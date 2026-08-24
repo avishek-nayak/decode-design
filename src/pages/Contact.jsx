@@ -1,11 +1,14 @@
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { motion } from 'motion/react';
 import { Container, Grid, Col } from '@/components/layout/Grid';
 import { Button } from '@/components/ui/Button';
 import { Eyebrow } from '@/components/ui/Eyebrow';
 import { Field } from '@/components/ui/Field';
 import { Reveal } from '@/components/ui/Reveal';
+import { DrawCheck } from '@/components/ui/DrawCheck';
 import { Seo } from '@/components/ui/Seo';
+import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
 import {
   budgets,
   enquirySchema,
@@ -240,8 +243,17 @@ export default function Contact() {
 }
 
 function SuccessState() {
+  const reduced = usePrefersReducedMotion();
+
   return (
-    <div className="success-state" role="status">
+    <motion.div
+      className="success-state"
+      role="status"
+      initial={reduced ? false : { opacity: 0, y: 12 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: reduced ? 0 : 0.4, ease: [0.22, 1, 0.36, 1] }}
+    >
+      <DrawCheck />
       <p className="t-mono subtle">Sent</p>
       <p className="t-h2">Thanks — that has come through.</p>
       <p className="t-body muted measure">
@@ -251,6 +263,6 @@ function SuccessState() {
       <p className="t-small subtle">
         Note: this is a preview build, so nothing was actually transmitted.
       </p>
-    </div>
+    </motion.div>
   );
 }

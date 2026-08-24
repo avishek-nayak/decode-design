@@ -3,13 +3,16 @@ import { Link, useSearchParams } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
+import { motion } from 'motion/react';
 import { Check, Lock } from 'lucide-react';
 import { Container, Grid, Col } from '@/components/layout/Grid';
 import { Button } from '@/components/ui/Button';
 import { Eyebrow } from '@/components/ui/Eyebrow';
 import { Field } from '@/components/ui/Field';
 import { Reveal } from '@/components/ui/Reveal';
+import { DrawCheck } from '@/components/ui/DrawCheck';
 import { Seo } from '@/components/ui/Seo';
+import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
 import {
   TAX_LABEL,
   TAX_RATE,
@@ -328,10 +331,19 @@ function OrderSummary({ plan, tax, total }) {
 }
 
 function ConfirmationState({ plan, total, result }) {
+  const reduced = usePrefersReducedMotion();
+
   return (
     <Grid rowGap="var(--s-7)">
       <Col span={{ base: 12, lg: 7 }}>
-        <div className="success-state" role="status">
+        <motion.div
+          className="success-state"
+          role="status"
+          initial={reduced ? false : { opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: reduced ? 0 : 0.4, ease: [0.22, 1, 0.36, 1] }}
+        >
+          <DrawCheck />
           <p className="t-mono subtle">Reference {result.checkoutId}</p>
           <p className="t-h2">{plan.name} is confirmed.</p>
           <p className="t-body muted measure">
@@ -359,7 +371,7 @@ function ConfirmationState({ plan, total, result }) {
               Home
             </Button>
           </div>
-        </div>
+        </motion.div>
       </Col>
     </Grid>
   );

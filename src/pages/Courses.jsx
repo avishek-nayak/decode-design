@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { motion } from 'motion/react';
 import { ArrowUpRight } from 'lucide-react';
 import { Container, Grid, Col } from '@/components/layout/Grid';
 import { Button } from '@/components/ui/Button';
@@ -77,7 +78,10 @@ export default function Courses() {
                       <span className="tag t-mono">{course.level}</span>
                     </div>
 
-                    <h2 className="t-h2 course-card__title">
+                    <motion.h2
+                      layoutId={`course-title-${course.slug}`}
+                      className="t-h2 course-card__title"
+                    >
                       {course.title}
                       <ArrowUpRight
                         size={20}
@@ -85,7 +89,7 @@ export default function Courses() {
                         className="course-card__arrow"
                         aria-hidden="true"
                       />
-                    </h2>
+                    </motion.h2>
                     <p className="t-mono subtle">{course.subtitle}</p>
 
                     <p className="t-body muted course-card__summary">

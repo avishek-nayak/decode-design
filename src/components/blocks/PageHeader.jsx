@@ -1,6 +1,7 @@
 import { Container, Grid, Col } from '@/components/layout/Grid';
 import { Eyebrow } from '@/components/ui/Eyebrow';
 import { Reveal } from '@/components/ui/Reveal';
+import { SplitReveal } from '@/components/ui/SplitReveal';
 
 /** The standard opening block for every page except Home. */
 export function PageHeader({ eyebrow, title, lead, aside }) {
@@ -12,11 +13,9 @@ export function PageHeader({ eyebrow, title, lead, aside }) {
             <Reveal>
               <Eyebrow>{eyebrow}</Eyebrow>
             </Reveal>
-            <Reveal index={1}>
-              <h1 className="t-h1" style={{ marginTop: 'var(--s-5)' }}>
-                {title}
-              </h1>
-            </Reveal>
+            <SplitReveal as="h1" className="t-h1" style={{ marginTop: 'var(--s-5)' }}>
+              {title}
+            </SplitReveal>
             {lead ? (
               <Reveal index={2}>
                 <p
