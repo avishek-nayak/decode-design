@@ -54,61 +54,49 @@ export default function Services() {
         }
       />
 
-      <section>
+      <section className="section">
         <Container>
-          <ul>
+          <Grid rowGap="var(--s-6)">
             {services.map((service, i) => (
-              <Reveal as="li" key={service.slug} index={i % 3}>
-                <Link
-                  to={`/services/${service.slug}`}
-                  className="service-detail-row hover-row"
-                >
-                  <Grid>
-                    <Col span={{ base: 12, md: 1 }}>
+              <Col key={service.slug} span={{ base: 12, md: 6, lg: 4 }}>
+                <Reveal index={i % 3} className="service-card">
+                  <Link
+                    to={`/services/${service.slug}`}
+                    className="service-card__link"
+                  >
+                    <div className="service-card__head">
                       <span className="t-mono subtle">{service.index}</span>
-                    </Col>
+                      <span className="t-mono subtle">{service.timeline}</span>
+                    </div>
 
-                    <Col span={{ base: 12, md: 4 }}>
-                      <motion.h2
-                        layoutId={`service-title-${service.slug}`}
-                        className="t-h2 service-detail-row__title"
-                      >
-                        {service.title}
-                        <ArrowUpRight
-                          size={20}
-                          strokeWidth={1.5}
-                          className="service-detail-row__arrow"
-                          aria-hidden="true"
-                        />
-                      </motion.h2>
-                      <p className="t-small muted">{service.outcome}</p>
-                    </Col>
+                    <motion.h2
+                      layoutId={`service-title-${service.slug}`}
+                      className="t-h3 service-card__title"
+                    >
+                      {service.title}
+                      <ArrowUpRight
+                        size={18}
+                        strokeWidth={1.5}
+                        className="service-card__arrow"
+                        aria-hidden="true"
+                      />
+                    </motion.h2>
+                    <p className="t-small muted">{service.outcome}</p>
 
-                    <Col span={{ base: 12, md: 4 }}>
-                      <ul className="deliverable-list t-small muted">
-                        {service.deliverables.slice(0, 4).map((d) => (
-                          <li key={d}>{d}</li>
-                        ))}
-                      </ul>
-                    </Col>
+                    <ul className="deliverable-list t-small muted">
+                      {service.deliverables.slice(0, 3).map((d) => (
+                        <li key={d}>{d}</li>
+                      ))}
+                    </ul>
 
-                    <Col span={{ base: 12, md: 2 }} start={{ md: 11 }}>
-                      <dl className="meta-list meta-list--tight">
-                        <div>
-                          <dt className="t-mono subtle">Timeline</dt>
-                          <dd className="t-mono">{service.timeline}</dd>
-                        </div>
-                        <div>
-                          <dt className="t-mono subtle">From</dt>
-                          <dd className="t-mono">{service.startingAt}</dd>
-                        </div>
-                      </dl>
-                    </Col>
-                  </Grid>
-                </Link>
-              </Reveal>
+                    <p className="t-mono service-card__price">
+                      From {service.startingAt}
+                    </p>
+                  </Link>
+                </Reveal>
+              </Col>
             ))}
-          </ul>
+          </Grid>
         </Container>
       </section>
 

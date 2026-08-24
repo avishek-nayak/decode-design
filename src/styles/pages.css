@@ -86,33 +86,89 @@
 }
 
 /* Single-line row of small testimonial cards: quote, then name — role. */
-.testimonial-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--s-5);
-  margin-top: var(--s-8);
-}
-
-.testimonial-card {
-  display: grid;
-  gap: var(--s-4);
-  flex: 1 1 300px;
-  max-width: 380px;
-  padding: var(--s-5);
-  border: var(--border) solid var(--hairline);
-  border-radius: var(--radius);
-}
-
-.testimonial-card blockquote {
-  text-wrap: pretty;
-}
-
 .process-step {
   display: grid;
   gap: var(--s-3);
   align-content: start;
   padding-top: var(--s-5);
   border-top: var(--border) solid var(--hairline);
+}
+
+/* ---- Process donut -------------------------------------------------------
+   "How it runs" as a 4-segment chart instead of four flat text blocks. The
+   donut is decorative (aria-hidden); the ordered list beside it is the real,
+   always-visible content and drives which segment is highlighted. */
+
+.process-donut-col {
+  display: flex;
+  justify-content: center;
+}
+
+@media (min-width: 1024px) {
+  .process-donut-col {
+    justify-content: flex-start;
+  }
+}
+
+.process-donut {
+  position: relative;
+  width: 220px;
+  height: 220px;
+}
+
+.process-donut__segment {
+  transition:
+    stroke var(--dur-mid) var(--ease-out),
+    stroke-width var(--dur-mid) var(--ease-out);
+}
+
+.process-donut__center {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--s-2);
+  text-align: center;
+  padding: var(--s-6);
+}
+
+.process-list {
+  display: grid;
+}
+
+.process-list__item {
+  display: flex;
+  gap: var(--s-5);
+  padding: var(--s-5) 0 var(--s-5) var(--s-4);
+  margin-left: calc(var(--s-4) * -1);
+  border-top: var(--border) solid var(--hairline);
+  border-left: 2px solid transparent;
+  cursor: default;
+  /* Text stays at full contrast regardless of state — active/inactive is
+     shown with a border only, never by dimming real content below the
+     4.5:1 minimum (a background tint here was tried and measured out:
+     mixing --text into --ink-800 pushed --text-subtle just under 4.5:1). */
+  transition: border-left-color var(--dur-fast) var(--ease-out);
+}
+
+.process-list__item:last-child {
+  border-bottom: var(--border) solid var(--hairline);
+}
+
+.process-list__item.is-active {
+  border-left-color: var(--text);
+}
+
+.process-list__item:focus-visible {
+  outline: 2px solid var(--text);
+  outline-offset: 4px;
+}
+
+.process-list__body {
+  display: block;
+  margin-top: var(--s-1);
 }
 
 .notice {
@@ -179,36 +235,59 @@
   }
 }
 
-/* ---- Home: service list ------------------------------------------------- */
+/* ---- Services: cards ------------------------------------------------------
+   Used on both the Home preview and the full /services listing. Mirrors the
+   course-card treatment so the two catalogues (services, courses) read as
+   one system. */
 
-.service-list {
-  border-top: var(--border) solid var(--hairline);
+.services-preview__cta {
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-start;
 }
 
-.service-list > li {
-  border-bottom: var(--border) solid var(--hairline);
+@media (min-width: 1024px) {
+  .services-preview__cta {
+    justify-content: flex-end;
+  }
 }
 
-.service-row {
+.service-card {
+  height: 100%;
+}
+
+.service-card__link {
+  display: grid;
+  gap: var(--s-4);
+  align-content: start;
+  height: 100%;
+  padding: var(--s-6);
+  border: var(--border) solid var(--hairline);
+  border-radius: var(--radius);
+  transition:
+    border-color var(--dur-fast) var(--ease-out),
+    background-color var(--dur-fast) var(--ease-out);
+}
+
+.service-card__link:hover {
+  border-color: var(--hairline-strong);
+  background-color: color-mix(in srgb, var(--text) 3%, transparent);
+}
+
+.service-card__head {
   display: flex;
   align-items: center;
-  gap: var(--s-5);
-  padding: var(--s-5) var(--s-3);
-  margin-inline: calc(var(--s-3) * -1);
+  justify-content: space-between;
+  gap: var(--s-4);
 }
 
-.service-row__index {
-  flex-shrink: 0;
+.service-card__title {
+  display: flex;
+  align-items: baseline;
+  gap: var(--s-3);
 }
 
-.service-row__body {
-  display: grid;
-  gap: var(--s-1);
-  flex: 1;
-  min-width: 0;
-}
-
-.service-row__arrow {
+.service-card__arrow {
   flex-shrink: 0;
   color: var(--text-subtle);
   opacity: 0;
@@ -218,22 +297,115 @@
     transform var(--dur-fast) var(--ease-out);
 }
 
-.service-row:hover .service-row__arrow,
-.service-row:focus-visible .service-row__arrow {
+.service-card__link:hover .service-card__arrow,
+.service-card__link:focus-visible .service-card__arrow {
   opacity: 1;
   transform: translate(0, 0);
 }
 
+.service-card__price {
+  margin-top: auto;
+  padding-top: var(--s-4);
+  border-top: var(--border) solid var(--hairline);
+}
+
 /* ---- Home: work --------------------------------------------------------- */
 
-.work-card {
-  display: grid;
+.work-carousel__controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
   gap: var(--s-5);
 }
 
-.work-card__meta {
-  display: grid;
+.work-carousel__arrows {
+  display: flex;
+  gap: var(--s-3);
+  flex-shrink: 0;
+}
+
+.work-carousel__arrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border: var(--border) solid var(--hairline-strong);
+  border-radius: 50%;
+  color: var(--text);
+  transition:
+    background-color var(--dur-fast) var(--ease-out),
+    color var(--dur-fast) var(--ease-out);
+}
+
+.work-carousel__arrow:hover {
+  background-color: var(--surface-inverse);
+  color: var(--surface);
+}
+
+.work-carousel__track {
+  display: flex;
+  gap: var(--s-5);
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  margin-inline: calc(var(--grid-gutter) * -1);
+  padding-inline: var(--grid-gutter);
+}
+
+.work-carousel__track::-webkit-scrollbar {
+  display: none;
+}
+
+.work-card {
+  position: relative;
+  flex: 0 0 auto;
+  width: clamp(280px, 68vw, 520px);
+  overflow: hidden;
+  border-radius: var(--radius);
+  scroll-snap-align: start;
+}
+
+.work-card:focus-visible {
+  outline: 2px solid var(--text);
+  outline-offset: 3px;
+}
+
+.work-card__image {
+  width: 100%;
+}
+
+.work-card__overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
   gap: var(--s-2);
+  padding: var(--s-6);
+  color: var(--ink-900);
+  background: linear-gradient(
+    to top,
+    color-mix(in srgb, var(--ink-000) 88%, transparent) 0%,
+    color-mix(in srgb, var(--ink-000) 55%, transparent) 45%,
+    transparent 85%
+  );
+  opacity: 0;
+  transform: translateY(8px);
+  transition:
+    opacity var(--dur-mid) var(--ease-out),
+    transform var(--dur-mid) var(--ease-out);
+}
+
+.work-card__overlay .t-mono {
+  color: var(--ink-600);
+}
+
+.work-card:hover .work-card__overlay,
+.work-card:focus-visible .work-card__overlay {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .client-marquee {
@@ -272,35 +444,6 @@
 }
 
 /* ---- Services page ------------------------------------------------------ */
-
-.service-detail-row {
-  display: block;
-  padding-block: var(--s-7);
-  border-bottom: var(--border) solid var(--hairline);
-}
-
-.service-detail-row__title {
-  display: flex;
-  align-items: baseline;
-  gap: var(--s-3);
-  margin-bottom: var(--s-3);
-}
-
-.service-detail-row__arrow {
-  flex-shrink: 0;
-  color: var(--text-subtle);
-  opacity: 0;
-  transform: translate(-4px, 4px);
-  transition:
-    opacity var(--dur-fast) var(--ease-out),
-    transform var(--dur-fast) var(--ease-out);
-}
-
-.service-detail-row:hover .service-detail-row__arrow,
-.service-detail-row:focus-visible .service-detail-row__arrow {
-  opacity: 1;
-  transform: translate(0, 0);
-}
 
 .deliverable-list {
   display: grid;

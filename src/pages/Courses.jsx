@@ -9,7 +9,6 @@ import { Seo } from '@/components/ui/Seo';
 import { PageHeader } from '@/components/blocks/PageHeader';
 import { CTABand } from '@/components/blocks/CTABand';
 import { courses, teachingPrinciples } from '@/data/courses';
-import { testimonials } from '@/data/testimonials';
 import { site } from '@/data/siteConfig';
 
 const jsonLd = {
@@ -30,8 +29,6 @@ const jsonLd = {
 };
 
 export default function Courses() {
-  const courseQuotes = testimonials.filter((t) => t.kind === 'course');
-
   return (
     <>
       <Seo
@@ -142,24 +139,6 @@ export default function Courses() {
         </Container>
       </section>
 
-      <section className="section rule-t">
-        <Container>
-          <Reveal>
-            <Eyebrow>From past cohorts</Eyebrow>
-          </Reveal>
-
-          <Reveal index={1} className="testimonial-row">
-            {courseQuotes.map((item) => (
-              <figure key={item.name + item.role} className="testimonial-card">
-                <blockquote className="t-small">“{item.quote}”</blockquote>
-                <figcaption className="t-mono subtle">
-                  {item.name} — {item.role}
-                </figcaption>
-              </figure>
-            ))}
-          </Reveal>
-        </Container>
-      </section>
 
       <CTABand
         eyebrow="Enrol"

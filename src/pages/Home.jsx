@@ -1,7 +1,7 @@
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, useScroll, useTransform } from 'motion/react';
-import { ArrowUpRight } from 'lucide-react';
+import { ArrowUpRight, ArrowLeft, ArrowRight } from 'lucide-react';
 import { Container, Grid, Col } from '@/components/layout/Grid';
 import { Button } from '@/components/ui/Button';
 import { Eyebrow } from '@/components/ui/Eyebrow';
@@ -11,9 +11,9 @@ import { Placeholder } from '@/components/ui/Placeholder';
 import { Spotlight } from '@/components/ui/Spotlight';
 import { Seo } from '@/components/ui/Seo';
 import { CTABand } from '@/components/blocks/CTABand';
+import { ProcessDonut } from '@/components/blocks/ProcessDonut';
 import { services, engagementProcess, work } from '@/data/services';
 import { courses } from '@/data/courses';
-import { testimonials } from '@/data/testimonials';
 import { clients, contact, site } from '@/data/siteConfig';
 import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
 
@@ -44,7 +44,6 @@ export default function Home() {
       <Process />
       <SelectedWork />
       <TeachingBand />
-      <Testimonials />
       <CTABand secondary={{ label: 'See all services', to: '/services' }} />
     </>
   );
@@ -122,7 +121,7 @@ function ServicesPreview() {
     <section className="section" id="services">
       <Container>
         <Grid rowGap="var(--s-8)">
-          <Col span={{ base: 12, lg: 4 }}>
+          <Col span={{ base: 12, lg: 7 }}>
             <Reveal>
               <Eyebrow>Services</Eyebrow>
               <h2 className="t-h2" style={{ marginTop: 'var(--s-5)' }}>
@@ -132,40 +131,49 @@ function ServicesPreview() {
                 Every engagement is fixed-scope and fixed-price. You know what
                 you are getting and when, before anything is signed.
               </p>
-              <div style={{ marginTop: 'var(--s-6)' }}>
-                <Button variant="ghost" to="/services" arrow>
-                  All services
-                </Button>
-              </div>
             </Reveal>
           </Col>
 
-          <Col span={{ base: 12, lg: 7 }} start={{ lg: 6 }}>
-            <ul className="service-list">
-              {services.map((service, i) => (
-                <Reveal as="li" key={service.slug} index={i % 4}>
-                  <Link
-                    to={`/services/${service.slug}`}
-                    className="service-row hover-row"
-                  >
-                    <span className="t-mono subtle service-row__index">
-                      {service.index}
-                    </span>
-                    <span className="service-row__body">
-                      <span className="t-h3">{service.title}</span>
-                      <span className="t-small muted">{service.outcome}</span>
-                    </span>
+          <Col span={{ base: 12, lg: 3 }} start={{ lg: 10 }} className="services-preview__cta">
+            <Reveal index={1}>
+              <Button variant="secondary" to="/services" arrow>
+                All services
+              </Button>
+            </Reveal>
+          </Col>
+        </Grid>
+
+        <Grid rowGap="var(--s-6)" style={{ marginTop: 'var(--s-8)' }}>
+          {services.map((service, i) => (
+            <Col key={service.slug} span={{ base: 12, md: 6, lg: 4 }}>
+              <Reveal index={i % 3} className="service-card">
+                <Link
+                  to={`/services/${service.slug}`}
+                  className="service-card__link"
+                >
+                  <div className="service-card__head">
+                    <span className="t-mono subtle">{service.index}</span>
+                    <span className="t-mono subtle">{service.timeline}</span>
+                  </div>
+
+                  <h3 className="t-h3 service-card__title">
+                    {service.title}
                     <ArrowUpRight
                       size={18}
                       strokeWidth={1.5}
-                      className="service-row__arrow"
+                      className="service-card__arrow"
                       aria-hidden="true"
                     />
-                  </Link>
-                </Reveal>
-              ))}
-            </ul>
-          </Col>
+                  </h3>
+                  <p className="t-small muted">{service.outcome}</p>
+
+                  <p className="t-mono service-card__price">
+                    From {service.startingAt}
+                  </p>
+                </Link>
+              </Reveal>
+            </Col>
+          ))}
         </Grid>
       </Container>
     </section>
@@ -173,6 +181,8 @@ function ServicesPreview() {
 }
 
 function Process() {
+  const [active, setActive] = useState(0);
+
   return (
     <section className="section rule-t section--alt">
       <Container>
@@ -180,16 +190,36 @@ function Process() {
           <Eyebrow>How it runs</Eyebrow>
         </Reveal>
 
-        <Grid rowGap="var(--s-7)" style={{ marginTop: 'var(--s-8)' }}>
-          {engagementProcess.map((step, i) => (
-            <Col key={step.index} span={{ base: 12, md: 6, lg: 3 }}>
-              <Reveal index={i} className="process-step">
-                <span className="t-mono subtle">{step.index}</span>
-                <h3 className="t-h3">{step.title}</h3>
-                <p className="t-small muted">{step.body}</p>
-              </Reveal>
-            </Col>
-          ))}
+        <Grid rowGap="var(--s-8)" style={{ marginTop: 'var(--s-8)' }}>
+          <Col span={{ base: 12, lg: 5 }} className="process-donut-col">
+            <Reveal>
+              <ProcessDonut steps={engagementProcess} active={active} />
+            </Reveal>
+          </Col>
+
+          <Col span={{ base: 12, lg: 6 }} start={{ lg: 7 }}>
+            <ol className="process-list">
+              {engagementProcess.map((step, i) => (
+                <Reveal
+                  as="li"
+                  key={step.index}
+                  index={i}
+                  className={`process-list__item ${i === active ? 'is-active' : ''}`}
+                  onMouseEnter={() => setActive(i)}
+                  onFocus={() => setActive(i)}
+                  tabIndex={0}
+                >
+                  <span className="t-mono subtle">{step.index}</span>
+                  <span>
+                    <span className="t-h3">{step.title}</span>
+                    <span className="t-small muted process-list__body">
+                      {step.body}
+                    </span>
+                  </span>
+                </Reveal>
+              ))}
+            </ol>
+          </Col>
         </Grid>
       </Container>
     </section>
@@ -197,6 +227,16 @@ function Process() {
 }
 
 function SelectedWork() {
+  const trackRef = useRef(null);
+
+  const scrollByCard = (direction) => {
+    const track = trackRef.current;
+    if (!track) return;
+    const card = track.querySelector('.work-card');
+    const amount = (card?.offsetWidth ?? 420) + 24;
+    track.scrollBy({ left: direction * amount, behavior: 'smooth' });
+  };
+
   return (
     <section className="section rule-t">
       <Container>
@@ -204,29 +244,58 @@ function SelectedWork() {
           <Reveal>
             <Eyebrow>Selected work</Eyebrow>
           </Reveal>
-          <Reveal index={1}>
-            <p className="t-mono subtle">Placeholder case studies</p>
+          <Reveal index={1} className="work-carousel__controls">
+            <p className="t-mono subtle">
+              Placeholder case studies — hover or focus a card for details
+            </p>
+            <div className="work-carousel__arrows">
+              <button
+                type="button"
+                className="work-carousel__arrow"
+                onClick={() => scrollByCard(-1)}
+                aria-label="Scroll to previous work"
+              >
+                <ArrowLeft size={16} strokeWidth={1.5} aria-hidden="true" />
+              </button>
+              <button
+                type="button"
+                className="work-carousel__arrow"
+                onClick={() => scrollByCard(1)}
+                aria-label="Scroll to next work"
+              >
+                <ArrowRight size={16} strokeWidth={1.5} aria-hidden="true" />
+              </button>
+            </div>
           </Reveal>
         </div>
 
-        <Grid rowGap="var(--s-8)" style={{ marginTop: 'var(--s-8)' }}>
-          {work.map((item, i) => (
-            <Col key={item.slug} span={{ base: 12, md: 6 }}>
-              <Reveal index={i % 2} className="work-card">
-                <Placeholder label={item.client} ratio="16 / 10" />
-                <div className="work-card__meta">
+        <Reveal index={2}>
+          <div
+            className="work-carousel__track"
+            ref={trackRef}
+            role="region"
+            aria-label="Selected work, scroll horizontally"
+          >
+            {work.map((item) => (
+              <div key={item.slug} className="work-card" tabIndex={0}>
+                <Placeholder
+                  label={item.client}
+                  ratio="4 / 3"
+                  className="work-card__image"
+                />
+                <div className="work-card__overlay">
                   <p className="t-mono subtle">
                     {item.discipline} · {item.year}
                   </p>
                   <h3 className="t-h3">{item.title}</h3>
                   <p className="t-mono">{item.result}</p>
                 </div>
-              </Reveal>
-            </Col>
-          ))}
-        </Grid>
+              </div>
+            ))}
+          </div>
+        </Reveal>
 
-        <Reveal className="marquee client-marquee" index={2}>
+        <Reveal className="marquee client-marquee" index={3}>
           <ul className="marquee__track" aria-label="Selected clients">
             {[...clients, ...clients].map((client, i) => (
               <li
@@ -301,25 +370,3 @@ function TeachingBand() {
   );
 }
 
-function Testimonials() {
-  return (
-    <section className="section">
-      <Container>
-        <Reveal>
-          <Eyebrow>What people say</Eyebrow>
-        </Reveal>
-
-        <Reveal index={1} className="testimonial-row">
-          {testimonials.map((item) => (
-            <figure key={item.name + item.role} className="testimonial-card">
-              <blockquote className="t-small">“{item.quote}”</blockquote>
-              <figcaption className="t-mono subtle">
-                {item.name} — {item.role}
-              </figcaption>
-            </figure>
-          ))}
-        </Reveal>
-      </Container>
-    </section>
-  );
-}
