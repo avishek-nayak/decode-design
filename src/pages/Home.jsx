@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, useScroll, useTransform } from 'motion/react';
 import { ArrowUpRight, ArrowLeft, ArrowRight } from 'lucide-react';
@@ -11,7 +11,7 @@ import { Placeholder } from '@/components/ui/Placeholder';
 import { Spotlight } from '@/components/ui/Spotlight';
 import { Seo } from '@/components/ui/Seo';
 import { CTABand } from '@/components/blocks/CTABand';
-import { ProcessLineChart } from '@/components/blocks/ProcessLineChart';
+import { ProcessQuadrant } from '@/components/blocks/ProcessQuadrant';
 import { services, engagementProcess, work } from '@/data/services';
 import { courses } from '@/data/courses';
 import { clients, contact, site } from '@/data/siteConfig';
@@ -199,10 +199,6 @@ function ServicesPreview() {
                         />
                       </h3>
                       <p className="t-small muted">{service.outcome}</p>
-
-                      <p className="t-mono service-card__price">
-                        From {service.startingAt}
-                      </p>
                     </Link>
                   </div>
                 ))}
@@ -216,8 +212,6 @@ function ServicesPreview() {
 }
 
 function Process() {
-  const [active, setActive] = useState(0);
-
   return (
     <section className="section rule-t section--alt">
       <Container>
@@ -225,86 +219,25 @@ function Process() {
           <Eyebrow>How it runs</Eyebrow>
         </Reveal>
 
-        <Grid rowGap="var(--s-8)" style={{ marginTop: 'var(--s-8)' }}>
-          <Col span={{ base: 12, lg: 5 }} className="process-chart-col">
-            <Reveal>
-              <ProcessLineChart steps={engagementProcess} active={active} />
-            </Reveal>
-          </Col>
-
-          <Col span={{ base: 12, lg: 6 }} start={{ lg: 7 }}>
-            <ol className="process-list">
-              {engagementProcess.map((step, i) => (
-                <Reveal
-                  as="li"
-                  key={step.index}
-                  index={i}
-                  className={`process-list__item ${i === active ? 'is-active' : ''}`}
-                  onMouseEnter={() => setActive(i)}
-                  onFocus={() => setActive(i)}
-                  tabIndex={0}
-                >
-                  <span className="t-mono subtle">{step.index}</span>
-                  <span>
-                    <span className="t-h3">{step.title}</span>
-                    <span className="t-small muted process-list__body">
-                      {step.body}
-                    </span>
-                  </span>
-                </Reveal>
-              ))}
-            </ol>
-          </Col>
-        </Grid>
+        <Reveal index={1} style={{ marginTop: 'var(--s-8)' }}>
+          <ProcessQuadrant steps={engagementProcess} />
+        </Reveal>
       </Container>
     </section>
   );
 }
 
 function SelectedWork() {
-  const trackRef = useRef(null);
-
-  const scrollByCard = (direction) => {
-    const track = trackRef.current;
-    if (!track) return;
-    const card = track.querySelector('.work-card');
-    const amount = (card?.offsetWidth ?? 420) + 24;
-    track.scrollBy({ left: direction * amount, behavior: 'smooth' });
-  };
-
   return (
     <section className="section rule-t">
       <Container>
-        <div className="section-head">
-          <Reveal>
-            <Eyebrow>Selected work</Eyebrow>
-          </Reveal>
-          <Reveal index={1} className="work-carousel__controls">
-            <div className="work-carousel__arrows">
-              <button
-                type="button"
-                className="work-carousel__arrow"
-                onClick={() => scrollByCard(-1)}
-                aria-label="Scroll to previous work"
-              >
-                <ArrowLeft size={16} strokeWidth={1.5} aria-hidden="true" />
-              </button>
-              <button
-                type="button"
-                className="work-carousel__arrow"
-                onClick={() => scrollByCard(1)}
-                aria-label="Scroll to next work"
-              >
-                <ArrowRight size={16} strokeWidth={1.5} aria-hidden="true" />
-              </button>
-            </div>
-          </Reveal>
-        </div>
+        <Reveal>
+          <Eyebrow>Selected work</Eyebrow>
+        </Reveal>
 
-        <Reveal index={2}>
+        <Reveal index={2} style={{ marginTop: 'var(--s-8)' }}>
           <div
             className="work-carousel__track"
-            ref={trackRef}
             role="region"
             aria-label="Selected work, scroll horizontally"
           >

@@ -4,14 +4,6 @@
 
 /* ---- Shared ------------------------------------------------------------- */
 
-.section-head {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: var(--s-4);
-}
-
 .prose {
   display: grid;
   gap: var(--s-5);
@@ -94,94 +86,121 @@
   border-top: var(--border) solid var(--hairline);
 }
 
-/* ---- Process line chart ---------------------------------------------------
-   "How it runs" as a 4-point x/y line chart instead of four flat text
-   blocks. The chart is decorative (aria-hidden); the ordered list beside it
-   is the real, always-visible content and drives which point highlights. */
+/* ---- Process quadrant ------------------------------------------------------
+   "How it runs" as an actual x/y quadrant diagram: each step's index, title
+   and body sit inside their own quadrant, always visible — no separate list,
+   no hover gating. The cross divider is drawn with the classic CSS trick of
+   a coloured grid gap: the grid container is the line colour, the gap is the
+   line thickness, and each cell paints over it with the page background. */
 
-.process-chart-col {
-  display: flex;
-  justify-content: center;
-}
-
-@media (min-width: 1024px) {
-  .process-chart-col {
-    justify-content: flex-start;
-  }
-}
-
-.process-line-chart {
+.process-quadrant {
+  position: relative;
   width: 100%;
-  max-width: 460px;
+  max-width: 760px;
+  margin-inline: 0;
+  /* Fixed pixel padding, not spacing tokens — the axis arrows/labels below
+     are positioned in fixed pixels from these same edges, so the two must
+     move together. Tying either side to a token that changes at the mobile
+     breakpoint (as an earlier version did) leaves the label crowding the
+     grid border the moment the padding shrinks out from under it. */
+  padding: 56px 64px;
 }
 
-.process-line-chart svg {
-  width: 100%;
-  height: auto;
+.process-quadrant__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 1px;
+  background-color: var(--hairline-strong);
+  border: 1px solid var(--hairline-strong);
 }
 
-.process-line-chart__axis-label {
-  fill: var(--text-subtle);
+.process-quadrant__cell {
+  display: grid;
+  align-content: start;
+  gap: var(--s-2);
+  padding: var(--s-6);
+  background-color: var(--surface);
+  min-height: 168px;
 }
 
-.process-line-chart__tick {
-  fill: var(--text-subtle);
-}
-
-.process-line-chart__guides line {
-  stroke: var(--hairline-strong);
-  stroke-width: 1;
-}
-
-.process-line-chart__point {
-  transition:
-    r var(--dur-mid) var(--ease-out),
-    fill var(--dur-mid) var(--ease-out),
-    stroke-width var(--dur-mid) var(--ease-out);
-}
-
-.process-line-chart__label {
+.process-quadrant__cell-head {
   display: flex;
   align-items: baseline;
+  justify-content: space-between;
   gap: var(--s-3);
-  margin-top: var(--s-5);
 }
 
-.process-list {
-  display: grid;
+.process-quadrant__q-label {
+  color: var(--text-subtle);
 }
 
-.process-list__item {
-  display: flex;
-  gap: var(--s-5);
-  padding: var(--s-5) 0 var(--s-5) var(--s-4);
-  margin-left: calc(var(--s-4) * -1);
-  border-top: var(--border) solid var(--hairline);
-  border-left: 2px solid transparent;
-  cursor: default;
-  /* Text stays at full contrast regardless of state — active/inactive is
-     shown with a border only, never by dimming real content below the
-     4.5:1 minimum (a background tint here was tried and measured out:
-     mixing --text into --ink-800 pushed --text-subtle just under 4.5:1). */
-  transition: border-left-color var(--dur-fast) var(--ease-out);
+/* Arrows and labels sit outside the grid on all four sides, extending the
+   cross beyond the cell boundary the way a full axis would. */
+.process-quadrant__axis-arrow {
+  position: absolute;
+  display: inline-flex;
+  color: var(--hairline-strong);
 }
 
-.process-list__item:last-child {
-  border-bottom: var(--border) solid var(--hairline);
+.process-quadrant__axis-arrow--top {
+  top: 12px;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
-.process-list__item.is-active {
-  border-left-color: var(--text);
+.process-quadrant__axis-arrow--bottom {
+  bottom: 12px;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
-.process-list__item:focus-visible {
-  outline: 2px solid var(--text);
-  outline-offset: 4px;
+.process-quadrant__axis-arrow--left {
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
 }
 
-.process-list__body {
-  display: block;
-  margin-top: var(--s-1);
+.process-quadrant__axis-arrow--right {
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.process-quadrant__axis-label {
+  position: absolute;
+  color: var(--text-subtle);
+}
+
+.process-quadrant__axis-label--top {
+  top: 12px;
+  left: calc(50% + 16px);
+}
+
+.process-quadrant__axis-label--bottom {
+  bottom: 10px;
+  left: calc(50% + 16px);
+}
+
+.process-quadrant__axis-label--right {
+  right: 12px;
+  top: calc(50% - 22px);
+}
+
+.process-quadrant__axis-label--left {
+  left: 12px;
+  top: calc(50% - 22px);
+}
+
+@media (max-width: 640px) {
+  .process-quadrant {
+    padding: 48px 24px;
+  }
+
+  .process-quadrant__cell {
+    padding: var(--s-4);
+    min-height: 200px;
+  }
 }
 
 .notice {
@@ -337,21 +356,7 @@
   transform: translate(0, 0);
 }
 
-.service-card__price {
-  margin-top: auto;
-  padding-top: var(--s-4);
-  border-top: var(--border) solid var(--hairline);
-}
-
 /* ---- Home: work --------------------------------------------------------- */
-
-.work-carousel__controls {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--s-5);
-}
 
 .work-carousel__arrows {
   display: flex;

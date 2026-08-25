@@ -88,10 +88,6 @@ export default function Services() {
                         <li key={d}>{d}</li>
                       ))}
                     </ul>
-
-                    <p className="t-mono service-card__price">
-                      From {service.startingAt}
-                    </p>
                   </Link>
                 </Reveal>
               </Col>
