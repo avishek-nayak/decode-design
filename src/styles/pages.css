@@ -278,11 +278,8 @@
   justify-content: center;
 }
 
-.services-preview__arrows {
-  display: flex;
-  justify-content: flex-end;
-  gap: var(--s-3);
-  margin-bottom: var(--s-5);
+.services-preview__eyebrow {
+  font-weight: 600;
 }
 
 /* Horizontal scroll-snap track — same mechanics as the work carousel below,
@@ -338,6 +335,20 @@
   display: flex;
   align-items: baseline;
   gap: var(--s-3);
+  transition: font-weight var(--dur-fast) var(--ease-out);
+}
+
+.service-card__link:hover .service-card__title,
+.service-card__link:focus-visible .service-card__title {
+  font-weight: 600;
+}
+
+.service-card__outcome {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+  min-height: calc(var(--fs-small) * 1.5 * 3);
 }
 
 .service-card__arrow {

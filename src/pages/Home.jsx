@@ -1,7 +1,7 @@
 import { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, useScroll, useTransform } from 'motion/react';
-import { ArrowUpRight, ArrowLeft, ArrowRight } from 'lucide-react';
+import { ArrowUpRight } from 'lucide-react';
 import { Container, Grid, Col } from '@/components/layout/Grid';
 import { Button } from '@/components/ui/Button';
 import { Eyebrow } from '@/components/ui/Eyebrow';
@@ -117,26 +117,14 @@ function Hero() {
 }
 
 function ServicesPreview() {
-  const trackRef = useRef(null);
-
-  const scrollByCard = (direction) => {
-    const track = trackRef.current;
-    if (!track) return;
-    const card = track.querySelector('.service-card');
-    const amount = (card?.offsetWidth ?? 340) + 20;
-    track.scrollBy({ left: direction * amount, behavior: 'smooth' });
-  };
-
   return (
     <section className="section" id="services">
       <Container>
         <Grid rowGap="var(--s-8)">
           <Col span={{ base: 12, lg: 4 }} className="services-preview__intro">
             <Reveal>
-              <Eyebrow>Services</Eyebrow>
-              <h2 className="t-h2" style={{ marginTop: 'var(--s-5)' }}>
-                Seven ways to work together.
-              </h2>
+              <h2 className="visually-hidden">Services</h2>
+              <Eyebrow className="services-preview__eyebrow">Services</Eyebrow>
               <p className="t-body muted" style={{ marginTop: 'var(--s-5)' }}>
                 Every engagement is fixed-scope and fixed-price. You know what
                 you are getting and when, before anything is signed.
@@ -150,29 +138,9 @@ function ServicesPreview() {
           </Col>
 
           <Col span={{ base: 12, lg: 8 }}>
-            <Reveal index={1} className="services-preview__arrows">
-              <button
-                type="button"
-                className="work-carousel__arrow"
-                onClick={() => scrollByCard(-1)}
-                aria-label="Scroll to previous service"
-              >
-                <ArrowLeft size={16} strokeWidth={1.5} aria-hidden="true" />
-              </button>
-              <button
-                type="button"
-                className="work-carousel__arrow"
-                onClick={() => scrollByCard(1)}
-                aria-label="Scroll to next service"
-              >
-                <ArrowRight size={16} strokeWidth={1.5} aria-hidden="true" />
-              </button>
-            </Reveal>
-
-            <Reveal index={2}>
+            <Reveal index={1}>
               <div
                 className="services-carousel__track"
-                ref={trackRef}
                 role="region"
                 aria-label="Services, scroll horizontally"
               >
@@ -182,13 +150,6 @@ function ServicesPreview() {
                       to={`/services/${service.slug}`}
                       className="service-card__link"
                     >
-                      <div className="service-card__head">
-                        <span className="t-mono subtle">{service.index}</span>
-                        <span className="t-mono subtle">
-                          {service.timeline}
-                        </span>
-                      </div>
-
                       <h3 className="t-h3 service-card__title">
                         {service.title}
                         <ArrowUpRight
@@ -198,7 +159,9 @@ function ServicesPreview() {
                           aria-hidden="true"
                         />
                       </h3>
-                      <p className="t-small muted">{service.outcome}</p>
+                      <p className="t-small muted service-card__outcome">
+                        {service.outcome}
+                      </p>
                     </Link>
                   </div>
                 ))}
