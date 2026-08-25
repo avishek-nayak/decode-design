@@ -97,12 +97,6 @@ export function Header() {
             </ul>
           </nav>
 
-          <div className="site-header__cta">
-            <Button variant="primary" to="/contact" arrow>
-              Book a call
-            </Button>
-          </div>
-
           <button
             ref={triggerRef}
             type="button"

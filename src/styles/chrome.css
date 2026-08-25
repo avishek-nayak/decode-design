@@ -41,10 +41,6 @@
   gap: var(--s-6);
 }
 
-.site-header__cta {
-  display: none;
-}
-
 .site-header__toggle {
   display: inline-flex;
   align-items: center;
@@ -56,8 +52,7 @@
 }
 
 @media (min-width: 1024px) {
-  .site-header__nav,
-  .site-header__cta {
+  .site-header__nav {
     display: block;
   }
 
