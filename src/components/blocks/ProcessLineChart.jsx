@@ -1,31 +1,44 @@
 const WIDTH = 460;
-const HEIGHT = 260;
-const PAD_LEFT = 36;
-const PAD_RIGHT = 34;
-const PAD_TOP = 20;
-const PAD_BOTTOM = 44;
+const HEIGHT = 320;
+const PAD = 40;
 
-const PLOT_W = WIDTH - PAD_LEFT - PAD_RIGHT;
-const PLOT_H = HEIGHT - PAD_TOP - PAD_BOTTOM;
-const BASELINE = PAD_TOP + PLOT_H;
+const CX = WIDTH / 2;
+const CY = HEIGHT / 2;
+const HALF_W = WIDTH / 2 - PAD;
+const HALF_H = HEIGHT / 2 - PAD;
+
+// Point offset from centre, as a fraction of each half-axis — keeps points
+// clear of both the axes and the outer edge.
+const OFFSET = 0.55;
+
+// Reading order (top-left, top-right, bottom-left, bottom-right) rather than
+// mathematical quadrant order — it maps the 4 steps to a 2x2 grid the way
+// people actually scan one, left to right then down.
+const QUADRANTS = [
+  { dx: -1, dy: -1 }, // step 1 — top-left
+  { dx: 1, dy: -1 }, // step 2 — top-right
+  { dx: -1, dy: 1 }, // step 3 — bottom-left
+  { dx: 1, dy: 1 }, // step 4 — bottom-right
+];
 
 /**
- * A 4-point line chart standing in for "How it runs" — purely decorative
- * (aria-hidden) and illustrative, not real data: an ascending line simply
- * reads as "things build toward the outcome." The step list beside it is
- * the actual content and drives which point (and its guide lines) is
- * highlighted, on hover or keyboard focus.
+ * A 4-quadrant chart standing in for "How it runs" — one step per quadrant
+ * on a full x/y plane, purely decorative (aria-hidden) and illustrative,
+ * not real data. The step list beside it is the actual content and drives
+ * which quadrant's point (and its guide lines) is highlighted, on hover or
+ * keyboard focus.
  */
 export function ProcessLineChart({ steps, active, className = '' }) {
-  const n = steps.length;
+  const points = steps.map((step, i) => {
+    const q = QUADRANTS[i % QUADRANTS.length];
+    return {
+      x: CX + q.dx * HALF_W * OFFSET,
+      y: CY + q.dy * HALF_H * OFFSET,
+      step,
+    };
+  });
 
-  const points = steps.map((step, i) => ({
-    x: PAD_LEFT + (i / (n - 1)) * PLOT_W,
-    y: PAD_TOP + PLOT_H - (i / (n - 1)) * PLOT_H,
-    step,
-  }));
-
-  const linePath = points
+  const flowPath = points
     .map((p, i) => `${i === 0 ? 'M' : 'L'} ${p.x} ${p.y}`)
     .join(' ');
 
@@ -52,64 +65,59 @@ export function ProcessLineChart({ steps, active, className = '' }) {
           </marker>
         </defs>
 
-        {/* y-axis */}
+        {/* y-axis: full line through the centre, arrowheads both ends */}
         <line
-          x1={PAD_LEFT}
-          y1={BASELINE}
-          x2={PAD_LEFT}
-          y2={PAD_TOP - 10}
+          x1={CX}
+          y1={PAD}
+          x2={CX}
+          y2={HEIGHT - PAD}
           stroke="var(--hairline-strong)"
           strokeWidth="1"
+          markerStart="url(#process-axis-arrow)"
           markerEnd="url(#process-axis-arrow)"
         />
-        {/* x-axis */}
+        {/* x-axis: full line through the centre, arrowheads both ends */}
         <line
-          x1={PAD_LEFT}
-          y1={BASELINE}
-          x2={WIDTH - PAD_RIGHT + 10}
-          y2={BASELINE}
+          x1={PAD}
+          y1={CY}
+          x2={WIDTH - PAD}
+          y2={CY}
           stroke="var(--hairline-strong)"
           strokeWidth="1"
+          markerStart="url(#process-axis-arrow)"
           markerEnd="url(#process-axis-arrow)"
         />
 
-        <text
-          x={PAD_LEFT - 10}
-          y={PAD_TOP - 6}
-          textAnchor="end"
-          className="t-mono t-mono--plain process-line-chart__axis-label"
-        >
+        <text x={CX + 10} y={PAD + 4} className="t-mono t-mono--plain process-line-chart__axis-label">
           y
         </text>
-        <text
-          x={WIDTH - PAD_RIGHT + 12}
-          y={BASELINE - 6}
-          textAnchor="middle"
-          className="t-mono t-mono--plain process-line-chart__axis-label"
-        >
+        <text x={CX + 10} y={HEIGHT - PAD + 4} className="t-mono t-mono--plain process-line-chart__axis-label">
+          -y
+        </text>
+        <text x={WIDTH - PAD - 4} y={CY - 8} textAnchor="end" className="t-mono t-mono--plain process-line-chart__axis-label">
           x
         </text>
+        <text x={PAD + 4} y={CY - 8} className="t-mono t-mono--plain process-line-chart__axis-label">
+          -x
+        </text>
+
+        {/* Faint flow line showing the sequence across quadrants — the
+            quadrants are the point, this is just a secondary "and in this
+            order" cue. */}
+        <path
+          d={flowPath}
+          fill="none"
+          stroke="var(--hairline)"
+          strokeWidth="1"
+          strokeDasharray="2 5"
+        />
 
         {activePoint ? (
           <g className="process-line-chart__guides">
-            <line
-              x1={activePoint.x}
-              y1={activePoint.y}
-              x2={activePoint.x}
-              y2={BASELINE}
-              strokeDasharray="3 4"
-            />
-            <line
-              x1={PAD_LEFT}
-              y1={activePoint.y}
-              x2={activePoint.x}
-              y2={activePoint.y}
-              strokeDasharray="3 4"
-            />
+            <line x1={activePoint.x} y1={activePoint.y} x2={activePoint.x} y2={CY} strokeDasharray="3 4" />
+            <line x1={activePoint.x} y1={activePoint.y} x2={CX} y2={activePoint.y} strokeDasharray="3 4" />
           </g>
         ) : null}
-
-        <path d={linePath} fill="none" stroke="var(--hairline-strong)" strokeWidth="1.5" />
 
         {points.map((p, i) => (
           <circle
@@ -124,17 +132,20 @@ export function ProcessLineChart({ steps, active, className = '' }) {
           />
         ))}
 
-        {points.map((p) => (
-          <text
-            key={`label-${p.step.title}`}
-            x={p.x}
-            y={BASELINE + 24}
-            textAnchor="middle"
-            className="t-mono process-line-chart__tick"
-          >
-            {p.step.index}
-          </text>
-        ))}
+        {points.map((p) => {
+          const labelY = p.y < CY ? p.y - 16 : p.y + 24;
+          return (
+            <text
+              key={`label-${p.step.title}`}
+              x={p.x}
+              y={labelY}
+              textAnchor="middle"
+              className="t-mono process-line-chart__tick"
+            >
+              {p.step.index}
+            </text>
+          );
+        })}
       </svg>
 
       <div className="process-line-chart__label">
