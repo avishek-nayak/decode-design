@@ -255,6 +255,24 @@
   margin-top: var(--s-6);
 }
 
+/* The static prefix must fit on one line at every width so "decodes"
+   never wraps away from it onto the rotating word's line. Below 768px
+   --fs-display is pinned at its 2.75rem floor regardless of viewport,
+   which is too large for "DESIGN that decodes" to fit one line on a
+   phone — so it gets its own fluid scale through that whole range. */
+@media (max-width: 767px) {
+  /* .t-display sets font-size too; needs the extra class to win the tie
+     since .t-display is declared directly in app.css after every
+     imported partial and wins equal-specificity ties by source order. */
+  .hero__title.t-display {
+    font-size: clamp(1.5rem, 7.2vw, 2.75rem);
+  }
+
+  .hero__title-static {
+    white-space: nowrap;
+  }
+}
+
 .hero__rotating-word {
   display: inline-block;
   position: relative;
@@ -273,18 +291,35 @@
 }
 
 /* ---- Home: services flip cards -------------------------------------------
-   Static front face (title + image), 3D diagonal flip on hover/focus
-   reveals a short description on the back face. */
+   Static front face (title + edge-to-edge image), 3D diagonal flip on
+   hover/focus reveals a short description on the back face. Horizontal
+   scroll track sized so three cards sit fully in view with a sliver of
+   the fourth showing, as a scroll affordance. */
 
 .flip-card-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  display: flex;
   gap: var(--s-5);
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+
+.flip-card-grid::-webkit-scrollbar {
+  display: none;
 }
 
 .flip-card {
+  flex: 0 0 auto;
+  width: clamp(240px, 78vw, 320px);
+  scroll-snap-align: start;
   perspective: 1400px;
   overflow: hidden;
+}
+
+@media (min-width: 1024px) {
+  .flip-card {
+    width: calc((100% - 3 * var(--s-5)) / 3.2);
+  }
 }
 
 .flip-card__inner {
@@ -306,7 +341,7 @@
   display: flex;
   flex-direction: column;
   gap: var(--s-4);
-  padding: var(--s-5);
+  overflow: hidden;
   border: var(--border) solid var(--hairline);
   border-radius: var(--radius);
   background-color: var(--surface);
@@ -314,20 +349,38 @@
 }
 
 .flip-card__title {
+  padding: var(--s-5) var(--s-5) 0;
   font-size: var(--fs-body);
   font-weight: 500;
   text-transform: uppercase;
   letter-spacing: -0.01em;
 }
 
-.flip-card__image {
+/* Edge to edge on every side but the top, where it tucks under the title;
+   a fade from the card background stands in for a hard seam. */
+.flip-card__image.placeholder {
+  position: relative;
   flex: 1;
   min-height: 0;
+  background-color: var(--ink-700);
+  background-image: none;
+  border: none;
+  border-radius: 0;
+}
+
+.flip-card__image.placeholder::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: var(--s-7);
+  background: linear-gradient(to bottom, var(--surface), transparent);
+  pointer-events: none;
 }
 
 .flip-card__face--back {
   align-items: center;
   justify-content: center;
+  padding: var(--s-5);
   text-align: center;
   background-color: var(--surface-inverse);
   color: var(--surface);

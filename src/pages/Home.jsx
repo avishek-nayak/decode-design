@@ -100,7 +100,8 @@ function Hero() {
               <h1 className="t-display hero__title">
                 <SplitReveal as="span" className="hero__title-static">
                   DESIGN that decodes
-                </SplitReveal>{' '}
+                </SplitReveal>
+                <br />
                 <HeroRotatingWord />.
               </h1>
             </Col>
@@ -163,7 +164,11 @@ function ServicesPreview() {
       <Container>
         <h2 className="visually-hidden">Services</h2>
         <Reveal>
-          <div className="flip-card-grid">
+          <div
+            className="flip-card-grid"
+            role="region"
+            aria-label="Services, scroll horizontally"
+          >
             {services.map((service) => (
               <div key={service.slug} className="flip-card">
                 <Link
@@ -172,11 +177,7 @@ function ServicesPreview() {
                 >
                   <div className="flip-card__face flip-card__face--front">
                     <h3 className="flip-card__title">{service.title}</h3>
-                    <Placeholder
-                      label={service.title}
-                      ratio="auto"
-                      className="flip-card__image"
-                    />
+                    <Placeholder ratio="auto" className="flip-card__image" />
                   </div>
                   <div className="flip-card__face flip-card__face--back">
                     <p className="flip-card__description">
