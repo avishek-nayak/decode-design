@@ -1,6 +1,21 @@
 import { Link } from 'react-router-dom';
 import { Grid, Col } from './Grid';
-import { contact, footerNav, site, socials } from '@/data/siteConfig';
+import { Button } from '@/components/ui/Button';
+import { contact, footerNav, site } from '@/data/siteConfig';
+import { services } from '@/data/services';
+import { courses } from '@/data/courses';
+
+const footerGroups = [
+  {
+    title: 'Services',
+    links: services.map((s) => ({ label: s.title, to: `/services/${s.slug}` })),
+  },
+  {
+    title: 'Educate yourself',
+    links: courses.map((c) => ({ label: c.title, to: `/courses/${c.slug}` })),
+  },
+  ...footerNav,
+];
 
 export function Footer() {
   const year = new Date().getFullYear();
@@ -14,27 +29,46 @@ export function Footer() {
               Have a product that needs deciding, designing or repairing?
             </p>
             <p className="t-body muted" style={{ marginTop: 'var(--s-5)' }}>
-              {contact.responseTime}. {contact.location}.
+              Decoding designers from India (UTC +5:30)
             </p>
+            <a href="tel:+919925403798" className="link-wipe t-body-lg site-footer__phone">
+              +91 9925403798
+            </a>
             <a
               href={`mailto:${contact.email}`}
               className="link-wipe t-body-lg site-footer__email"
             >
               {contact.email}
             </a>
+            <div style={{ marginTop: 'var(--s-6)' }}>
+              <Button variant="primary" to="/contact" arrow>
+                Connect for Business Growth
+              </Button>
+            </div>
           </Col>
 
           <Col span={{ base: 12, md: 6 }} start={{ md: 7 }}>
             <Grid rowGap="var(--s-7)">
-              {footerNav.map((group) => (
-                <Col key={group.title} span={{ base: 6, md: 4 }}>
+              {footerGroups.map((group) => (
+                <Col key={group.title} span={{ base: 6, md: 3 }}>
                   <h2 className="t-mono subtle">{group.title}</h2>
                   <ul className="site-footer__list">
                     {group.links.map((link) => (
-                      <li key={link.to}>
-                        <Link to={link.to} className="link-wipe t-small">
-                          {link.label}
-                        </Link>
+                      <li key={link.label}>
+                        {link.href ? (
+                          <a
+                            href={link.href}
+                            className="link-wipe t-small"
+                            target="_blank"
+                            rel="noreferrer noopener"
+                          >
+                            {link.label}
+                          </a>
+                        ) : (
+                          <Link to={link.to} className="link-wipe t-small">
+                            {link.label}
+                          </Link>
+                        )}
                       </li>
                     ))}
                   </ul>
@@ -48,23 +82,6 @@ export function Footer() {
           <p className="t-mono subtle">
             © {year} {site.name}
           </p>
-
-          <ul className="site-footer__socials">
-            {socials.map((social) => (
-              <li key={social.label}>
-                <a
-                  href={social.href}
-                  className="link-wipe t-mono"
-                  target="_blank"
-                  rel="noreferrer noopener"
-                >
-                  {social.label}
-                </a>
-              </li>
-            ))}
-          </ul>
-
-          <p className="t-mono subtle">{contact.timezone}</p>
         </div>
       </div>
     </footer>

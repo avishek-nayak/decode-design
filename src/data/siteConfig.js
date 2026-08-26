@@ -41,24 +41,23 @@ export const nav = [
 
 export const footerNav = [
   {
-    title: 'Practice',
+    title: 'Our Products',
     links: [
-      { label: 'Services', to: '/services' },
-      { label: 'About', to: '/about' },
-      { label: 'Contact', to: '/contact' },
+      // TODO: confirm live URLs for each product before launch.
+      { label: 'T-90.club', href: 'https://t-90.club' },
+      { label: 'Decode Design Games', href: '#' },
+      { label: 'ws.app', href: 'https://ws.app' },
     ],
   },
   {
-    title: 'Learn',
+    title: 'Others',
     links: [
-      { label: 'All courses', to: '/courses' },
-      { label: 'FAQ', to: '/faq' },
-      { label: 'Enrol', to: '/checkout' },
+      { label: 'Privacy Policy', to: '/privacy' },
+      { label: 'Terms & Conditions', to: '/terms' },
+      { label: 'Who we are?', to: '/about' },
+      { label: 'Contact team', to: '/contact' },
+      { label: 'FAQs', to: '/faq' },
     ],
-  },
-  {
-    title: 'Legal',
-    links: [{ label: 'Privacy policy', to: '/privacy' }],
   },
 ];
 

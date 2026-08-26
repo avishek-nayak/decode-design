@@ -19,6 +19,7 @@ export function getStaticPaths() {
     '/contact',
     '/checkout',
     '/privacy',
+    '/terms',
     '/404',
   ];
 }

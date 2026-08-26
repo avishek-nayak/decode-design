@@ -130,9 +130,17 @@
   padding-block: var(--s-9) var(--s-6);
 }
 
+/* .link-wipe (declared directly in app.css, so it wins equal-specificity
+   ties over anything imported before it) sets display: inline-block —
+   overridden here so the phone number forces the email onto its own line. */
+.site-footer__phone.link-wipe {
+  display: block;
+  margin-top: var(--s-5);
+}
+
 .site-footer__email {
   display: inline-block;
-  margin-top: var(--s-5);
+  margin-top: var(--s-2);
 }
 
 .site-footer__list {
@@ -152,26 +160,9 @@
 
 .site-footer__bottom {
   display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--s-5);
+  justify-content: center;
   margin-top: var(--s-9);
   padding-top: var(--s-5);
   border-top: var(--border) solid var(--hairline);
-}
-
-.site-footer__socials {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--s-5);
-}
-
-.site-footer__socials a {
-  color: var(--text-muted);
-  transition: color var(--dur-fast) var(--ease-out);
-}
-
-.site-footer__socials a:hover {
-  color: var(--text);
+  text-align: center;
 }
