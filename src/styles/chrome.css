@@ -144,8 +144,9 @@
 }
 
 .site-footer__list {
-  display: grid;
-  gap: var(--s-3);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-3) var(--s-4);
   margin-top: var(--s-4);
 }
 

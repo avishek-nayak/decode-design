@@ -13,6 +13,7 @@ import { services, work } from '@/data/services';
 import { courses } from '@/data/courses';
 import { clients, contact, site } from '@/data/siteConfig';
 import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
+import { useWheelHorizontalScroll } from '@/hooks/useWheelHorizontalScroll';
 
 const jsonLd = {
   '@context': 'https://schema.org',
@@ -159,37 +160,40 @@ function HeroRotatingWord() {
 }
 
 function ServicesPreview() {
+  const wheelRef = useWheelHorizontalScroll();
+
   return (
     <section className="section" id="services">
       <Container>
         <h2 className="visually-hidden">Services</h2>
-        <Reveal>
-          <div
-            className="flip-card-grid"
-            role="region"
-            aria-label="Services, scroll horizontally"
-          >
-            {services.map((service) => (
-              <div key={service.slug} className="flip-card">
-                <Link
-                  to={`/services/${service.slug}`}
-                  className="flip-card__inner"
-                >
-                  <div className="flip-card__face flip-card__face--front">
-                    <h3 className="flip-card__title">{service.title}</h3>
-                    <Placeholder ratio="auto" className="flip-card__image" />
-                  </div>
-                  <div className="flip-card__face flip-card__face--back">
-                    <p className="flip-card__description">
-                      {shortDescriptions[service.slug]}
-                    </p>
-                  </div>
-                </Link>
-              </div>
-            ))}
-          </div>
-        </Reveal>
       </Container>
+      <Reveal>
+        <div
+          ref={wheelRef}
+          className="flip-card-grid"
+          role="region"
+          aria-label="Services, scroll horizontally"
+        >
+          {services.map((service) => (
+            <div key={service.slug} className="flip-card">
+              <Link
+                to={`/services/${service.slug}`}
+                className="flip-card__inner"
+              >
+                <div className="flip-card__face flip-card__face--front">
+                  <h3 className="flip-card__title">{service.title}</h3>
+                  <Placeholder ratio="auto" className="flip-card__image" />
+                </div>
+                <div className="flip-card__face flip-card__face--back">
+                  <p className="flip-card__description">
+                    {shortDescriptions[service.slug]}
+                  </p>
+                </div>
+              </Link>
+            </div>
+          ))}
+        </div>
+      </Reveal>
     </section>
   );
 }
@@ -201,33 +205,37 @@ function SelectedWork() {
         <Reveal>
           <Eyebrow>Selected work</Eyebrow>
         </Reveal>
+      </Container>
 
-        <Reveal index={2} style={{ marginTop: 'var(--s-8)' }}>
-          <div
-            className="work-carousel__track"
-            role="region"
-            aria-label="Selected work, scroll horizontally"
-          >
-            {work.map((item) => (
-              <div key={item.slug} className="work-card" tabIndex={0}>
-                <Placeholder
-                  label={item.client}
-                  ratio="4 / 3"
-                  className="work-card__image"
-                />
-                <div className="work-card__overlay">
-                  <p className="t-mono subtle">
-                    {item.discipline} · {item.year}
-                  </p>
-                  <h3 className="t-h3">{item.title}</h3>
-                  <p className="t-mono">{item.result}</p>
-                </div>
-              </div>
-            ))}
+      <Reveal
+        index={1}
+        className="work-treemap"
+        style={{ marginTop: 'var(--s-8)' }}
+      >
+        {work.map((item) => (
+          <div key={item.slug} className="work-treemap__cell">
+            <Placeholder
+              label={item.client}
+              ratio="auto"
+              className="work-treemap__image"
+            />
+            <div className="work-treemap__overlay">
+              <p className="t-mono subtle">
+                {item.discipline} · {item.year}
+              </p>
+              <h3 className="t-h3">{item.title}</h3>
+              <p className="t-mono">{item.result}</p>
+            </div>
           </div>
-        </Reveal>
+        ))}
+      </Reveal>
 
-        <Reveal className="marquee client-marquee" index={3}>
+      <Container>
+        <Reveal
+          className="marquee client-marquee"
+          index={3}
+          style={{ marginTop: 'var(--s-8)' }}
+        >
           <ul className="marquee__track" aria-label="Selected clients">
             {[...clients, ...clients].map((client, i) => (
               <li

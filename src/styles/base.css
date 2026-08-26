@@ -48,6 +48,10 @@ html {
 }
 
 body {
+  /* Safety net for full-bleed sections sized with 100vw: on platforms
+     with a reserved (non-overlay) scrollbar, 100vw measures wider than
+     the body's own content box by the scrollbar's width. */
+  overflow-x: hidden;
   min-height: 100dvh;
   background-color: var(--surface);
   color: var(--text);

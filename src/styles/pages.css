@@ -299,13 +299,31 @@
 .flip-card-grid {
   display: flex;
   gap: var(--s-5);
+  width: 100%;
+  max-width: var(--grid-max);
+  margin-inline: auto;
+  padding-left: var(--grid-gutter);
+  padding-bottom: var(--s-4);
   overflow-x: auto;
   scroll-snap-type: x mandatory;
-  scrollbar-width: none;
+  /* A visible scrollbar plus wheel-to-horizontal (see useWheelHorizontalScroll)
+     — a hidden track with no visible affordance left mouse users with no way
+     to move it at all. */
+  scrollbar-width: thin;
+  scrollbar-color: var(--hairline-strong) transparent;
 }
 
 .flip-card-grid::-webkit-scrollbar {
-  display: none;
+  height: 6px;
+}
+
+.flip-card-grid::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.flip-card-grid::-webkit-scrollbar-thumb {
+  background-color: var(--hairline-strong);
+  border-radius: 3px;
 }
 
 .flip-card {
@@ -350,8 +368,8 @@
 
 .flip-card__title {
   padding: var(--s-5) var(--s-5) 0;
-  font-size: var(--fs-body);
-  font-weight: 500;
+  font-size: var(--fs-h3);
+  font-weight: 700;
   text-transform: uppercase;
   letter-spacing: -0.01em;
 }
@@ -451,65 +469,53 @@
   transform: translate(0, 0);
 }
 
-/* ---- Home: work --------------------------------------------------------- */
+/* ---- Home: work treemap ---------------------------------------------------
+   Four projects as a treemap: unequal-area cells instead of a uniform
+   grid, so scale itself carries meaning. Full-bleed, sized to sit
+   within one viewport. */
 
-.work-carousel__arrows {
-  display: flex;
-  gap: var(--s-3);
-  flex-shrink: 0;
+.work-treemap {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 0.8fr;
+  grid-template-rows: 1fr 1fr;
+  grid-template-areas: 'a b b' 'a c d';
+  gap: 2px;
+  width: 100vw;
+  height: 100vh;
+  max-height: 880px;
+  margin-inline: calc(50% - 50vw);
+  background-color: var(--hairline);
 }
 
-.work-carousel__arrow {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
-  border: var(--border) solid var(--hairline-strong);
-  border-radius: 50%;
-  color: var(--text);
-  transition:
-    background-color var(--dur-fast) var(--ease-out),
-    color var(--dur-fast) var(--ease-out);
-}
-
-.work-carousel__arrow:hover {
-  background-color: var(--surface-inverse);
-  color: var(--surface);
-}
-
-.work-carousel__track {
-  display: flex;
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  scrollbar-width: none;
-  margin-inline: calc(var(--grid-gutter) * -1);
-  padding-inline: var(--grid-gutter);
-}
-
-.work-carousel__track::-webkit-scrollbar {
-  display: none;
-}
-
-.work-card {
+.work-treemap__cell {
   position: relative;
-  flex: 0 0 auto;
-  width: clamp(280px, 68vw, 520px);
   overflow: hidden;
-  border-radius: var(--radius);
-  scroll-snap-align: start;
 }
 
-.work-card:focus-visible {
-  outline: 2px solid var(--text);
-  outline-offset: 3px;
+.work-treemap__cell:nth-child(1) {
+  grid-area: a;
 }
 
-.work-card__image {
-  width: 100%;
+.work-treemap__cell:nth-child(2) {
+  grid-area: b;
 }
 
-.work-card__overlay {
+.work-treemap__cell:nth-child(3) {
+  grid-area: c;
+}
+
+.work-treemap__cell:nth-child(4) {
+  grid-area: d;
+}
+
+.work-treemap__image {
+  position: absolute;
+  inset: 0;
+  border: none;
+  border-radius: 0;
+}
+
+.work-treemap__overlay {
   position: absolute;
   inset: 0;
   display: flex;
@@ -520,25 +526,28 @@
   color: var(--ink-900);
   background: linear-gradient(
     to top,
-    color-mix(in srgb, var(--ink-000) 88%, transparent) 0%,
-    color-mix(in srgb, var(--ink-000) 55%, transparent) 45%,
+    color-mix(in srgb, var(--ink-000) 82%, transparent) 0%,
+    color-mix(in srgb, var(--ink-000) 45%, transparent) 45%,
     transparent 85%
   );
-  opacity: 0;
-  transform: translateY(8px);
-  transition:
-    opacity var(--dur-mid) var(--ease-out),
-    transform var(--dur-mid) var(--ease-out);
 }
 
-.work-card__overlay .t-mono {
+.work-treemap__overlay .t-mono {
   color: var(--ink-600);
 }
 
-.work-card:hover .work-card__overlay,
-.work-card:focus-visible .work-card__overlay {
-  opacity: 1;
-  transform: translateY(0);
+@media (max-width: 767px) {
+  .work-treemap {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: repeat(3, 1fr);
+    grid-template-areas: 'a a' 'b c' 'b d';
+    height: auto;
+    max-height: none;
+  }
+
+  .work-treemap__cell {
+    min-height: 220px;
+  }
 }
 
 .client-marquee {

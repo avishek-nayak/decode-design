@@ -50,7 +50,7 @@ export function Footer() {
           <Col span={{ base: 12, md: 6 }} start={{ md: 7 }}>
             <Grid rowGap="var(--s-7)">
               {footerGroups.map((group) => (
-                <Col key={group.title} span={{ base: 6, md: 3 }}>
+                <Col key={group.title} span={{ base: 12, md: 6 }}>
                   <h2 className="t-mono subtle">{group.title}</h2>
                   <ul className="site-footer__list">
                     {group.links.map((link) => (
