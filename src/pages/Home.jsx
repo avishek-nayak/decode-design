@@ -1,6 +1,6 @@
-import { useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { motion, useScroll, useTransform } from 'motion/react';
+import { AnimatePresence, motion, useScroll, useTransform } from 'motion/react';
 import { Container, Grid, Col } from '@/components/layout/Grid';
 import { Button } from '@/components/ui/Button';
 import { Eyebrow } from '@/components/ui/Eyebrow';
@@ -30,6 +30,13 @@ const jsonLd = {
     'Behavioural design',
   ],
 };
+
+const HERO_ROTATING_WORDS = [
+  'Revenue Increase',
+  'Customer Conversion',
+  'Gamification in Product',
+  'Growth & Scale',
+];
 
 // Kept under 50 characters — the flip-card back face has no room for the
 // full service outcome copy used elsewhere.
@@ -88,26 +95,18 @@ function Hero() {
     <section ref={heroRef} className="section hero">
       <Container>
         <motion.div style={{ y, opacity, scale }}>
-          <Grid rowGap="var(--s-8)">
+          <Grid rowGap="var(--s-6)">
             <Col span={{ base: 12, lg: 9 }}>
-              <SplitReveal as="h1" className="t-display hero__title">
-                DESIGN that decodes Business.
-              </SplitReveal>
+              <h1 className="t-display hero__title">
+                <SplitReveal as="span" className="hero__title-static">
+                  DESIGN that decodes
+                </SplitReveal>{' '}
+                <HeroRotatingWord />.
+              </h1>
             </Col>
 
-            <Col span={{ base: 12, md: 6, lg: 5 }}>
-              <Reveal index={2}>
-                <p className="t-body-lg muted">
-                  Decode.designers is a product design practice for teams
-                  shipping software that has to work — and a school for
-                  designers who want to understand{' '}
-                  <span className="em">why</span> it works.
-                </p>
-              </Reveal>
-            </Col>
-
-            <Col span={{ base: 12, md: 6, lg: 5 }} start={{ lg: 8 }}>
-              <Reveal index={3} className="hero__actions">
+            <Col span={{ base: 12, lg: 9 }}>
+              <Reveal index={2} className="hero__actions">
                 <Button variant="primary" to="/contact" arrow>
                   Connect for Business Growth
                 </Button>
@@ -117,6 +116,44 @@ function Hero() {
         </motion.div>
       </Container>
     </section>
+  );
+}
+
+/** Cycles the hero's outcome word so the headline reads as one claim
+ * applied to several results, instead of committing to just one. */
+function HeroRotatingWord() {
+  const reduced = usePrefersReducedMotion();
+  const [index, setIndex] = useState(0);
+
+  useEffect(() => {
+    if (reduced) return undefined;
+    const id = setInterval(() => {
+      setIndex((i) => (i + 1) % HERO_ROTATING_WORDS.length);
+    }, 2400);
+    return () => clearInterval(id);
+  }, [reduced]);
+
+  const word = HERO_ROTATING_WORDS[index];
+
+  if (reduced) {
+    return <span className="hero__rotating-word">{word}</span>;
+  }
+
+  return (
+    <span className="hero__rotating-word">
+      <AnimatePresence mode="wait" initial={false}>
+        <motion.span
+          key={word}
+          className="hero__rotating-word-inner"
+          initial={{ opacity: 0, y: 14 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -14 }}
+          transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+        >
+          {word}
+        </motion.span>
+      </AnimatePresence>
+    </span>
   );
 }
 

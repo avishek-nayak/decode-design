@@ -42,7 +42,7 @@
 .site-header__list {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-end;
   gap: var(--s-6);
 }
 

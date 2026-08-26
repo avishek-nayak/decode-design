@@ -255,16 +255,21 @@
   margin-top: var(--s-6);
 }
 
+.hero__rotating-word {
+  display: inline-block;
+  position: relative;
+  vertical-align: bottom;
+}
+
+.hero__rotating-word-inner {
+  display: inline-block;
+}
+
 .hero__actions {
   display: flex;
   flex-wrap: wrap;
   gap: var(--s-3);
-}
-
-@media (min-width: 1024px) {
-  .hero__actions {
-    justify-content: flex-end;
-  }
+  margin-top: var(--s-6);
 }
 
 /* ---- Home: services flip cards -------------------------------------------
