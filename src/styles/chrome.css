@@ -130,6 +130,24 @@
   padding-block: var(--s-9) var(--s-6);
 }
 
+.site-footer__intro {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--s-8);
+}
+
+@media (min-width: 1024px) {
+  .site-footer__intro {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--s-9);
+  }
+
+  .site-footer__intro-right {
+    padding-left: var(--s-9);
+    border-left: var(--border) solid var(--hairline);
+  }
+}
+
 /* .link-wipe (declared directly in app.css, so it wins equal-specificity
    ties over anything imported before it) sets display: inline-block —
    overridden here so the phone number forces the email onto its own line. */
@@ -141,6 +159,78 @@
 .site-footer__email {
   display: inline-block;
   margin-top: var(--s-2);
+}
+
+/* ---- Footer: audit lead form ---------------------------------------------
+   A second, lower-commitment CTA alongside "Connect for Business Growth" —
+   boxed, placeholder-led fields rather than the underline style the main
+   Contact form uses, to match the compact footer treatment. */
+
+.audit-lead-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-4);
+}
+
+.audit-lead-form__row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: var(--s-4);
+}
+
+.audit-lead-form__field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-2);
+}
+
+.audit-lead-form input,
+.audit-lead-form textarea {
+  width: 100%;
+  padding: var(--s-4);
+  background-color: color-mix(in srgb, var(--text) 8%, transparent);
+  border: var(--border) solid var(--hairline);
+  border-radius: var(--radius);
+  color: var(--text);
+  font-family: var(--font-mono);
+  font-size: var(--fs-small);
+  transition: border-color var(--dur-fast) var(--ease-out);
+}
+
+.audit-lead-form__row input {
+  font-size: var(--fs-mono);
+  padding-inline: var(--s-3);
+}
+
+.audit-lead-form input::placeholder,
+.audit-lead-form textarea::placeholder {
+  color: var(--text-subtle);
+  text-transform: uppercase;
+  letter-spacing: var(--tr-mono);
+}
+
+.audit-lead-form textarea {
+  resize: vertical;
+  min-height: 84px;
+}
+
+.audit-lead-form input:hover,
+.audit-lead-form textarea:hover {
+  border-color: var(--hairline-strong);
+}
+
+.audit-lead-form__field--invalid input,
+.audit-lead-form__field--invalid textarea {
+  border-width: 2px;
+}
+
+.audit-lead-form__error {
+  font-weight: 700;
+}
+
+.audit-lead-form__submit {
+  width: 100%;
+  justify-content: center;
 }
 
 .site-footer__nav-row {

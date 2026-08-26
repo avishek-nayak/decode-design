@@ -556,33 +556,26 @@
   border-top: var(--border) solid var(--hairline);
 }
 
-/* ---- Home: teaching band ------------------------------------------------ */
+/* ---- Home: teaching callout ----------------------------------------------
+   A small, contained box — not a full-bleed band — so it reads as a single
+   callout rather than a whole section given over to it. */
 
-.course-mini-list {
-  border-top: var(--border) solid var(--hairline);
-}
-
-.course-mini-list > li {
-  border-bottom: var(--border) solid var(--hairline);
-}
-
-.course-mini {
+.teaching-callout {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  gap: var(--s-5);
-  padding: var(--s-5) var(--s-3);
-  margin-inline: calc(var(--s-3) * -1);
+  justify-content: space-between;
+  gap: var(--s-6);
+  max-width: 900px;
+  margin-inline: auto;
+  padding: var(--s-7) var(--s-8);
+  border-radius: var(--radius);
+  overflow: hidden;
+  background-color: var(--surface);
 }
 
-.course-mini__body {
-  display: grid;
-  gap: var(--s-1);
-  flex: 1;
-  min-width: 0;
-}
-
-.course-mini__price {
-  flex-shrink: 0;
+.teaching-callout p {
+  flex: 1 1 360px;
 }
 
 /* ---- Services page ------------------------------------------------------ */

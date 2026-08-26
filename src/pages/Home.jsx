@@ -10,7 +10,6 @@ import { Placeholder } from '@/components/ui/Placeholder';
 import { Spotlight } from '@/components/ui/Spotlight';
 import { Seo } from '@/components/ui/Seo';
 import { services, work } from '@/data/services';
-import { courses } from '@/data/courses';
 import { clients, contact, site } from '@/data/siteConfig';
 import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
 import { useWheelHorizontalScroll } from '@/hooks/useWheelHorizontalScroll';
@@ -80,17 +79,20 @@ function Hero() {
     offset: ['start start', 'end start'],
   });
 
-  const y = useTransform(scrollYProgress, [0, 1], reduced ? [0, 0] : [0, -72]);
-  const opacity = useTransform(
-    scrollYProgress,
-    [0, 1],
-    reduced ? [1, 1] : [1, 0.2],
-  );
-  const scale = useTransform(
-    scrollYProgress,
-    [0, 1],
-    reduced ? [1, 1] : [1, 0.95],
-  );
+  // Identity-range motion values (reduced ? [x,x] : [a,b]) can end up stuck
+  // on the animated range if `reduced` corrects to true on a re-render
+  // after mount — Framer Motion doesn't reliably re-evaluate an existing
+  // transform against a changed output range. Passing the raw MotionValue
+  // only when not reduced, and a plain static value otherwise, sidesteps
+  // that entirely: reduced-motion visitors get a real constant, not a
+  // transform that might still be tracking the old range.
+  const yRaw = useTransform(scrollYProgress, [0, 1], [0, -72]);
+  const opacityRaw = useTransform(scrollYProgress, [0, 1], [1, 0.2]);
+  const scaleRaw = useTransform(scrollYProgress, [0, 1], [1, 0.95]);
+
+  const y = reduced ? 0 : yRaw;
+  const opacity = reduced ? 1 : opacityRaw;
+  const scale = reduced ? 1 : scaleRaw;
 
   return (
     <section ref={heroRef} className="section hero">
@@ -253,60 +255,27 @@ function SelectedWork() {
   );
 }
 
-/** The one inverted band on the page. It is the emphasis device — used once. */
+/** A small, contained callout — not full-bleed — rather than a full
+ * inverted band. It is still the one inverted moment on the page. */
 function TeachingBand() {
   return (
-    <Spotlight as="section" className="section inverse">
+    <section className="section">
       <Container>
-        <Grid rowGap="var(--s-8)">
-          <Col span={{ base: 12, lg: 5 }}>
-            <Reveal>
-              <Eyebrow>Learn</Eyebrow>
-            </Reveal>
-            <SplitReveal as="h2" className="t-h1" style={{ marginTop: 'var(--s-5)' }}>
-              The same method, taught properly.
-            </SplitReveal>
-            <Reveal>
-              <p className="t-body muted" style={{ marginTop: 'var(--s-6)' }}>
-                Four courses covering UX, design fundamentals, product design
-                and accessibility. Everything taught comes out of live client
-                work — small cohorts, weekly critique, one portfolio-grade
-                project you carry from start to finish.
-              </p>
-              <div style={{ marginTop: 'var(--s-7)' }}>
-                <Button variant="primary" to="/courses" arrow>
-                  Explore courses
-                </Button>
-              </div>
-            </Reveal>
-          </Col>
-
-          <Col span={{ base: 12, lg: 6 }} start={{ lg: 7 }}>
-            <ul className="course-mini-list">
-              {courses.map((course, i) => (
-                <Reveal as="li" key={course.slug} index={i}>
-                  <Link
-                    to={`/courses/${course.slug}`}
-                    className="course-mini hover-row"
-                  >
-                    <span className="t-mono subtle">{course.index}</span>
-                    <span className="course-mini__body">
-                      <span className="t-h3">{course.title}</span>
-                      <span className="t-mono subtle">
-                        {course.duration} · {course.level}
-                      </span>
-                    </span>
-                    <span className="t-mono course-mini__price">
-                      {course.price}
-                    </span>
-                  </Link>
-                </Reveal>
-              ))}
-            </ul>
-          </Col>
-        </Grid>
+        <Spotlight className="teaching-callout inverse">
+          <Reveal>
+            <p className="t-body-lg">
+              Are you looking to get some design learning, awareness session
+              or want to dig deep into digital design framework.
+            </p>
+          </Reveal>
+          <Reveal index={1}>
+            <Button variant="primary" to="/courses" arrow>
+              Explore Design Education
+            </Button>
+          </Reveal>
+        </Spotlight>
       </Container>
-    </Spotlight>
+    </section>
   );
 }
 
