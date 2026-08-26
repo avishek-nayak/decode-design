@@ -113,3 +113,79 @@ html.has-custom-cursor select {
   opacity: 0;
   transform: translateY(0.6em);
 }
+
+/* ---- Intro overlay ---------------------------------------------------
+   First-load sequence: a field of design vocabulary flies in from
+   off-screen top and bottom while the wordmark decodes in the centre. */
+
+.intro-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 300;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: hidden;
+  background-color: var(--surface);
+}
+
+.intro-overlay__field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-4);
+  padding-block: var(--s-6);
+}
+
+.intro-overlay__field--top {
+  mask-image: linear-gradient(to bottom, transparent, black 100%);
+}
+
+.intro-overlay__field--bottom {
+  mask-image: linear-gradient(to top, transparent, black 100%);
+}
+
+.intro-overlay__row {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: var(--s-6);
+  white-space: nowrap;
+}
+
+.intro-overlay__word {
+  font-family: var(--font-mono);
+  font-size: var(--fs-mono);
+  letter-spacing: var(--tr-mono);
+  text-transform: uppercase;
+  color: var(--text-subtle);
+}
+
+.intro-overlay__center {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--s-4);
+  pointer-events: none;
+}
+
+.intro-overlay__button {
+  pointer-events: auto;
+  padding: var(--s-4);
+  border-radius: var(--radius);
+}
+
+.intro-overlay__button:focus-visible {
+  outline: 2px solid var(--text);
+  outline-offset: 6px;
+}
+
+.intro-overlay__wordmark {
+  font-size: clamp(2.5rem, 8vw, 6rem);
+  letter-spacing: -0.02em;
+}
+
+.intro-overlay__hint {
+  pointer-events: none;
+}

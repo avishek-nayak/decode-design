@@ -30,7 +30,7 @@
   white-space: nowrap;
 }
 
-.site-header__wordmark {
+.wordmark {
   font-family: var(--font-logo);
 }
 
@@ -143,10 +143,20 @@
   margin-top: var(--s-2);
 }
 
-.site-footer__list {
+.site-footer__nav-row {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--s-3) var(--s-4);
+  gap: var(--s-7) var(--s-6);
+  margin-top: var(--s-9);
+}
+
+.site-footer__nav-col {
+  flex: 1 1 180px;
+}
+
+.site-footer__list {
+  display: grid;
+  gap: var(--s-3);
   margin-top: var(--s-4);
 }
 

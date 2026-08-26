@@ -4,6 +4,7 @@ import { AnimatePresence, motion } from 'motion/react';
 import { Header } from './Header';
 import { Footer } from './Footer';
 import { CustomCursor } from '@/components/ui/CustomCursor';
+import { IntroOverlay } from '@/components/ui/IntroOverlay';
 import { useSmoothScroll } from '@/hooks/useSmoothScroll';
 import { useGridOverlay } from '@/hooks/useGridOverlay';
 import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
@@ -43,6 +44,7 @@ export function RootLayout() {
       </a>
 
       <Header />
+      <IntroOverlay />
 
       {/*
         popLayout lets the entering page mount while the previous one is

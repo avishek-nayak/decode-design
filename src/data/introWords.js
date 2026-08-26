@@ -1,0 +1,38 @@
+/**
+ * Design vocabulary flown across the first-load intro sequence — a mix of
+ * the site's own service/course names and general design terminology.
+ */
+export const introWords = [
+  'MVP Design',
+  'UX Audit',
+  'SaaS Product Design',
+  'Design Systems',
+  'Micro-interactions',
+  'UX Strategy',
+  'Behavioural Design',
+  'UX Foundations',
+  'Design Fundamentals',
+  'Accessibility',
+  'Wireframe',
+  'Prototype',
+  'Typography',
+  'Grid System',
+  'Information Architecture',
+  'Interaction Design',
+  'Design Tokens',
+  'Usability',
+  'Heuristics',
+  'Contrast',
+  'Whitespace',
+  'Motion Design',
+  'User Research',
+  'Journey Map',
+  'A/B Testing',
+  'Conversion',
+  'Design Thinking',
+  'Affordance',
+  'Visual Hierarchy',
+  'Component Library',
+  'Iteration',
+  'Empathy',
+];

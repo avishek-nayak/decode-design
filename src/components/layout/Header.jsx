@@ -3,24 +3,7 @@ import { Link, NavLink, useLocation } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
 import { nav, site } from '@/data/siteConfig';
 import { Button } from '@/components/ui/Button';
-
-const WORDMARK = 'Decode.designers';
-const WORDMARK_WEIGHTS = [400, 500, 600, 700];
-
-function Wordmark() {
-  return (
-    <span aria-hidden="true" className="site-header__wordmark">
-      {WORDMARK.split('').map((char, i) => (
-        <span
-          key={i}
-          style={{ fontWeight: WORDMARK_WEIGHTS[i % WORDMARK_WEIGHTS.length] }}
-        >
-          {char}
-        </span>
-      ))}
-    </span>
-  );
-}
+import { Wordmark } from '@/components/ui/Wordmark';
 
 export function Header() {
   const [open, setOpen] = useState(false);
@@ -98,7 +81,7 @@ export function Header() {
             className="site-header__logo"
             aria-label={`${site.name}, home`}
           >
-            <Wordmark />
+            <Wordmark layoutId="site-wordmark" />
           </Link>
 
           <nav className="site-header__nav" aria-label="Primary">
