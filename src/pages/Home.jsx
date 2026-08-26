@@ -1,7 +1,6 @@
 import { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, useScroll, useTransform } from 'motion/react';
-import { ArrowUpRight } from 'lucide-react';
 import { Container, Grid, Col } from '@/components/layout/Grid';
 import { Button } from '@/components/ui/Button';
 import { Eyebrow } from '@/components/ui/Eyebrow';
@@ -30,6 +29,18 @@ const jsonLd = {
     'Accessibility',
     'Behavioural design',
   ],
+};
+
+// Kept under 50 characters — the flip-card back face has no room for the
+// full service outcome copy used elsewhere.
+const shortDescriptions = {
+  'mvp-design': 'Idea to shippable product, fast.',
+  'ux-audit': 'Find where users drop off, and why.',
+  'saas-product-design': 'Design software people can operate.',
+  'design-systems': 'One system, consistent everywhere.',
+  'prototyping-and-micro-interactions': 'Interactions that feel inevitable.',
+  'ux-strategy': 'Research that changes the roadmap.',
+  'behavioural-design': 'Ethical nudges that lift conversion.',
 };
 
 export default function Home() {
@@ -113,55 +124,33 @@ function ServicesPreview() {
   return (
     <section className="section" id="services">
       <Container>
-        <Grid rowGap="var(--s-8)">
-          <Col span={{ base: 12, lg: 4 }} className="services-preview__intro">
-            <Reveal>
-              <h2 className="visually-hidden">Services</h2>
-              <Eyebrow className="services-preview__eyebrow">Services</Eyebrow>
-              <p className="t-body muted" style={{ marginTop: 'var(--s-5)' }}>
-                Every engagement is fixed-scope and fixed-price. You know what
-                you are getting and when, before anything is signed.
-              </p>
-              <div style={{ marginTop: 'var(--s-6)' }}>
-                <Button variant="secondary" to="/services" arrow>
-                  All services
-                </Button>
-              </div>
-            </Reveal>
-          </Col>
-
-          <Col span={{ base: 12, lg: 8 }}>
-            <Reveal index={1}>
-              <div
-                className="services-carousel__track"
-                role="region"
-                aria-label="Services, scroll horizontally"
-              >
-                {services.map((service) => (
-                  <div key={service.slug} className="service-card">
-                    <Link
-                      to={`/services/${service.slug}`}
-                      className="service-card__link"
-                    >
-                      <h3 className="t-h3 service-card__title">
-                        {service.title}
-                        <ArrowUpRight
-                          size={18}
-                          strokeWidth={1.5}
-                          className="service-card__arrow"
-                          aria-hidden="true"
-                        />
-                      </h3>
-                      <p className="t-small muted service-card__outcome">
-                        {service.outcome}
-                      </p>
-                    </Link>
+        <h2 className="visually-hidden">Services</h2>
+        <Reveal>
+          <div className="flip-card-grid">
+            {services.map((service) => (
+              <div key={service.slug} className="flip-card">
+                <Link
+                  to={`/services/${service.slug}`}
+                  className="flip-card__inner"
+                >
+                  <div className="flip-card__face flip-card__face--front">
+                    <h3 className="flip-card__title">{service.title}</h3>
+                    <Placeholder
+                      label={service.title}
+                      ratio="auto"
+                      className="flip-card__image"
+                    />
                   </div>
-                ))}
+                  <div className="flip-card__face flip-card__face--back">
+                    <p className="flip-card__description">
+                      {shortDescriptions[service.slug]}
+                    </p>
+                  </div>
+                </Link>
               </div>
-            </Reveal>
-          </Col>
-        </Grid>
+            ))}
+          </div>
+        </Reveal>
       </Container>
     </section>
   );

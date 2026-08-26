@@ -267,40 +267,74 @@
   }
 }
 
-/* ---- Services: cards ------------------------------------------------------
-   Used on both the Home preview and the full /services listing. Mirrors the
-   course-card treatment so the two catalogues (services, courses) read as
-   one system. */
+/* ---- Home: services flip cards -------------------------------------------
+   Static front face (title + image), 3D diagonal flip on hover/focus
+   reveals a short description on the back face. */
 
-.services-preview__intro {
+.flip-card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: var(--s-5);
+}
+
+.flip-card {
+  perspective: 1400px;
+  overflow: hidden;
+}
+
+.flip-card__inner {
+  position: relative;
+  display: block;
+  aspect-ratio: 3 / 4;
+  transform-style: preserve-3d;
+  transition: transform var(--dur-slow) var(--ease-out);
+}
+
+.flip-card:hover .flip-card__inner,
+.flip-card:focus-within .flip-card__inner {
+  transform: rotate3d(1, 1, 0, 180deg);
+}
+
+.flip-card__face {
+  position: absolute;
+  inset: 0;
   display: flex;
   flex-direction: column;
+  gap: var(--s-4);
+  padding: var(--s-5);
+  border: var(--border) solid var(--hairline);
+  border-radius: var(--radius);
+  background-color: var(--surface);
+  backface-visibility: hidden;
+}
+
+.flip-card__title {
+  font-size: var(--fs-body);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+}
+
+.flip-card__image {
+  flex: 1;
+  min-height: 0;
+}
+
+.flip-card__face--back {
+  align-items: center;
   justify-content: center;
+  text-align: center;
+  background-color: var(--surface-inverse);
+  color: var(--surface);
+  transform: rotate3d(1, 1, 0, 180deg);
 }
 
-.services-preview__eyebrow {
-  font-weight: 600;
+.flip-card__description {
+  font-size: var(--fs-body);
 }
 
-/* Horizontal scroll-snap track — same mechanics as the work carousel below,
-   kept as separate classes since the card width and gap differ. */
-.services-carousel__track {
-  display: flex;
-  gap: var(--s-5);
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  scrollbar-width: none;
-}
-
-.services-carousel__track::-webkit-scrollbar {
-  display: none;
-}
-
-.services-carousel__track .service-card {
-  flex: 0 0 auto;
-  width: clamp(260px, 32vw, 340px);
-  scroll-snap-align: start;
-}
+/* ---- Services: cards ------------------------------------------------------
+   Used on the full /services listing. */
 
 .service-card {
   height: 100%;
@@ -341,14 +375,6 @@
 .service-card__link:hover .service-card__title,
 .service-card__link:focus-visible .service-card__title {
   font-weight: 600;
-}
-
-.service-card__outcome {
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 3;
-  overflow: hidden;
-  min-height: calc(var(--fs-small) * 1.5 * 3);
 }
 
 .service-card__arrow {
