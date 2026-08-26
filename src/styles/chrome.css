@@ -30,6 +30,10 @@
   white-space: nowrap;
 }
 
+.site-header__wordmark {
+  font-family: var(--font-logo);
+}
+
 .site-header__nav {
   display: none;
   flex: 1;
@@ -37,8 +41,14 @@
 
 .site-header__list {
   display: flex;
+  align-items: center;
   justify-content: center;
   gap: var(--s-6);
+}
+
+.site-header__list .btn {
+  padding-block: var(--s-3);
+  min-height: 0;
 }
 
 .site-header__toggle {

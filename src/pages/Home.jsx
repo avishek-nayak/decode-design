@@ -10,9 +10,7 @@ import { SplitReveal } from '@/components/ui/SplitReveal';
 import { Placeholder } from '@/components/ui/Placeholder';
 import { Spotlight } from '@/components/ui/Spotlight';
 import { Seo } from '@/components/ui/Seo';
-import { CTABand } from '@/components/blocks/CTABand';
-import { ProcessQuadrant } from '@/components/blocks/ProcessQuadrant';
-import { services, engagementProcess, work } from '@/data/services';
+import { services, work } from '@/data/services';
 import { courses } from '@/data/courses';
 import { clients, contact, site } from '@/data/siteConfig';
 import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
@@ -41,10 +39,8 @@ export default function Home() {
 
       <Hero />
       <ServicesPreview />
-      <Process />
       <SelectedWork />
       <TeachingBand />
-      <CTABand secondary={{ label: 'See all services', to: '/services' }} />
     </>
   );
 }
@@ -84,7 +80,7 @@ function Hero() {
           <Grid rowGap="var(--s-8)">
             <Col span={{ base: 12, lg: 9 }}>
               <SplitReveal as="h1" className="t-display hero__title">
-                Design that decides what to build, not just how it looks.
+                DESIGN that decodes Business.
               </SplitReveal>
             </Col>
 
@@ -102,10 +98,7 @@ function Hero() {
             <Col span={{ base: 12, md: 6, lg: 5 }} start={{ lg: 8 }}>
               <Reveal index={3} className="hero__actions">
                 <Button variant="primary" to="/contact" arrow>
-                  Book a consultation
-                </Button>
-                <Button variant="secondary" to="/courses">
-                  Explore courses
+                  Connect for Business Growth
                 </Button>
               </Reveal>
             </Col>
@@ -169,22 +162,6 @@ function ServicesPreview() {
             </Reveal>
           </Col>
         </Grid>
-      </Container>
-    </section>
-  );
-}
-
-function Process() {
-  return (
-    <section className="section rule-t section--alt">
-      <Container>
-        <Reveal>
-          <Eyebrow>How it runs</Eyebrow>
-        </Reveal>
-
-        <Reveal index={1} style={{ marginTop: 'var(--s-8)' }}>
-          <ProcessQuadrant steps={engagementProcess} />
-        </Reveal>
       </Container>
     </section>
   );

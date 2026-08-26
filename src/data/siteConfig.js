@@ -35,9 +35,7 @@ export const socials = [
 
 export const nav = [
   { label: 'Services', to: '/services' },
-  { label: 'Courses', to: '/courses' },
-  { label: 'About', to: '/about' },
-  { label: 'FAQ', to: '/faq' },
+  { label: 'Learn', to: '/courses' },
   { label: 'Contact', to: '/contact' },
 ];
 

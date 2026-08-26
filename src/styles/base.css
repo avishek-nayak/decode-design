@@ -19,6 +19,17 @@
   font-display: swap;
 }
 
+/* Outfit ships as a variable font: one file covers 100–900. Reserved for
+   the wordmark, where individual letters are set to different weights to
+   read as a "decode / encode" gradient. */
+@font-face {
+  font-family: 'Outfit';
+  src: url('/fonts/Outfit-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
 /* ---- Reset ------------------------------------------------------------- */
 
 *,

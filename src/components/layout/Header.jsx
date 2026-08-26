@@ -4,6 +4,24 @@ import { Menu, X } from 'lucide-react';
 import { nav, site } from '@/data/siteConfig';
 import { Button } from '@/components/ui/Button';
 
+const WORDMARK = 'Decode.designers';
+const WORDMARK_WEIGHTS = [400, 500, 600, 700];
+
+function Wordmark() {
+  return (
+    <span aria-hidden="true" className="site-header__wordmark">
+      {WORDMARK.split('').map((char, i) => (
+        <span
+          key={i}
+          style={{ fontWeight: WORDMARK_WEIGHTS[i % WORDMARK_WEIGHTS.length] }}
+        >
+          {char}
+        </span>
+      ))}
+    </span>
+  );
+}
+
 export function Header() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -80,18 +98,22 @@ export function Header() {
             className="site-header__logo"
             aria-label={`${site.name}, home`}
           >
-            <span aria-hidden="true">
-              Decode<span className="subtle">.designers</span>
-            </span>
+            <Wordmark />
           </Link>
 
           <nav className="site-header__nav" aria-label="Primary">
             <ul className="site-header__list">
               {nav.map((item) => (
                 <li key={item.to}>
-                  <NavLink to={item.to} className="link-wipe t-mono">
-                    {item.label}
-                  </NavLink>
+                  {item.label === 'Contact' ? (
+                    <Button variant="secondary" to={item.to}>
+                      {item.label}
+                    </Button>
+                  ) : (
+                    <NavLink to={item.to} className="link-wipe t-mono">
+                      {item.label}
+                    </NavLink>
+                  )}
                 </li>
               ))}
             </ul>
