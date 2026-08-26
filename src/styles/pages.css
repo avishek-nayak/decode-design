@@ -561,6 +561,11 @@
    callout rather than a whole section given over to it. */
 
 .teaching-callout {
+  /* Not just relying on Spotlight's own `.spotlight` class for this —
+     that class (and its position: relative) is dropped entirely under
+     reduced motion or touch, which would leave the absolutely-positioned
+     shapes below with no containing block and escape to the page root. */
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -576,6 +581,21 @@
 .teaching-callout p {
   flex: 1 1 auto;
   min-width: 0;
+}
+
+/* Decorative wireframe shapes, sat behind the text. `.spotlight > *` sets
+   z-index: 1 on every direct child for the glow effect; this needs the
+   extra specificity to win that tie and stay behind, not stack on top. */
+.teaching-callout > .teaching-callout__shapes {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  fill: none;
+  stroke: var(--hairline-strong);
+  stroke-width: 1;
+  opacity: 0.4;
 }
 
 .teaching-callout .btn {

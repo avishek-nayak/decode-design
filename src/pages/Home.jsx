@@ -262,20 +262,43 @@ function TeachingBand() {
     <section className="section">
       <Container>
         <Spotlight className="teaching-callout inverse">
+          <TeachingCalloutShapes />
           <Reveal>
             <p className="t-body-lg">
-              Are you looking to get some design learning, awareness session
-              or want to dig deep into digital design framework.
+              Are you the next upcoming digital geek looking to build on
+              sustainability development for the betterment of the world,
+              then this cohort is for you.
             </p>
           </Reveal>
           <Reveal index={1}>
             <Button variant="primary" to="/courses" arrow>
-              Explore Design Education
+              Join the waitlist now
             </Button>
           </Reveal>
         </Spotlight>
       </Container>
     </section>
+  );
+}
+
+/** Decorative wireframe shapes — subtle grey, sits behind the text. */
+function TeachingCalloutShapes() {
+  return (
+    <svg
+      className="teaching-callout__shapes"
+      viewBox="0 0 900 300"
+      preserveAspectRatio="xMidYMid slice"
+      aria-hidden="true"
+      focusable="false"
+    >
+      <circle cx="780" cy="50" r="80" />
+      <circle cx="700" cy="230" r="34" />
+      <polygon points="830,130 872,160 830,190 788,160" />
+      <rect x="600" y="30" width="44" height="44" transform="rotate(45 622 52)" />
+      <line x1="560" y1="-10" x2="900" y2="140" />
+      <line x1="480" y1="310" x2="760" y2="130" />
+      <path d="M 500 0 L 500 300" strokeDasharray="2 10" />
+    </svg>
   );
 }
 
