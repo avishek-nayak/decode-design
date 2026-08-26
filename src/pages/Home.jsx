@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { AnimatePresence, motion, useScroll, useTransform } from 'motion/react';
+import clsx from 'clsx';
 import { Container, Grid, Col } from '@/components/layout/Grid';
 import { Button } from '@/components/ui/Button';
 import { Eyebrow } from '@/components/ui/Eyebrow';
@@ -12,7 +13,6 @@ import { Seo } from '@/components/ui/Seo';
 import { services, work } from '@/data/services';
 import { clients, contact, site } from '@/data/siteConfig';
 import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
-import { useWheelHorizontalScroll } from '@/hooks/useWheelHorizontalScroll';
 
 const jsonLd = {
   '@context': 'https://schema.org',
@@ -37,18 +37,6 @@ const HERO_ROTATING_WORDS = [
   'Gamification in Product',
   'Growth & Scale',
 ];
-
-// Kept under 50 characters — the flip-card back face has no room for the
-// full service outcome copy used elsewhere.
-const shortDescriptions = {
-  'mvp-design': 'Idea to shippable product, fast.',
-  'ux-audit': 'Find where users drop off, and why.',
-  'saas-product-design': 'Design software people can operate.',
-  'design-systems': 'One system, consistent everywhere.',
-  'prototyping-and-micro-interactions': 'Interactions that feel inevitable.',
-  'ux-strategy': 'Research that changes the roadmap.',
-  'behavioural-design': 'Ethical nudges that lift conversion.',
-};
 
 export default function Home() {
   return (
@@ -162,41 +150,92 @@ function HeroRotatingWord() {
 }
 
 function ServicesPreview() {
-  const wheelRef = useWheelHorizontalScroll();
-
   return (
     <section className="section" id="services">
       <Container>
-        <h2 className="visually-hidden">Services</h2>
+        <Grid rowGap="var(--s-8)">
+          <Col span={{ base: 12, lg: 5 }} className="services-preview__intro">
+            <h2 className="t-h1">Design solutions that put people first.</h2>
+            <Reveal>
+              <p className="t-body muted" style={{ marginTop: 'var(--s-6)' }}>
+                Every engagement is fixed-scope and fixed-price. You know
+                what you are getting and when, before anything is signed —
+                built around the people who will actually use it.
+              </p>
+              <div style={{ marginTop: 'var(--s-7)' }}>
+                <Button variant="primary" to="/services" arrow>
+                  Make humanized design solutions
+                </Button>
+              </div>
+            </Reveal>
+          </Col>
+
+          <Col span={{ base: 12, lg: 7 }}>
+            <Reveal index={1}>
+              <ServicesStack />
+            </Reveal>
+          </Col>
+        </Grid>
       </Container>
-      <Reveal>
-        <div
-          ref={wheelRef}
-          className="flip-card-grid"
-          role="region"
-          aria-label="Services, scroll horizontally"
-        >
-          {services.map((service) => (
-            <div key={service.slug} className="flip-card">
-              <Link
-                to={`/services/${service.slug}`}
-                className="flip-card__inner"
-              >
-                <div className="flip-card__face flip-card__face--front">
-                  <h3 className="flip-card__title">{service.title}</h3>
-                  <Placeholder ratio="auto" className="flip-card__image" />
-                </div>
-                <div className="flip-card__face flip-card__face--back">
-                  <p className="flip-card__description">
-                    {shortDescriptions[service.slug]}
-                  </p>
-                </div>
-              </Link>
-            </div>
-          ))}
-        </div>
-      </Reveal>
     </section>
+  );
+}
+
+/** A vertical, scroll-snapped card stack: whichever card sits at the
+ * centre is sharp, everything above and below is blurred back — a sense
+ * of depth instead of a flat scrolling row. */
+function ServicesStack() {
+  const stackRef = useRef(null);
+  const [activeSlug, setActiveSlug] = useState(services[0]?.slug);
+
+  useEffect(() => {
+    const stack = stackRef.current;
+    if (!stack) return undefined;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && entry.intersectionRatio > 0.6) {
+            setActiveSlug(entry.target.dataset.slug);
+          }
+        });
+      },
+      { root: stack, threshold: [0.6] },
+    );
+
+    stack
+      .querySelectorAll('[data-slug]')
+      .forEach((card) => observer.observe(card));
+
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <div
+      ref={stackRef}
+      className="services-stack"
+      role="region"
+      aria-label="Services, scroll vertically"
+      tabIndex={0}
+    >
+      {services.map((service) => (
+        <Link
+          key={service.slug}
+          to={`/services/${service.slug}`}
+          data-slug={service.slug}
+          className={clsx(
+            'services-stack__card',
+            service.slug === activeSlug && 'is-active',
+          )}
+        >
+          <Placeholder ratio="4 / 3" className="services-stack__image" />
+          <div className="services-stack__overlay">
+            <h3 className="t-h3">{service.title}</h3>
+            <p className="t-small">{service.outcome}</p>
+          </div>
+        </Link>
+      ))}
+    </div>
   );
 }
 

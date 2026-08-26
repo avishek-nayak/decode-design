@@ -290,123 +290,93 @@
   margin-top: var(--s-6);
 }
 
-/* ---- Home: services flip cards -------------------------------------------
-   Static front face (title + edge-to-edge image), 3D diagonal flip on
-   hover/focus reveals a short description on the back face. Horizontal
-   scroll track sized so three cards sit fully in view with a sliver of
-   the fourth showing, as a scroll affordance. */
+/* ---- Home: services stack --------------------------------------------
+   A vertical scroll-snapped stack of 4:3 cards. The centred card is
+   sharp; every other card sits blurred and scaled down, so scrolling
+   reads as moving through a stack rather than a flat list. */
 
-.flip-card-grid {
-  display: flex;
-  gap: var(--s-5);
-  width: 100%;
-  max-width: var(--grid-max);
-  margin-inline: auto;
-  padding-left: var(--grid-gutter);
-  padding-bottom: var(--s-4);
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  /* A visible scrollbar plus wheel-to-horizontal (see useWheelHorizontalScroll)
-     — a hidden track with no visible affordance left mouse users with no way
-     to move it at all. */
-  scrollbar-width: thin;
-  scrollbar-color: var(--hairline-strong) transparent;
-}
-
-.flip-card-grid::-webkit-scrollbar {
-  height: 6px;
-}
-
-.flip-card-grid::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.flip-card-grid::-webkit-scrollbar-thumb {
-  background-color: var(--hairline-strong);
-  border-radius: 3px;
-}
-
-.flip-card {
-  flex: 0 0 auto;
-  width: clamp(240px, 78vw, 320px);
-  scroll-snap-align: start;
-  perspective: 1400px;
-  overflow: hidden;
-}
-
-@media (min-width: 1024px) {
-  .flip-card {
-    width: calc((100% - 3 * var(--s-5)) / 3.2);
-  }
-}
-
-.flip-card__inner {
-  position: relative;
-  display: block;
-  aspect-ratio: 3 / 4;
-  transform-style: preserve-3d;
-  transition: transform var(--dur-slow) var(--ease-out);
-}
-
-.flip-card:hover .flip-card__inner,
-.flip-card:focus-within .flip-card__inner {
-  transform: rotate3d(1, 1, 0, 180deg);
-}
-
-.flip-card__face {
-  position: absolute;
-  inset: 0;
+.services-preview__intro {
   display: flex;
   flex-direction: column;
-  gap: var(--s-4);
-  overflow: hidden;
-  border: var(--border) solid var(--hairline);
-  border-radius: var(--radius);
-  background-color: var(--surface);
-  backface-visibility: hidden;
+  justify-content: center;
 }
 
-.flip-card__title {
-  padding: var(--s-5) var(--s-5) 0;
-  font-size: var(--fs-h3);
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: -0.01em;
-}
-
-/* Edge to edge on every side but the top, where it tucks under the title;
-   a fade from the card background stands in for a hard seam. */
-.flip-card__image.placeholder {
+.services-stack {
   position: relative;
-  flex: 1;
-  min-height: 0;
-  background-color: var(--ink-700);
-  background-image: none;
+  height: 560px;
+  max-width: 560px;
+  overflow-y: auto;
+  scroll-snap-type: y mandatory;
+  scrollbar-width: none;
+  padding-block: 18%;
+  mask-image: linear-gradient(
+    to bottom,
+    transparent,
+    black 15%,
+    black 85%,
+    transparent
+  );
+}
+
+.services-stack::-webkit-scrollbar {
+  display: none;
+}
+
+.services-stack__card {
+  position: relative;
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  border-radius: var(--radius);
+  overflow: hidden;
+  scroll-snap-align: center;
+  filter: blur(6px);
+  opacity: 0.45;
+  transform: scale(0.92);
+  transition:
+    filter var(--dur-mid) var(--ease-out),
+    opacity var(--dur-mid) var(--ease-out),
+    transform var(--dur-mid) var(--ease-out);
+}
+
+.services-stack__card + .services-stack__card {
+  margin-top: var(--s-6);
+}
+
+.services-stack__card.is-active {
+  filter: blur(0);
+  opacity: 1;
+  transform: scale(1);
+}
+
+.services-stack__image.placeholder {
+  position: absolute;
+  inset: 0;
   border: none;
   border-radius: 0;
 }
 
-.flip-card__image.placeholder::before {
-  content: '';
+.services-stack__overlay {
   position: absolute;
-  inset: 0 0 auto 0;
-  height: var(--s-7);
-  background: linear-gradient(to bottom, var(--surface), transparent);
-  pointer-events: none;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: var(--s-2);
+  padding: var(--s-6);
+  color: var(--ink-900);
+  background: linear-gradient(
+    to top,
+    color-mix(in srgb, var(--ink-000) 82%, transparent) 0%,
+    color-mix(in srgb, var(--ink-000) 45%, transparent) 45%,
+    transparent 85%
+  );
 }
 
-.flip-card__face--back {
-  align-items: center;
-  justify-content: center;
-  padding: var(--s-5);
-  text-align: center;
-  background-color: var(--surface-inverse);
-  color: var(--surface);
-  transform: rotate3d(1, 1, 0, 180deg);
-}
-
-.flip-card__description {
-  font-size: var(--fs-body);
+@media (max-width: 640px) {
+  .services-stack {
+    height: 420px;
+  }
 }
 
 /* ---- Services: cards ------------------------------------------------------
