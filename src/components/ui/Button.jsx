@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { motion } from 'motion/react';
 import { ArrowRight } from 'lucide-react';
 import { useMagnetic } from '@/hooks/useMagnetic';
+import { useScrambleHover } from '@/hooks/useScrambleHover';
 
 const MotionLink = motion.create(Link);
 
@@ -14,6 +15,11 @@ const MotionLink = motion.create(Link);
  *
  * `primary` and `secondary` get a magnetic pull toward the cursor — a no-op
  * on touch devices and under reduced motion, see useMagnetic().
+ *
+ * The label scrambles into place on hover/focus (see useScrambleHover).
+ * The scrambling span is decorative (`aria-hidden`) with the real label
+ * carried via `aria-label` on the element itself, so screen readers always
+ * get the stable text regardless of what's mid-scramble on screen.
  */
 export function Button({
   variant = 'secondary',
@@ -29,11 +35,15 @@ export function Button({
   const cls = clsx('btn', `btn--${variant}`, className);
   const magnetic = useMagnetic(variant === 'primary' ? 0.4 : 0.28);
   const magnetEnabled = variant === 'primary' || variant === 'secondary';
+  const label = typeof children === 'string' ? children : null;
+  const { display, handlers: scrambleHandlers } = useScrambleHover(label);
 
   const content = (
     <>
       {Icon ? <Icon size={15} strokeWidth={1.75} aria-hidden="true" /> : null}
-      <span>{children}</span>
+      <span aria-hidden={label !== null || undefined}>
+        {label !== null ? display : children}
+      </span>
       {arrow ? (
         <ArrowRight
           size={15}
@@ -52,8 +62,14 @@ export function Button({
         onPointerMove: magnetic.onPointerMove,
         onPointerLeave: magnetic.onPointerLeave,
         'data-cursor-label': cursorLabel,
+        'aria-label': label ?? undefined,
+        ...scrambleHandlers,
       }
-    : { 'data-cursor-label': cursorLabel };
+    : {
+        'data-cursor-label': cursorLabel,
+        'aria-label': label ?? undefined,
+        ...scrambleHandlers,
+      };
 
   if (to) {
     return (

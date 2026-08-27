@@ -285,10 +285,6 @@
   vertical-align: bottom;
 }
 
-.hero__rotating-word-inner {
-  display: inline-block;
-}
-
 .hero__actions {
   display: flex;
   flex-wrap: wrap;

@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { AnimatePresence, motion, useScroll, useTransform } from 'motion/react';
+import { motion, useScroll, useTransform } from 'motion/react';
 import clsx from 'clsx';
 import { Container, Grid, Col } from '@/components/layout/Grid';
 import { Button } from '@/components/ui/Button';
@@ -14,6 +14,7 @@ import { services, work } from '@/data/services';
 import { products } from '@/data/products';
 import { clients, contact, site } from '@/data/siteConfig';
 import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
+import { useScrambleText } from '@/hooks/useScrambleText';
 
 const jsonLd = {
   '@context': 'https://schema.org',
@@ -114,7 +115,8 @@ function Hero() {
 }
 
 /** Cycles the hero's outcome word so the headline reads as one claim
- * applied to several results, instead of committing to just one. */
+ * applied to several results, instead of committing to just one. Each
+ * change decodes in via useScrambleText rather than sliding. */
 function HeroRotatingWord() {
   const reduced = usePrefersReducedMotion();
   const [index, setIndex] = useState(0);
@@ -128,27 +130,9 @@ function HeroRotatingWord() {
   }, [reduced]);
 
   const word = HERO_ROTATING_WORDS[index];
+  const display = useScrambleText(word, { skip: reduced });
 
-  if (reduced) {
-    return <span className="hero__rotating-word">{word}</span>;
-  }
-
-  return (
-    <span className="hero__rotating-word">
-      <AnimatePresence mode="wait" initial={false}>
-        <motion.span
-          key={word}
-          className="hero__rotating-word-inner"
-          initial={{ opacity: 0, y: 14 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -14 }}
-          transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-        >
-          {word}
-        </motion.span>
-      </AnimatePresence>
-    </span>
-  );
+  return <span className="hero__rotating-word">{display}</span>;
 }
 
 function ServicesPreview() {

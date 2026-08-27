@@ -4,6 +4,7 @@ import { AuditLeadForm } from '@/components/ui/AuditLeadForm';
 import { contact, footerNav, site } from '@/data/siteConfig';
 import { services } from '@/data/services';
 import { courses } from '@/data/courses';
+import { useScrambleHover } from '@/hooks/useScrambleHover';
 
 const footerGroups = [
   {
@@ -16,6 +17,32 @@ const footerGroups = [
   },
   ...footerNav,
 ];
+
+/** A quick-link label that scrambles into place on hover/focus. */
+function FooterLink({ link }) {
+  const { display, handlers } = useScrambleHover(link.label);
+
+  if (link.href) {
+    return (
+      <a
+        href={link.href}
+        className="link-wipe t-small"
+        target="_blank"
+        rel="noreferrer noopener"
+        aria-label={link.label}
+        {...handlers}
+      >
+        <span aria-hidden="true">{display}</span>
+      </a>
+    );
+  }
+
+  return (
+    <Link to={link.to} className="link-wipe t-small" aria-label={link.label} {...handlers}>
+      <span aria-hidden="true">{display}</span>
+    </Link>
+  );
+}
 
 export function Footer() {
   const year = new Date().getFullYear();
@@ -59,20 +86,7 @@ export function Footer() {
               <ul className="site-footer__list">
                 {group.links.map((link) => (
                   <li key={link.label}>
-                    {link.href ? (
-                      <a
-                        href={link.href}
-                        className="link-wipe t-small"
-                        target="_blank"
-                        rel="noreferrer noopener"
-                      >
-                        {link.label}
-                      </a>
-                    ) : (
-                      <Link to={link.to} className="link-wipe t-small">
-                        {link.label}
-                      </Link>
-                    )}
+                    <FooterLink link={link} />
                   </li>
                 ))}
               </ul>
