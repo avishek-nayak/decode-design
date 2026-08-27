@@ -248,20 +248,7 @@ function ServicesStack() {
 function SelectedWork() {
   return (
     <section className="section section--flush-top rule-t">
-      <Container>
-        <Reveal>
-          {/* TODO: point at a real case-studies page once one exists. */}
-          <Button variant="secondary" href="#" arrow>
-            Read case studies
-          </Button>
-        </Reveal>
-      </Container>
-
-      <Reveal
-        index={1}
-        className="work-treemap"
-        style={{ marginTop: 'var(--s-8)' }}
-      >
+      <Reveal className="work-treemap" style={{ marginTop: 0 }}>
         {work.map((item) => (
           <div key={item.slug} className="work-treemap__cell">
             <Placeholder
@@ -281,6 +268,13 @@ function SelectedWork() {
       </Reveal>
 
       <Container>
+        <Reveal index={1} style={{ marginTop: 'var(--s-8)' }}>
+          {/* TODO: point at a real case-studies page once one exists. */}
+          <Button variant="secondary" href="#" arrow>
+            Read case studies
+          </Button>
+        </Reveal>
+
         <Reveal
           className="marquee client-marquee"
           index={3}
