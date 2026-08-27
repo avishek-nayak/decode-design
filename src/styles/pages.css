@@ -305,17 +305,19 @@
 
 .services-stack {
   position: relative;
-  height: 560px;
+  /* Tall enough that the blurred neighbour cards read as real cards
+     above and below the active one — not just a sliver peeking in. */
+  height: 800px;
   max-width: 560px;
   overflow-y: auto;
   scroll-snap-type: y mandatory;
   scrollbar-width: none;
-  padding-block: 18%;
+  padding-block: 34%;
   mask-image: linear-gradient(
     to bottom,
     transparent,
-    black 15%,
-    black 85%,
+    black 6%,
+    black 94%,
     transparent
   );
 }
@@ -377,7 +379,7 @@
 
 @media (max-width: 640px) {
   .services-stack {
-    height: 420px;
+    height: 600px;
   }
 }
 
@@ -487,25 +489,36 @@
   border-radius: 0;
 }
 
+/* Cards read as pure imagery at rest — the scrim and title only appear
+   on hover, the title sliding up into place rather than just fading. */
 .work-treemap__overlay {
   position: absolute;
   inset: 0;
   display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  gap: var(--s-2);
+  align-items: flex-end;
+  overflow: hidden;
   padding: var(--s-6);
-  color: var(--ink-900);
   background: linear-gradient(
     to top,
-    color-mix(in srgb, var(--ink-000) 82%, transparent) 0%,
-    color-mix(in srgb, var(--ink-000) 45%, transparent) 45%,
-    transparent 85%
+    color-mix(in srgb, var(--ink-000) 80%, transparent) 0%,
+    transparent 65%
   );
+  opacity: 0;
+  transition: opacity var(--dur-mid) var(--ease-out);
 }
 
-.work-treemap__overlay .t-mono {
-  color: var(--ink-600);
+.work-treemap__cell:hover .work-treemap__overlay {
+  opacity: 1;
+}
+
+.work-treemap__title {
+  color: var(--ink-900);
+  transform: translateY(130%);
+  transition: transform var(--dur-mid) var(--ease-out);
+}
+
+.work-treemap__cell:hover .work-treemap__title {
+  transform: translateY(0);
 }
 
 @media (max-width: 767px) {

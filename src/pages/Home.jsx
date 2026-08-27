@@ -235,17 +235,9 @@ function SelectedWork() {
       <Reveal className="work-treemap" style={{ marginTop: 0 }}>
         {work.map((item) => (
           <div key={item.slug} className="work-treemap__cell">
-            <Placeholder
-              label={item.client}
-              ratio="auto"
-              className="work-treemap__image"
-            />
+            <Placeholder ratio="auto" className="work-treemap__image" />
             <div className="work-treemap__overlay">
-              <p className="t-mono subtle">
-                {item.discipline} · {item.year}
-              </p>
-              <h3 className="t-h3">{item.title}</h3>
-              <p className="t-mono">{item.result}</p>
+              <h3 className="t-h3 work-treemap__title">{item.title}</h3>
             </div>
           </div>
         ))}
