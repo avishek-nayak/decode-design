@@ -35,6 +35,7 @@
   --font-mono:
     'Space Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   --font-logo: 'Outfit', var(--font-sans);
+  --font-dot: 'DotGothic16', var(--font-mono);
 
   --fs-display: clamp(2.75rem, 6vw, 5.25rem);
   --fs-h1: clamp(2.25rem, 4.5vw, 3.5rem);

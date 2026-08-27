@@ -1,7 +1,6 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'motion/react';
-import { Wordmark } from './Wordmark';
-import { useTextScramble } from '@/hooks/useTextScramble';
+import { DotWordmark } from './DotWordmark';
 import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
 import { introWords } from '@/data/introWords';
 
@@ -26,11 +25,11 @@ function buildRows() {
 
 /**
  * First-load intro: a field of design vocabulary flies in from off-screen
- * top and bottom while the "Decode.designers" wordmark decodes itself in
- * the centre. Dismissing (click, Enter/Space, Escape, or a 4s timeout)
- * flies the word field back out and morphs the wordmark — via the
- * `site-wordmark` layoutId it shares with the header — into its resting
- * place in the nav.
+ * top and bottom while a dot-matrix "Decode.designers" wordmark rains down
+ * and settles into its letterforms in the centre (see DotWordmark).
+ * Dismissing (click, Enter/Space, Escape, or a 4s timeout) flies the word
+ * field back out and morphs the wordmark — via the `site-wordmark`
+ * layoutId it shares with the header — into its resting place in the nav.
  *
  * Shows once per browser session, on whichever page loads first, and
  * never at all under prefers-reduced-motion. Always starts closed so
@@ -46,7 +45,8 @@ export function IntroOverlay() {
   const timeoutRef = useRef(null);
 
   const rows = useMemo(() => buildRows(), []);
-  const { display, done } = useTextScramble(WORDMARK_TEXT, { skip: !show });
+  const [dotPhase, setDotPhase] = useState('idle');
+  const handleDotPhaseChange = useCallback((phase) => setDotPhase(phase), []);
 
   useEffect(() => {
     // `reduced` can read stale (false) for one render right after hydration
@@ -148,16 +148,18 @@ export function IntroOverlay() {
               onClick={dismiss}
               aria-label="Enter Decode.designers"
             >
-              <Wordmark
+              <DotWordmark
                 layoutId="site-wordmark"
                 className="intro-overlay__wordmark"
-                text={display}
+                text={WORDMARK_TEXT}
+                active={show && !closing}
+                onPhaseChange={handleDotPhaseChange}
               />
             </button>
             <motion.p
               className="t-mono subtle intro-overlay__hint"
               initial={{ opacity: 0 }}
-              animate={{ opacity: done ? 1 : 0 }}
+              animate={{ opacity: dotPhase === 'settled' ? 1 : 0 }}
               transition={{ duration: 0.3 }}
             >
               Click to enter
