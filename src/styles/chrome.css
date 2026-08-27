@@ -235,19 +235,38 @@
 
 .site-footer__nav-row {
   display: flex;
-  flex-wrap: wrap;
-  gap: var(--s-7) var(--s-6);
+  flex-direction: column;
+  gap: var(--s-6);
   margin-top: var(--s-9);
 }
 
 .site-footer__nav-col {
-  flex: 1 1 180px;
+  padding-top: var(--s-5);
+  border-top: var(--border) solid var(--hairline);
 }
 
 .site-footer__list {
-  display: grid;
-  gap: var(--s-3);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s-4);
   margin-top: var(--s-4);
+}
+
+.site-footer__list li {
+  display: flex;
+  align-items: center;
+  gap: var(--s-4);
+}
+
+/* A vertical rule between every link, including the last-visible one
+   before a wrap — omitted only after the true last item. */
+.site-footer__list li:not(:last-child)::after {
+  content: '';
+  flex-shrink: 0;
+  width: 1px;
+  height: 12px;
+  background-color: var(--hairline-strong);
 }
 
 .site-footer__list a {

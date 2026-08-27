@@ -546,6 +546,30 @@
   border-radius: var(--radius);
   overflow: hidden;
   background-color: var(--surface);
+  background-image: url('/background-with-white-technology.png');
+  background-size: cover;
+  background-position: center;
+}
+
+/* A dark scrim between the photo and the content, so the copy and button
+   stay legible over whatever the image is doing underneath them. */
+.teaching-callout::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: linear-gradient(
+    100deg,
+    color-mix(in srgb, var(--surface) 92%, transparent) 0%,
+    color-mix(in srgb, var(--surface) 70%, transparent) 60%,
+    color-mix(in srgb, var(--surface) 45%, transparent) 100%
+  );
+}
+
+.teaching-callout p,
+.teaching-callout .btn {
+  position: relative;
+  z-index: 1;
 }
 
 .teaching-callout p {
@@ -553,9 +577,9 @@
   min-width: 0;
 }
 
-/* Decorative wireframe shapes, sat behind the text. `.spotlight > *` sets
-   z-index: 1 on every direct child for the glow effect; this needs the
-   extra specificity to win that tie and stay behind, not stack on top. */
+/* Decorative wireframe shapes, sat above the photo but below the text —
+   `.spotlight > *` sets z-index: 1 on every direct child for the glow
+   effect, so this needs the extra specificity to win that tie. */
 .teaching-callout > .teaching-callout__shapes {
   position: absolute;
   inset: 0;
@@ -565,7 +589,7 @@
   fill: none;
   stroke: var(--hairline-strong);
   stroke-width: 1;
-  opacity: 0.4;
+  opacity: 0.3;
 }
 
 .teaching-callout .btn {
