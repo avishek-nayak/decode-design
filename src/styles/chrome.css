@@ -236,8 +236,8 @@
 .site-footer__nav-row {
   display: flex;
   flex-direction: column;
-  gap: var(--s-4);
-  margin-top: var(--s-7);
+  gap: var(--s-6);
+  margin-top: var(--s-9);
 }
 
 .site-footer__list {
@@ -245,7 +245,7 @@
   flex-wrap: wrap;
   align-items: center;
   gap: var(--s-4);
-  margin-top: var(--s-2);
+  margin-top: var(--s-4);
 }
 
 .site-footer__list li {

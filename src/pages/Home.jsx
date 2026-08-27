@@ -300,7 +300,7 @@ function SelectedWork() {
 function TeachingBand() {
   return (
     <section className="section">
-      <Spotlight className="teaching-callout inverse">
+      <Spotlight className="teaching-callout">
         <TeachingCalloutShapes />
         <Container className="teaching-callout__inner">
           <Reveal>

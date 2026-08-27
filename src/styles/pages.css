@@ -533,8 +533,10 @@
 }
 
 /* ---- Home: teaching callout ----------------------------------------------
-   Full-bleed, edge-to-edge — the one inverted band on the page. Same
-   100vw/negative-margin trick used by the work treemap. */
+   Full-bleed, edge-to-edge photo band — light surface tokens, so the copy
+   and button read in the charcoal ink the rest of the site uses, not
+   inverted white-on-dark. Same 100vw/negative-margin trick as the work
+   treemap. */
 
 .teaching-callout {
   /* Not just relying on Spotlight's own `.spotlight` class for this —
