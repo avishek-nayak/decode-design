@@ -251,6 +251,16 @@
 .site-footer__list li {
   display: flex;
   align-items: center;
+  gap: var(--s-4);
+}
+
+/* A vertical rule between every link in a category. */
+.site-footer__list li:not(:last-child)::after {
+  content: '';
+  flex-shrink: 0;
+  width: 1px;
+  height: 12px;
+  background-color: var(--hairline-strong);
 }
 
 .site-footer__list a {

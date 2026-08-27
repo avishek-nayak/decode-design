@@ -155,7 +155,11 @@ function ServicesPreview() {
   return (
     <section className="section" id="services">
       <Container>
-        <Grid rowGap="var(--s-8)">
+        <Reveal>
+          <Eyebrow>Services</Eyebrow>
+        </Reveal>
+
+        <Grid rowGap="var(--s-8)" style={{ marginTop: 'var(--s-8)' }}>
           <Col span={{ base: 12, lg: 5 }} className="services-preview__intro">
             <h2 className="t-h1">Design solutions that put people first.</h2>
             <Reveal>
@@ -243,10 +247,13 @@ function ServicesStack() {
 
 function SelectedWork() {
   return (
-    <section className="section rule-t">
+    <section className="section section--flush-top rule-t">
       <Container>
         <Reveal>
-          <Eyebrow>Selected work</Eyebrow>
+          {/* TODO: point at a real case-studies page once one exists. */}
+          <Button variant="secondary" href="#" arrow>
+            Read case studies
+          </Button>
         </Reveal>
       </Container>
 
@@ -299,7 +306,7 @@ function SelectedWork() {
 /** Edge-to-edge — the one inverted, full-bleed moment on the page. */
 function TeachingBand() {
   return (
-    <section className="section">
+    <section className="section section--flush">
       <Spotlight className="teaching-callout">
         <TeachingCalloutShapes />
         <Container className="teaching-callout__inner">

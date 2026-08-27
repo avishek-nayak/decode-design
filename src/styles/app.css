@@ -95,6 +95,14 @@
   padding-block: clamp(48px, 6vw, 80px);
 }
 
+.section--flush-top {
+  padding-top: 0;
+}
+
+.section--flush {
+  padding-block: 0;
+}
+
 /* Hairline rules between sections are what make the grid *read* as a grid
    rather than merely be one. Borders, never shadows. */
 .rule-t {
