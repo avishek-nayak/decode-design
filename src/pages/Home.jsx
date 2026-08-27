@@ -36,7 +36,6 @@ const jsonLd = {
 const HERO_ROTATING_WORDS = [
   'Revenue Increase',
   'Customer Conversion',
-  'Gamification in Product',
   'Growth & Scale',
 ];
 
@@ -207,6 +206,7 @@ function ServicesStack() {
       role="region"
       aria-label="Services, scroll vertically"
       tabIndex={0}
+      data-lenis-prevent
     >
       {services.map((service) => (
         <Link
@@ -218,7 +218,7 @@ function ServicesStack() {
             service.slug === activeSlug && 'is-active',
           )}
         >
-          <Placeholder ratio="4 / 3" className="services-stack__image" />
+          <Placeholder ratio="16 / 9" className="services-stack__image" />
           <div className="services-stack__overlay">
             <h3 className="t-h3">{service.title}</h3>
             <p className="t-small">{service.outcome}</p>
@@ -235,7 +235,16 @@ function SelectedWork() {
       <Reveal className="work-treemap" style={{ marginTop: 0 }}>
         {work.map((item) => (
           <div key={item.slug} className="work-treemap__cell">
-            <Placeholder ratio="auto" className="work-treemap__image" />
+            {item.image ? (
+              <img
+                src={item.image}
+                alt=""
+                loading="lazy"
+                className="work-treemap__image"
+              />
+            ) : (
+              <Placeholder ratio="auto" className="work-treemap__image" />
+            )}
             <div className="work-treemap__overlay">
               <h3 className="t-h3 work-treemap__title">{item.title}</h3>
             </div>

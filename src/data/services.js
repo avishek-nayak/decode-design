@@ -308,6 +308,7 @@ export const work = [
     discipline: 'Fintech · UX Audit',
     result: '+34% activation',
     year: '2025',
+    image: '/work-fintech-onboarding.jpg',
   },
   {
     slug: 'saas-analytics',
@@ -316,6 +317,7 @@ export const work = [
     discipline: 'B2B SaaS · Product Design',
     result: '2.1× weekly active use',
     year: '2025',
+    image: '/work-saas-analytics.jpg',
   },
   {
     slug: 'healthcare-system',
@@ -324,6 +326,7 @@ export const work = [
     discipline: 'Healthcare · Design Systems',
     result: '−60% design debt',
     year: '2024',
+    image: '/work-healthcare-system.jpg',
   },
   {
     slug: 'marketplace-mvp',
@@ -332,5 +335,6 @@ export const work = [
     discipline: 'Marketplace · MVP',
     result: 'Seed round closed',
     year: '2024',
+    image: '/work-marketplace-mvp.jpg',
   },
 ];
