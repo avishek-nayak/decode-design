@@ -170,22 +170,64 @@ function ServicesPreview() {
   );
 }
 
+// Three back-to-back copies of the list, so there's always a full cycle
+// of cards to scroll into on either side — see the recentring effect
+// below for how this reads as an endless loop rather than three laps.
+const STACK_COPIES = 3;
+const stackItems = Array.from({ length: STACK_COPIES }, (_, copy) =>
+  services.map((service, i) => ({
+    ...service,
+    key: `${copy}-${service.slug}`,
+    index: copy * services.length + i,
+  })),
+).flat();
+
 /** A vertical, scroll-snapped card stack: whichever card sits at the
  * centre is sharp, everything above and below is blurred back — a sense
- * of depth instead of a flat scrolling row. */
+ * of depth instead of a flat scrolling row. Loops endlessly in both
+ * directions: three copies of the list are rendered, and whenever the
+ * active card drifts into the first or last copy, the scroll position is
+ * silently jumped back by one cycle onto the identical card in the middle
+ * copy — imperceptible, since the content either side is the same. */
 function ServicesStack() {
   const stackRef = useRef(null);
-  const [activeSlug, setActiveSlug] = useState(services[0]?.slug);
+  const cardRefs = useRef([]);
+  const [activeIndex, setActiveIndex] = useState(services.length);
 
   useEffect(() => {
     const stack = stackRef.current;
     if (!stack) return undefined;
 
+    // Start centred in the middle copy, so there's room to scroll both
+    // up and down before ever touching a real edge.
+    const first = cardRefs.current[0];
+    const middle = cardRefs.current[services.length];
+    if (first && middle) {
+      const cycleHeight =
+        middle.getBoundingClientRect().top - first.getBoundingClientRect().top;
+      stack.scrollTop += cycleHeight;
+    }
+
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting && entry.intersectionRatio > 0.6) {
-            setActiveSlug(entry.target.dataset.slug);
+          if (!entry.isIntersecting || entry.intersectionRatio <= 0.6) return;
+
+          const index = Number(entry.target.dataset.index);
+          const copy = Math.floor(index / services.length);
+          setActiveIndex(index);
+
+          if (copy === 0 || copy === STACK_COPIES - 1) {
+            const twin = cardRefs.current[index + (copy === 0 ? services.length : -services.length)];
+            if (!twin) return;
+            const cycleHeight =
+              twin.getBoundingClientRect().top - entry.target.getBoundingClientRect().top;
+            // Runs after the browser's own snap settles, so the jump
+            // lands on a clean, un-animated scrollTop write.
+            requestAnimationFrame(() => {
+              stack.scrollTop += cycleHeight;
+              setActiveIndex((i) => (i === index ? index + (copy === 0 ? services.length : -services.length) : i));
+            });
           }
         });
       },
@@ -193,7 +235,7 @@ function ServicesStack() {
     );
 
     stack
-      .querySelectorAll('[data-slug]')
+      .querySelectorAll('[data-index]')
       .forEach((card) => observer.observe(card));
 
     return () => observer.disconnect();
@@ -208,14 +250,19 @@ function ServicesStack() {
       tabIndex={0}
       data-lenis-prevent
     >
-      {services.map((service) => (
+      {stackItems.map((service) => (
         <Link
-          key={service.slug}
+          key={service.key}
+          ref={(el) => {
+            cardRefs.current[service.index] = el;
+          }}
           to={`/services/${service.slug}`}
-          data-slug={service.slug}
+          data-index={service.index}
+          aria-hidden={service.index !== activeIndex || undefined}
+          tabIndex={service.index === activeIndex ? 0 : -1}
           className={clsx(
             'services-stack__card',
-            service.slug === activeSlug && 'is-active',
+            service.index === activeIndex && 'is-active',
           )}
         >
           <Placeholder ratio="16 / 9" className="services-stack__image" />
