@@ -245,6 +245,12 @@
   border-color: var(--hairline-strong);
 }
 
+/* ---- Home: in-house products ---------------------------------------- */
+
+.product-card .placeholder {
+  border-radius: var(--radius);
+}
+
 /* ---- Home: hero --------------------------------------------------------- */
 
 .hero {
@@ -527,8 +533,8 @@
 }
 
 /* ---- Home: teaching callout ----------------------------------------------
-   A small, contained box — not a full-bleed band — so it reads as a single
-   callout rather than a whole section given over to it. */
+   Full-bleed, edge-to-edge — the one inverted band on the page. Same
+   100vw/negative-margin trick used by the work treemap. */
 
 .teaching-callout {
   /* Not just relying on Spotlight's own `.spotlight` class for this —
@@ -536,17 +542,11 @@
      reduced motion or touch, which would leave the absolutely-positioned
      shapes below with no containing block and escape to the page root. */
   position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--s-5);
-  max-width: 1140px;
-  margin-inline: auto;
-  padding: var(--s-6) var(--s-7);
-  border-radius: var(--radius);
+  width: 100vw;
+  margin-inline: calc(50% - 50vw);
   overflow: hidden;
   background-color: var(--surface);
-  background-image: url('/background-with-white-technology.png');
+  background-image: url('/decode.jpg');
   background-size: cover;
   background-position: center;
 }
@@ -566,13 +566,17 @@
   );
 }
 
-.teaching-callout p,
-.teaching-callout .btn {
+.teaching-callout__inner {
   position: relative;
   z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-5);
+  padding-block: var(--s-8);
 }
 
-.teaching-callout p {
+.teaching-callout__inner p {
   flex: 1 1 auto;
   min-width: 0;
 }
@@ -592,19 +596,19 @@
   opacity: 0.3;
 }
 
-.teaching-callout .btn {
+.teaching-callout__inner .btn {
   flex-shrink: 0;
 }
 
 @media (max-width: 640px) {
-  .teaching-callout {
-    padding: var(--s-5);
+  .teaching-callout__inner {
     gap: var(--s-4);
+    padding-block: var(--s-7);
   }
 
   /* Stays beside the text rather than dropping below it, even at the
      narrowest widths — wraps its own label onto two lines instead. */
-  .teaching-callout .btn {
+  .teaching-callout__inner .btn {
     flex-basis: 130px;
     max-width: 130px;
     white-space: normal;

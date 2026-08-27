@@ -11,6 +11,7 @@ import { Placeholder } from '@/components/ui/Placeholder';
 import { Spotlight } from '@/components/ui/Spotlight';
 import { Seo } from '@/components/ui/Seo';
 import { services, work } from '@/data/services';
+import { products } from '@/data/products';
 import { clients, contact, site } from '@/data/siteConfig';
 import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
 
@@ -47,6 +48,7 @@ export default function Home() {
       <ServicesPreview />
       <SelectedWork />
       <TeachingBand />
+      <InHouseProducts />
     </>
   );
 }
@@ -294,14 +296,13 @@ function SelectedWork() {
   );
 }
 
-/** A small, contained callout — not full-bleed — rather than a full
- * inverted band. It is still the one inverted moment on the page. */
+/** Edge-to-edge — the one inverted, full-bleed moment on the page. */
 function TeachingBand() {
   return (
     <section className="section">
-      <Container>
-        <Spotlight className="teaching-callout inverse">
-          <TeachingCalloutShapes />
+      <Spotlight className="teaching-callout inverse">
+        <TeachingCalloutShapes />
+        <Container className="teaching-callout__inner">
           <Reveal>
             <p className="t-body-lg">
               Are you the next upcoming digital geek looking to build on
@@ -314,8 +315,8 @@ function TeachingBand() {
               Join the waitlist now
             </Button>
           </Reveal>
-        </Spotlight>
-      </Container>
+        </Container>
+      </Spotlight>
     </section>
   );
 }
@@ -338,6 +339,38 @@ function TeachingCalloutShapes() {
       <line x1="480" y1="310" x2="760" y2="130" />
       <path d="M 500 0 L 500 300" strokeDasharray="2 10" />
     </svg>
+  );
+}
+
+/** The studio's own products, built and run alongside client work. */
+function InHouseProducts() {
+  return (
+    <section className="section rule-t">
+      <Container>
+        <Reveal>
+          <Eyebrow>In house Products</Eyebrow>
+        </Reveal>
+
+        <Grid rowGap="var(--s-6)" style={{ marginTop: 'var(--s-8)' }}>
+          {products.map((product, i) => (
+            <Col key={product.slug} span={{ base: 12, md: 4 }}>
+              <Reveal index={i} style={{ height: '100%' }}>
+                <a
+                  href={product.href}
+                  className="mini-card product-card"
+                  target={product.href.startsWith('http') ? '_blank' : undefined}
+                  rel={product.href.startsWith('http') ? 'noreferrer noopener' : undefined}
+                >
+                  <Placeholder ratio="4 / 3" />
+                  <h3 className="t-h3">{product.title}</h3>
+                  <p className="t-body muted">{product.tagline}</p>
+                </a>
+              </Reveal>
+            </Col>
+          ))}
+        </Grid>
+      </Container>
+    </section>
   );
 }
 
