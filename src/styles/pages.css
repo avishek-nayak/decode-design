@@ -245,10 +245,27 @@
   border-color: var(--hairline-strong);
 }
 
-/* ---- Home: in-house products ---------------------------------------- */
+/* ---- Home: in-house products ---------------------------------------------
+   Full-bleed video banner — same 100vw/negative-margin technique as the
+   work treemap and the Learn callout. */
 
-.product-card .placeholder {
-  border-radius: var(--radius);
+.product-video {
+  width: 100vw;
+  margin-inline: calc(50% - 50vw);
+}
+
+.product-video__player {
+  display: block;
+  width: 100%;
+  aspect-ratio: 21 / 9;
+  background-color: var(--ink-800);
+  color: var(--text-subtle);
+}
+
+@media (max-width: 640px) {
+  .product-video__player {
+    aspect-ratio: 4 / 3;
+  }
 }
 
 /* ---- Home: hero --------------------------------------------------------- */

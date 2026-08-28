@@ -81,7 +81,7 @@ export function Header() {
             className="site-header__logo"
             aria-label={`${site.name}, home`}
           >
-            <Wordmark layoutId="site-wordmark" />
+            <Wordmark />
           </Link>
 
           <nav className="site-header__nav" aria-label="Primary">

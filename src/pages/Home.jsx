@@ -11,7 +11,6 @@ import { Placeholder } from '@/components/ui/Placeholder';
 import { Spotlight } from '@/components/ui/Spotlight';
 import { Seo } from '@/components/ui/Seo';
 import { services, work } from '@/data/services';
-import { products } from '@/data/products';
 import { clients, contact, site } from '@/data/siteConfig';
 import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
 import { useScrambleText } from '@/hooks/useScrambleText';
@@ -376,6 +375,8 @@ function TeachingCalloutShapes() {
 }
 
 /** The studio's own products, built and run alongside client work. */
+/** Full-bleed video banner, edge to edge — same 100vw trick as the work
+ * treemap and the Learn callout. */
 function InHouseProducts() {
   return (
     <section className="section rule-t">
@@ -383,26 +384,20 @@ function InHouseProducts() {
         <Reveal>
           <Eyebrow>In house Products</Eyebrow>
         </Reveal>
-
-        <Grid rowGap="var(--s-6)" style={{ marginTop: 'var(--s-8)' }}>
-          {products.map((product, i) => (
-            <Col key={product.slug} span={{ base: 12, md: 4 }}>
-              <Reveal index={i} style={{ height: '100%' }}>
-                <a
-                  href={product.href}
-                  className="mini-card product-card"
-                  target={product.href.startsWith('http') ? '_blank' : undefined}
-                  rel={product.href.startsWith('http') ? 'noreferrer noopener' : undefined}
-                >
-                  <Placeholder ratio="4 / 3" />
-                  <h3 className="t-h3">{product.title}</h3>
-                  <p className="t-body muted">{product.tagline}</p>
-                </a>
-              </Reveal>
-            </Col>
-          ))}
-        </Grid>
       </Container>
+
+      <Reveal index={1} className="product-video" style={{ marginTop: 'var(--s-8)' }}>
+        <video
+          className="product-video__player"
+          controls
+          playsInline
+          preload="none"
+        >
+          {/* TODO: add the product reel once it's ready, e.g.
+              <source src="/product-reel.mp4" type="video/mp4" /> */}
+          Your browser does not support embedded video.
+        </video>
+      </Reveal>
     </section>
   );
 }
