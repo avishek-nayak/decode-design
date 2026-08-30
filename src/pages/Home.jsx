@@ -374,9 +374,9 @@ function TeachingCalloutShapes() {
   );
 }
 
-/** The studio's own products, built and run alongside client work. */
-/** Full-bleed video banner, edge to edge — same 100vw trick as the work
- * treemap and the Learn callout. */
+/** Full-bleed media banner, edge to edge — same 100vw trick as the work
+ * treemap and the Learn callout. Empty for now; drop a video or GIF into
+ * .product-video__media once the asset is ready. */
 function InHouseProducts() {
   return (
     <section className="section rule-t">
@@ -387,16 +387,7 @@ function InHouseProducts() {
       </Container>
 
       <Reveal index={1} className="product-video" style={{ marginTop: 'var(--s-8)' }}>
-        <video
-          className="product-video__player"
-          controls
-          playsInline
-          preload="none"
-        >
-          {/* TODO: add the product reel once it's ready, e.g.
-              <source src="/product-reel.mp4" type="video/mp4" /> */}
-          Your browser does not support embedded video.
-        </video>
+        <div className="product-video__media" />
       </Reveal>
     </section>
   );
