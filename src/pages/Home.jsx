@@ -337,9 +337,8 @@ function TeachingBand() {
         <Container className="teaching-callout__inner">
           <Reveal>
             <p className="t-body-lg">
-              Are you the next upcoming digital geek looking to build on
-              sustainability development for the betterment of the world,
-              then this cohort is for you.
+              Join our Design Cohort & understand the design decision in
+              business
             </p>
           </Reveal>
           <Reveal index={1}>
