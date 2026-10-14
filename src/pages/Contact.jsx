@@ -44,7 +44,7 @@ export default function Contact() {
       <Seo
         title="Contact"
         path="/contact"
-        description="Start a design engagement or ask a question about the courses. Every enquiry gets a reply within one working day."
+        description="Start a design engagement or ask a question. Every enquiry gets a reply within one working day."
       />
 
       <section className="section rule-b">

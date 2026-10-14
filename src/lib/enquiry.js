@@ -21,7 +21,6 @@ export const projectTypes = [
   { value: 'prototype', label: 'Prototyping & micro-interactions' },
   { value: 'strategy', label: 'Deep UX strategy' },
   { value: 'behavioural', label: 'Behavioural design' },
-  { value: 'course', label: 'Course enquiry' },
   { value: 'other', label: 'Something else' },
 ];
 

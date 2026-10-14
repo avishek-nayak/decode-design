@@ -13,7 +13,7 @@ export const privacySections = [
     id: 'overview',
     title: 'Overview',
     body: [
-      'This policy explains what personal data Decode.designers collects, why it is collected, how it is used, and what rights you have over it. It applies to this website and to the consulting and course services offered through it.',
+      'This policy explains what personal data Decode.designers collects, why it is collected, how it is used, and what rights you have over it. It applies to this website and to the consulting services offered through it.',
       'Placeholder text. Replace this section with a policy reviewed by a qualified professional before launch.',
     ],
   },
@@ -21,13 +21,12 @@ export const privacySections = [
     id: 'data-we-collect',
     title: 'Data we collect',
     body: [
-      'Information you give us directly: your name, email address, company, budget range and project details when you submit the enquiry form; and your billing details when you enrol in a course.',
+      'Information you give us directly: your name, email address, company, budget range and project details when you submit the enquiry form; and your billing details when you purchase a service.',
       'Information collected automatically: basic analytics such as pages visited, referring source, approximate region, and device or browser type. No advertising trackers are used on this site.',
     ],
     list: [
       'Contact details submitted through the enquiry form',
       'Billing and invoicing details for purchases',
-      'Course progress and submitted coursework',
       'Aggregate, non-identifying site analytics',
     ],
   },
@@ -35,7 +34,7 @@ export const privacySections = [
     id: 'how-we-use-it',
     title: 'How we use it',
     body: [
-      'Your data is used to respond to enquiries, deliver the services you have paid for, issue invoices, meet tax and accounting obligations, and — only where you have opted in — send occasional updates about courses.',
+      'Your data is used to respond to enquiries, deliver the services you have paid for, issue invoices, meet tax and accounting obligations, and — only where you have opted in — send occasional updates about new services.',
       'Your data is never sold. It is not shared with third parties except the processors listed below, and only to the extent needed to deliver the service.',
     ],
   },
@@ -50,14 +49,13 @@ export const privacySections = [
       'Email delivery for transactional messages',
       'Payment processing (provider to be confirmed at launch)',
       'Privacy-respecting website analytics',
-      'Course platform hosting and video delivery',
     ],
   },
   {
     id: 'retention',
     title: 'Retention',
     body: [
-      'Enquiry data is retained for 24 months from last contact. Financial records are retained for eight years, as required under Indian tax law. Course accounts and coursework are retained for the duration of your access plus twelve months.',
+      'Enquiry data is retained for 24 months from last contact. Financial records are retained for eight years, as required under Indian tax law.',
     ],
   },
   {
@@ -86,7 +84,7 @@ export const privacySections = [
     id: 'changes',
     title: 'Changes to this policy',
     body: [
-      'This policy may be updated as the services change. The revision date at the top of the page always reflects the current version. Material changes affecting existing clients or students will be communicated by email.',
+      'This policy may be updated as the services change. The revision date at the top of the page always reflects the current version. Material changes affecting existing clients will be communicated by email.',
     ],
   },
   {

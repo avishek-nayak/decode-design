@@ -21,8 +21,7 @@ export default function NotFound() {
                 style={{ marginTop: 'var(--s-6)' }}
               >
                 The link may be out of date, or the page may have moved. The
-                services and courses are the two things most people are looking
-                for.
+                services page is the most likely thing you are looking for.
               </p>
               <div
                 className="hero__actions"

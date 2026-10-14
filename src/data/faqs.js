@@ -32,42 +32,12 @@ export const faqGroups = [
     ],
   },
   {
-    id: 'courses',
-    title: 'Courses',
-    faqs: [
-      {
-        q: 'Do I need design experience to start?',
-        a: 'Not for UX Foundations, Design Fundamentals or Accessibility — those assume nothing. Product Design assumes you already design interfaces and want to work effectively inside a product team.',
-      },
-      {
-        q: 'What software do I need?',
-        a: 'Figma, on the free tier, is enough for everything. Any additional tools used in a module have a free option, and none of them are mandatory.',
-      },
-      {
-        q: 'How much time should I budget?',
-        a: 'Between four and eight hours a week depending on the course. Cohort courses have fixed live sessions; self-paced courses do not, but the weekly critique deadline is what keeps people finishing.',
-      },
-      {
-        q: 'Is there a certificate?',
-        a: 'Yes, on completion. Be realistic about it though — the portfolio case study you build during the course is what actually gets you hired.',
-      },
-      {
-        q: 'What happens if I miss a live session?',
-        a: 'Every session is recorded and available within 24 hours, and you keep access for twelve months. Critique can be submitted asynchronously if you cannot attend live.',
-      },
-      {
-        q: 'Do you offer scholarships?',
-        a: 'A number of need-based places are set aside for each cohort. Write in with your situation before enrolment opens.',
-      },
-    ],
-  },
-  {
     id: 'payments',
     title: 'Payments & policies',
     faqs: [
       {
         q: 'How do payments work?',
-        a: 'Courses are paid up front at enrolment. Consulting engagements are billed 50% on signature and 50% on delivery, or monthly in advance for retainers.',
+        a: 'Consulting engagements are billed 50% on signature and 50% on delivery, or monthly in advance for retainers.',
       },
       {
         q: 'Which payment methods are accepted?',
@@ -75,15 +45,11 @@ export const faqGroups = [
       },
       {
         q: 'What is the refund policy?',
-        a: 'Courses can be refunded in full within seven days of the cohort start, provided no more than two modules have been accessed. Consulting deposits are non-refundable once the engagement has begun, since the time is reserved.',
+        a: 'Consulting deposits are non-refundable once the engagement has begun, since the time is reserved.',
       },
       {
         q: 'Do you invoice with GST?',
         a: 'Yes. A GST invoice is issued for every payment. International clients are invoiced in USD under export-of-services provisions.',
-      },
-      {
-        q: 'Can my employer pay for a course?',
-        a: 'Frequently the case. Request a pro-forma invoice at checkout and it will be raised against your company details, with a purchase order accommodated if needed.',
       },
     ],
   },

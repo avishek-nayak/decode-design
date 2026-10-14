@@ -23,7 +23,7 @@ export function RootLayout() {
   // Skipped on first render on purpose: focusing <main> on load would put the
   // skip link and the entire header behind the user's first Tab press, which
   // is the opposite of what a skip link is for. A hash link is left alone too,
-  // so /faq#courses still lands where it should.
+  // so /faq#payments still lands where it should.
   useEffect(() => {
     if (isFirstRender.current) {
       isFirstRender.current = false;
@@ -47,7 +47,7 @@ export function RootLayout() {
       {/*
         popLayout lets the entering page mount while the previous one is
         still fading out, without the exiting page pushing new content down —
-        which is also what makes the shared-element morph on service/course
+        which is also what makes the shared-element morph on service
         titles possible: Motion tracks matching layoutId nodes across both
         trees for the one frame they briefly coexist. Neutralised to an
         instant swap under reduced motion.

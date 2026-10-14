@@ -1,30 +1,9 @@
 /**
  * Purchasable plans for the checkout page.
  *
- * Course plans are derived from courses.js so a price is never stated twice.
- * `amount` is in minor units (paise) — the payment adapter expects minor units,
- * which is what every gateway (Razorpay, Stripe) actually wants.
+ * `amount` is in minor units (paise) — the payment adapter expects minor
+ * units, which is what every gateway (Razorpay, Stripe) actually wants.
  */
-
-import { courses } from './courses';
-
-const coursePlans = courses.map((course) => ({
-  id: `course-${course.slug}`,
-  kind: 'course',
-  name: course.title,
-  description: course.subtitle,
-  amount: course.priceValue,
-  currency: course.currency,
-  billing: 'One-time',
-  meta: [course.duration, course.level, `${course.modules} modules`],
-  includes: [
-    'Full course access for 12 months',
-    'Weekly written and live critique',
-    'Portfolio-grade capstone project',
-    'Certificate on completion',
-    'Private cohort community',
-  ],
-}));
 
 const consultingPlans = [
   {
@@ -61,11 +40,11 @@ const consultingPlans = [
   },
 ];
 
-export const plans = [...coursePlans, ...consultingPlans];
+export const plans = consultingPlans;
 
 export const getPlan = (id) => plans.find((p) => p.id === id);
 
-export const defaultPlanId = coursePlans[0].id;
+export const defaultPlanId = consultingPlans[0].id;
 
 /** Formats minor units for display, e.g. 1499900 → "₹14,999". */
 export function formatAmount(amount, currency = 'INR') {

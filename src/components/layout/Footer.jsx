@@ -3,17 +3,12 @@ import { Button } from '@/components/ui/Button';
 import { AuditLeadForm } from '@/components/ui/AuditLeadForm';
 import { contact, footerNav, site } from '@/data/siteConfig';
 import { services } from '@/data/services';
-import { courses } from '@/data/courses';
 import { useScrambleHover } from '@/hooks/useScrambleHover';
 
 const footerGroups = [
   {
     title: 'Services',
     links: services.map((s) => ({ label: s.title, to: `/services/${s.slug}` })),
-  },
-  {
-    title: 'Educate yourself',
-    links: courses.map((c) => ({ label: c.title, to: `/courses/${c.slug}` })),
   },
   ...footerNav,
 ];

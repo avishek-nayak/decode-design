@@ -4,7 +4,6 @@ import App from './App';
 import { MetaSink } from './components/ui/Seo';
 import { metaToHtml, resolveMeta } from './lib/meta';
 import { services } from './data/services';
-import { courses } from './data/courses';
 
 /** Every URL that gets a static HTML file at build time. */
 export function getStaticPaths() {
@@ -12,8 +11,6 @@ export function getStaticPaths() {
     '/',
     '/services',
     ...services.map((s) => `/services/${s.slug}`),
-    '/courses',
-    ...courses.map((c) => `/courses/${c.slug}`),
     '/about',
     '/faq',
     '/contact',

@@ -13,7 +13,7 @@ export const termsSections = [
     id: 'overview',
     title: 'Overview',
     body: [
-      'These terms govern use of this website and the consulting and course services offered through it. By engaging Decode.designers or enrolling in a course, you agree to the terms below.',
+      'These terms govern use of this website and the consulting services offered through it. By engaging Decode.designers, you agree to the terms below.',
       'Placeholder text. Replace this section with terms reviewed by a qualified professional before launch.',
     ],
   },
@@ -26,19 +26,11 @@ export const termsSections = [
     ],
   },
   {
-    id: 'courses',
-    title: 'Courses',
-    body: [
-      'Course access is granted for the duration stated at enrolment. Coursework, recordings and materials are for personal, non-commercial use and may not be redistributed.',
-      'Cohort-based courses have fixed start dates; self-paced access begins immediately on payment confirmation.',
-    ],
-  },
-  {
     id: 'payments',
     title: 'Payments and refunds',
     body: [
       'Fees are payable in advance unless otherwise agreed in a signed proposal. Applicable taxes are added at checkout.',
-      'Refund eligibility, where offered, is stated at the point of purchase for each service or course.',
+      'Refund eligibility, where offered, is stated at the point of purchase for each service.',
     ],
   },
   {
@@ -46,7 +38,6 @@ export const termsSections = [
     title: 'Intellectual property',
     body: [
       'Deliverables produced under a paid consulting engagement transfer to the client on full payment, except for pre-existing tools, components and methods, which remain the property of Decode.designers and are licensed for the client’s use.',
-      'Course materials remain the property of Decode.designers at all times.',
     ],
   },
   {
@@ -60,7 +51,7 @@ export const termsSections = [
     id: 'changes',
     title: 'Changes to these terms',
     body: [
-      'These terms may be updated as the services change. The revision date at the top of the page always reflects the current version. Material changes affecting existing clients or students will be communicated by email.',
+      'These terms may be updated as the services change. The revision date at the top of the page always reflects the current version. Material changes affecting existing clients will be communicated by email.',
     ],
   },
   {

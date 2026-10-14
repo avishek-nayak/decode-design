@@ -2,13 +2,11 @@
 
 export const intro = {
   eyebrow: 'About',
-  heading:
-    'I design software that people can actually use, and teach other designers how.',
+  heading: 'I design software that people can actually use.',
   lead: 'Decode.designers is a one-person practice with a small network of specialists brought in when the work needs them. Placeholder biography — replace this paragraph with the real version.',
   body: [
     'I have spent the last seven years designing digital products — fintech, B2B SaaS, healthcare, marketplaces. Most of that time was spent on the unglamorous surfaces: settings, permissions, data tables, billing. The screens nobody demos, and the screens where products quietly lose their users.',
     'The practice exists because I kept meeting teams with the same problem. They had designers, they had a roadmap, they were shipping — and none of it was moving. Almost always the failure was upstream: an unclear problem, an interface with no system underneath it, or a growth tactic that worked once and cost trust every time after.',
-    'The teaching started as an accident. I wrote up how I actually work for a junior designer on a client team, and enough people asked for it that it became a course. It has since run for several cohorts. Everything taught comes out of live client work — it is the same method, written down.',
   ],
 };
 
@@ -17,7 +15,7 @@ export const timeline = [
     period: '2024 — now',
     title: 'Decode.designers',
     role: 'Founder & Principal Designer',
-    body: 'Independent consultancy across MVP design, UX audit, design systems and behavioural design. Courses running alongside.',
+    body: 'Independent consultancy across MVP design, UX audit, design systems and behavioural design.',
   },
   {
     period: '2022 — 2024',

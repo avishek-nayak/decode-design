@@ -10,7 +10,7 @@ export default function Terms() {
       <Seo
         title="Terms & conditions"
         path="/terms"
-        description="The terms that govern use of this website and the consulting and course services offered through it."
+        description="The terms that govern use of this website and the consulting services offered through it."
       />
 
       <section className="section rule-b">

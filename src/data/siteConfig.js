@@ -8,9 +8,9 @@ export const site = {
   shortName: 'Decode',
   // TODO: replace with the production domain once the site is live.
   url: 'https://decode.designers',
-  tagline: 'Digital design consultancy & design education',
+  tagline: 'Digital design consultancy',
   description:
-    'Decode.designers is a digital product design practice. We ship MVPs, audit and repair broken UX, build design systems, and teach designers the fundamentals behind the work.',
+    'Decode.designers is a digital product design practice. We ship MVPs, audit and repair broken UX, and build design systems.',
   locale: 'en_IN',
   founded: 2019,
 };
@@ -35,7 +35,6 @@ export const socials = [
 
 export const nav = [
   { label: 'Services', to: '/services' },
-  { label: 'Learn', to: '/courses' },
   { label: 'Contact', to: '/contact' },
 ];
 

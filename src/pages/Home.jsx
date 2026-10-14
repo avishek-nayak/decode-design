@@ -8,7 +8,6 @@ import { Eyebrow } from '@/components/ui/Eyebrow';
 import { Reveal } from '@/components/ui/Reveal';
 import { SplitReveal } from '@/components/ui/SplitReveal';
 import { Placeholder } from '@/components/ui/Placeholder';
-import { Spotlight } from '@/components/ui/Spotlight';
 import { Seo } from '@/components/ui/Seo';
 import { services, work } from '@/data/services';
 import { clients, contact, site } from '@/data/siteConfig';
@@ -46,7 +45,6 @@ export default function Home() {
       <Hero />
       <ServicesPreview />
       <SelectedWork />
-      <TeachingBand />
       <InHouseProducts />
     </>
   );
@@ -328,53 +326,8 @@ function SelectedWork() {
   );
 }
 
-/** Edge-to-edge — the one inverted, full-bleed moment on the page. */
-function TeachingBand() {
-  return (
-    <section className="section section--flush">
-      <Spotlight className="teaching-callout">
-        <TeachingCalloutShapes />
-        <Container className="teaching-callout__inner">
-          <Reveal>
-            <p className="t-body-lg">
-              Join our Design Cohort & understand the design decision in
-              business
-            </p>
-          </Reveal>
-          <Reveal index={1}>
-            <Button variant="primary" to="/courses" arrow>
-              Join the waitlist now
-            </Button>
-          </Reveal>
-        </Container>
-      </Spotlight>
-    </section>
-  );
-}
-
-/** Decorative wireframe shapes — subtle grey, sits behind the text. */
-function TeachingCalloutShapes() {
-  return (
-    <svg
-      className="teaching-callout__shapes"
-      viewBox="0 0 900 300"
-      preserveAspectRatio="xMidYMid slice"
-      aria-hidden="true"
-      focusable="false"
-    >
-      <circle cx="780" cy="50" r="80" />
-      <circle cx="700" cy="230" r="34" />
-      <polygon points="830,130 872,160 830,190 788,160" />
-      <rect x="600" y="30" width="44" height="44" transform="rotate(45 622 52)" />
-      <line x1="560" y1="-10" x2="900" y2="140" />
-      <line x1="480" y1="310" x2="760" y2="130" />
-      <path d="M 500 0 L 500 300" strokeDasharray="2 10" />
-    </svg>
-  );
-}
-
 /** Full-bleed media banner, edge to edge — same 100vw trick as the work
- * treemap and the Learn callout. Empty for now; drop a video or GIF into
+ * treemap. Empty for now; drop a video or GIF into
  * .product-video__media once the asset is ready. */
 function InHouseProducts() {
   return (

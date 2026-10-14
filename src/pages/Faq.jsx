@@ -23,7 +23,7 @@ export default function Faq() {
       <Seo
         title="FAQ"
         path="/faq"
-        description="Common questions about consulting engagements, courses, payments and refund policies at Decode.designers."
+        description="Common questions about consulting engagements, payments and refund policies at Decode.designers."
         jsonLd={jsonLd}
       />
 
@@ -75,7 +75,7 @@ export default function Faq() {
       <CTABand
         eyebrow="Still unclear"
         title="Ask the thing this page did not answer."
-        body="Questions about scope, timelines, pricing or whether a course is the right level — all fine. You will get a straight answer rather than a sales call."
+        body="Questions about scope, timelines or pricing — all fine. You will get a straight answer rather than a sales call."
       />
     </>
   );

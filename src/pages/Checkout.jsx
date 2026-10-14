@@ -98,7 +98,7 @@ export default function Checkout() {
       <Seo
         title="Checkout"
         path="/checkout"
-        description="Enrol in a Decode.designers course or reserve a consulting engagement."
+        description="Reserve a consulting engagement with Decode.designers."
       />
 
       <section className="section rule-b">
@@ -345,8 +345,7 @@ function ConfirmationState({ plan, total, result }) {
           <p className="t-mono subtle">Reference {result.checkoutId}</p>
           <p className="t-h2">{plan.name} is confirmed.</p>
           <p className="t-body muted measure">
-            A receipt and joining instructions are on their way to the email
-            address you gave. Course access opens the day the cohort starts;
+            A receipt is on their way to the email address you gave, and
             consulting engagements are followed up with a scheduling link.
           </p>
           <dl className="summary__lines" style={{ maxWidth: '360px' }}>
@@ -362,8 +361,8 @@ function ConfirmationState({ plan, total, result }) {
             </p>
           ) : null}
           <div className="enrol-card__actions">
-            <Button variant="primary" to="/courses" arrow>
-              Back to courses
+            <Button variant="primary" to="/services" arrow>
+              Back to services
             </Button>
             <Button variant="secondary" to="/">
               Home

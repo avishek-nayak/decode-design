@@ -23,7 +23,7 @@ export default function About() {
       <Seo
         title="About"
         path="/about"
-        description="Decode.designers is an independent product design practice — seven years of fintech, B2B SaaS, healthcare and marketplace work, now consulting and teaching."
+        description="Decode.designers is an independent product design practice — seven years of fintech, B2B SaaS, healthcare and marketplace work."
         jsonLd={jsonLd}
       />
 
