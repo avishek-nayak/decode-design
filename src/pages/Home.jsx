@@ -1,12 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { motion, useScroll, useTransform } from 'motion/react';
+import { motion, useMotionTemplate, useScroll, useTransform } from 'motion/react';
 import clsx from 'clsx';
 import { Container, Grid, Col } from '@/components/layout/Grid';
 import { Button } from '@/components/ui/Button';
 import { Eyebrow } from '@/components/ui/Eyebrow';
 import { Reveal } from '@/components/ui/Reveal';
-import { SplitReveal } from '@/components/ui/SplitReveal';
 import { Placeholder } from '@/components/ui/Placeholder';
 import { Seo } from '@/components/ui/Seo';
 import { services, work } from '@/data/services';
@@ -52,61 +51,125 @@ export default function Home() {
 
 /* -------------------------------------------------------------------------- */
 
+const HERO_WORDS = ['DESIGN', 'THAT', 'DECODES'];
+const HERO_LETTER_COUNT = HERO_WORDS.join('').length;
+
+// The share of the pinned scroll range spent writing the title. The rest
+// is dwell, so the finished headline holds for a beat before the page
+// moves on.
+const WRITE_START = 0.02;
+const WRITE_END = 0.72;
+
 /**
- * The hero scrubs directly against scroll position as it exits — not a
- * one-shot reveal, but tied to how far the user has actually scrolled.
- * Neutralised (identity ranges) under reduced motion; the hooks are still
- * called so this never violates the rules of hooks.
+ * The hero pins while the visitor scrolls through it, and that scroll
+ * writes "DESIGN THAT DECODES" one letter at a time: each glyph is wiped
+ * in left-to-right behind a pen caret, over a faint ghost of itself, so
+ * it reads as being drawn rather than faded.
+ *
+ * Under reduced motion the section stops pinning and the title renders
+ * whole — the clip styles are simply not applied.
  */
 function Hero() {
   const heroRef = useRef(null);
   const reduced = usePrefersReducedMotion();
   const { scrollYProgress } = useScroll({
     target: heroRef,
-    offset: ['start start', 'end start'],
+    offset: ['start start', 'end end'],
   });
 
-  // Identity-range motion values (reduced ? [x,x] : [a,b]) can end up stuck
-  // on the animated range if `reduced` corrects to true on a re-render
-  // after mount — Framer Motion doesn't reliably re-evaluate an existing
-  // transform against a changed output range. Passing the raw MotionValue
-  // only when not reduced, and a plain static value otherwise, sidesteps
-  // that entirely: reduced-motion visitors get a real constant, not a
-  // transform that might still be tracking the old range.
-  const yRaw = useTransform(scrollYProgress, [0, 1], [0, -72]);
-  const opacityRaw = useTransform(scrollYProgress, [0, 1], [1, 0.2]);
-  const scaleRaw = useTransform(scrollYProgress, [0, 1], [1, 0.95]);
+  // A function transform on purpose: Motion hands a range-mapped opacity
+  // straight to a native ScrollTimeline, which mis-reads this pinned
+  // section's offsets and ran the fade backwards.
+  const cueOpacity = useTransform(scrollYProgress, (v) =>
+    Math.max(0, 1 - v / 0.06),
+  );
 
-  const y = reduced ? 0 : yRaw;
-  const opacity = reduced ? 1 : opacityRaw;
-  const scale = reduced ? 1 : scaleRaw;
+  let letterIndex = 0;
 
   return (
-    <section ref={heroRef} className="section hero">
-      <Container>
-        <motion.div style={{ y, opacity, scale }}>
-          <Grid rowGap="var(--s-6)">
-            <Col span={{ base: 12, lg: 9 }}>
-              <h1 className="t-display hero__title">
-                <SplitReveal as="span" className="hero__title-static">
-                  DESIGN that decodes
-                </SplitReveal>
-                <br />
-                <HeroRotatingWord />.
-              </h1>
-            </Col>
+    <section
+      ref={heroRef}
+      className={clsx('hero', reduced && 'hero--static')}
+    >
+      <div className="hero__pin">
+        <Container>
+          <h1 className="hero__title" aria-label="Design that decodes">
+            {HERO_WORDS.map((word) => (
+              <span key={word} className="hero__word" aria-hidden="true">
+                {[...word].map((char) => {
+                  const i = letterIndex++;
+                  return (
+                    <WrittenLetter
+                      key={i}
+                      char={char}
+                      index={i}
+                      progress={scrollYProgress}
+                      reduced={reduced}
+                    />
+                  );
+                })}
+              </span>
+            ))}
+          </h1>
 
-            <Col span={{ base: 12, lg: 9 }}>
-              <Reveal index={2} className="hero__actions">
-                <Button variant="primary" to="/contact" arrow>
-                  Connect for Business Growth
-                </Button>
-              </Reveal>
-            </Col>
-          </Grid>
-        </motion.div>
-      </Container>
+          <p className="t-h2 hero__outcome">
+            Built for <HeroRotatingWord />.
+          </p>
+
+          <Reveal index={2} className="hero__actions">
+            <Button variant="primary" to="/contact" arrow>
+              Connect for Business Growth
+            </Button>
+          </Reveal>
+        </Container>
+
+        {reduced ? null : (
+          <motion.p
+            className="t-mono subtle hero__cue"
+            style={{ opacity: cueOpacity }}
+            aria-hidden="true"
+          >
+            Scroll to write ↓
+          </motion.p>
+        )}
+      </div>
     </section>
+  );
+}
+
+/** One glyph of the hero title. Slices are back to back, so exactly one
+ * letter — and one pen caret — is mid-stroke at any moment. */
+function WrittenLetter({ char, index, progress, reduced }) {
+  const step = (WRITE_END - WRITE_START) / HERO_LETTER_COUNT;
+  const start = WRITE_START + index * step;
+  const end = start + step;
+
+  // Negative insets leave room for glyph overhang; only the right edge
+  // moves, which is what makes it a left-to-right stroke.
+  const clipRight = useTransform(progress, [start, end], [100, -10]);
+  const clipPath = useMotionTemplate`inset(-20% ${clipRight}% -20% -10%)`;
+  const caretLeft = useTransform(progress, [start, end], ['0%', '100%']);
+  // Function transform for the same ScrollTimeline reason as the cue.
+  const caretOpacity = useTransform(progress, (v) =>
+    v > start && v < end ? 1 : 0,
+  );
+
+  return (
+    <span className="hero__letter">
+      <span className="hero__letter-ghost">{char}</span>
+      <motion.span
+        className="hero__letter-ink"
+        style={reduced ? undefined : { clipPath }}
+      >
+        {char}
+      </motion.span>
+      {reduced ? null : (
+        <motion.span
+          className="hero__caret"
+          style={{ left: caretLeft, opacity: caretOpacity }}
+        />
+      )}
+    </span>
   );
 }
 

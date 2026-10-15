@@ -7,6 +7,20 @@
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="preload" href="/fonts/FamiljenGrotesk-Variable.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="/fonts/SpaceMono-Regular.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/BubblerOne-Regular.woff2" as="font" type="font/woff2" crossorigin />
+    <script>
+      // First visit this session: cover the page until StoryIntro mounts and
+      // takes over, so the site doesn't flash before the intro starts. The
+      // timeout is a safety net in case the app never boots.
+      try {
+        if (!sessionStorage.getItem('story-seen')) {
+          document.documentElement.classList.add('story-pending');
+          setTimeout(function () {
+            document.documentElement.classList.remove('story-pending');
+          }, 5000);
+        }
+      } catch (e) {}
+    </script>
     <noscript>
       <!-- Scroll reveals start at opacity:0 in the prerendered HTML. Without
            JS nothing would ever reveal them, so the page would read as blank
@@ -16,6 +30,9 @@
         [style*='opacity: 0'] {
           opacity: 1 !important;
           transform: none !important;
+        }
+        .hero__letter-ink {
+          clip-path: none !important;
         }
       </style>
     </noscript>

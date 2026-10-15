@@ -4,6 +4,7 @@ import { AnimatePresence, motion } from 'motion/react';
 import { Header } from './Header';
 import { Footer } from './Footer';
 import { CustomCursor } from '@/components/ui/CustomCursor';
+import { StoryIntro } from '@/components/ui/StoryIntro';
 import { useSmoothScroll } from '@/hooks/useSmoothScroll';
 import { useGridOverlay } from '@/hooks/useGridOverlay';
 import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
@@ -69,6 +70,8 @@ export function RootLayout() {
       <Footer />
 
       <CustomCursor />
+
+      <StoryIntro />
 
       {gridVisible ? <GridOverlay /> : null}
     </>

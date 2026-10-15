@@ -268,36 +268,102 @@
 
 /* ---- Home: hero --------------------------------------------------------- */
 
+/* Pinned: the section is taller than the viewport and the content sticks,
+   so scrolling through the extra height scrubs the title being written
+   (see Hero in Home.jsx) instead of moving the page. */
 .hero {
-  padding-top: clamp(56px, 10vw, 132px);
+  position: relative;
+  height: 260vh;
+}
+
+.hero__pin {
+  position: sticky;
+  top: var(--header-h);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: calc(100vh - var(--header-h));
+  min-height: calc(100svh - var(--header-h));
+  padding-block: var(--s-8);
+}
+
+.hero--static {
+  height: auto;
+}
+
+.hero--static .hero__pin {
+  position: static;
 }
 
 .hero__title {
-  margin-top: var(--s-6);
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 0.32em;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(3rem, 11.5vw, 11rem);
+  line-height: 0.95;
+  letter-spacing: 0.01em;
+  color: var(--text);
 }
 
-/* The static prefix must fit on one line at every width so "decodes"
-   never wraps away from it onto the rotating word's line. Below 768px
-   --fs-display is pinned at its 2.75rem floor regardless of viewport,
-   which is too large for "DESIGN that decodes" to fit one line on a
-   phone — so it gets its own fluid scale through that whole range. */
+/* On phones each word takes its own line, so the title can run much
+   larger than a single-line fit would allow. */
 @media (max-width: 767px) {
-  /* .t-display sets font-size too; needs the extra class to win the tie
-     since .t-display is declared directly in app.css after every
-     imported partial and wins equal-specificity ties by source order. */
-  .hero__title.t-display {
-    font-size: clamp(1.5rem, 7.2vw, 2.75rem);
+  .hero__title {
+    font-size: 21vw;
   }
+}
 
-  .hero__title-static {
-    white-space: nowrap;
-  }
+/* Words never break mid-word; only between words. */
+.hero__word {
+  display: inline-flex;
+  white-space: nowrap;
+}
+
+.hero__letter {
+  position: relative;
+  display: inline-block;
+}
+
+.hero__letter-ghost {
+  color: var(--ink-700);
+}
+
+.hero__letter-ink {
+  position: absolute;
+  inset: 0;
+}
+
+/* The pen: a thin vertical stroke riding the leading edge of the wipe. */
+.hero__caret {
+  position: absolute;
+  top: 8%;
+  bottom: 8%;
+  width: 2px;
+  margin-left: -1px;
+  background-color: var(--text);
+  pointer-events: none;
+}
+
+.hero__outcome {
+  margin-top: var(--s-6);
+  color: var(--text-muted);
 }
 
 .hero__rotating-word {
   display: inline-block;
   position: relative;
   vertical-align: bottom;
+  color: var(--text);
+}
+
+.hero__cue {
+  position: absolute;
+  bottom: var(--s-6);
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
 }
 
 .hero__actions {
