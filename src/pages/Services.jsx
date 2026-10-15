@@ -1,9 +1,10 @@
-import { Link } from 'react-router-dom';
+import { useState } from 'react';
 import { motion } from 'motion/react';
 import { ArrowUpRight } from 'lucide-react';
 import { Container, Grid, Col } from '@/components/layout/Grid';
 import { Reveal } from '@/components/ui/Reveal';
 import { Seo } from '@/components/ui/Seo';
+import { ServiceModal } from '@/components/ui/ServiceModal';
 import { PageHeader } from '@/components/blocks/PageHeader';
 import { CTABand } from '@/components/blocks/CTABand';
 import { services } from '@/data/services';
@@ -23,6 +24,8 @@ const jsonLd = {
 };
 
 export default function Services() {
+  const [openService, setOpenService] = useState(null);
+
   return (
     <>
       <Seo
@@ -60,8 +63,9 @@ export default function Services() {
             {services.map((service, i) => (
               <Col key={service.slug} span={{ base: 12, md: 6, lg: 4 }}>
                 <Reveal index={i % 3} className="service-card">
-                  <Link
-                    to={`/services/${service.slug}`}
+                  <button
+                    type="button"
+                    onClick={() => setOpenService(service)}
                     className="service-card__link"
                   >
                     <div className="service-card__head">
@@ -88,7 +92,7 @@ export default function Services() {
                         <li key={d}>{d}</li>
                       ))}
                     </ul>
-                  </Link>
+                  </button>
                 </Reveal>
               </Col>
             ))}
@@ -101,6 +105,8 @@ export default function Services() {
         title="Describe the problem and the right engagement gets recommended."
         body="Often the answer is a smaller piece of work than the one you had in mind. That conversation is free and there is no obligation attached to it."
       />
+
+      <ServiceModal service={openService} onClose={() => setOpenService(null)} />
     </>
   );
 }

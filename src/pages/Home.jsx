@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
 import { motion, useMotionTemplate, useScroll, useTransform } from 'motion/react';
 import clsx from 'clsx';
 import { Container, Grid, Col } from '@/components/layout/Grid';
@@ -8,6 +7,7 @@ import { Eyebrow } from '@/components/ui/Eyebrow';
 import { Reveal } from '@/components/ui/Reveal';
 import { Placeholder } from '@/components/ui/Placeholder';
 import { Seo } from '@/components/ui/Seo';
+import { ServiceModal } from '@/components/ui/ServiceModal';
 import { services, work } from '@/data/services';
 import { clients, contact, site } from '@/data/siteConfig';
 import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
@@ -253,6 +253,7 @@ function ServicesStack() {
   const stackRef = useRef(null);
   const cardRefs = useRef([]);
   const [activeIndex, setActiveIndex] = useState(services.length);
+  const [openService, setOpenService] = useState(null);
 
   useEffect(() => {
     const stack = stackRef.current;
@@ -302,6 +303,7 @@ function ServicesStack() {
   }, []);
 
   return (
+    <>
     <div
       ref={stackRef}
       className="services-stack"
@@ -311,12 +313,15 @@ function ServicesStack() {
       data-lenis-prevent
     >
       {stackItems.map((service) => (
-        <Link
+        <button
+          type="button"
           key={service.key}
           ref={(el) => {
             cardRefs.current[service.index] = el;
           }}
-          to={`/services/${service.slug}`}
+          onClick={() =>
+            setOpenService(services.find((s) => s.slug === service.slug))
+          }
           data-index={service.index}
           aria-hidden={service.index !== activeIndex || undefined}
           tabIndex={service.index === activeIndex ? 0 : -1}
@@ -330,9 +335,12 @@ function ServicesStack() {
             <h3 className="t-h3">{service.title}</h3>
             <p className="t-small">{service.outcome}</p>
           </div>
-        </Link>
+        </button>
       ))}
     </div>
+
+    <ServiceModal service={openService} onClose={() => setOpenService(null)} />
+    </>
   );
 }
 

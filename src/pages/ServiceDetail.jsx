@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { Check } from 'lucide-react';
 import { Container, Grid, Col } from '@/components/layout/Grid';
@@ -6,6 +7,7 @@ import { Eyebrow } from '@/components/ui/Eyebrow';
 import { Reveal } from '@/components/ui/Reveal';
 import { SplitReveal } from '@/components/ui/SplitReveal';
 import { Seo } from '@/components/ui/Seo';
+import { ServiceModal } from '@/components/ui/ServiceModal';
 import { CTABand } from '@/components/blocks/CTABand';
 import { getService, services } from '@/data/services';
 import { site } from '@/data/siteConfig';
@@ -14,6 +16,7 @@ import NotFound from './NotFound';
 export default function ServiceDetail() {
   const { slug } = useParams();
   const service = getService(slug);
+  const [openService, setOpenService] = useState(null);
 
   if (!service) return <NotFound />;
 
@@ -163,14 +166,15 @@ export default function ServiceDetail() {
             {others.map((other, i) => (
               <Col key={other.slug} span={{ base: 12, md: 4 }}>
                 <Reveal index={i}>
-                  <Link
-                    to={`/services/${other.slug}`}
+                  <button
+                    type="button"
+                    onClick={() => setOpenService(other)}
                     className="mini-card hover-row"
                   >
                     <span className="t-mono subtle">{other.index}</span>
                     <span className="t-h3">{other.title}</span>
                     <span className="t-small muted">{other.outcome}</span>
-                  </Link>
+                  </button>
                 </Reveal>
               </Col>
             ))}
@@ -179,6 +183,8 @@ export default function ServiceDetail() {
       </section>
 
       <CTABand title={`Ready to talk about ${service.title.toLowerCase()}?`} />
+
+      <ServiceModal service={openService} onClose={() => setOpenService(null)} />
     </>
   );
 }

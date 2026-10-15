@@ -907,3 +907,109 @@
 .not-found {
   padding-block: clamp(80px, 14vw, 180px);
 }
+
+/* ---- Service quick-look dialog (ServiceModal.jsx) ------------------------ */
+
+.service-modal {
+  width: min(640px, calc(100vw - 32px));
+  max-height: calc(100vh - 48px);
+  max-height: calc(100dvh - 48px);
+  margin: auto;
+  padding: 0;
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius);
+  background-color: var(--surface);
+  color: var(--text);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.service-modal::backdrop {
+  background-color: color-mix(in srgb, var(--ink-000) 55%, transparent);
+  backdrop-filter: blur(4px);
+}
+
+.service-modal[open] {
+  animation: service-modal-in var(--dur-mid) var(--ease-out);
+}
+
+@keyframes service-modal-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+}
+
+.service-modal__body {
+  padding: clamp(var(--s-5), 5vw, var(--s-7));
+}
+
+.service-modal__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--s-4);
+}
+
+.service-modal__close {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border: 1px solid var(--hairline);
+  border-radius: 50%;
+  background: transparent;
+  color: var(--text);
+  cursor: pointer;
+}
+
+.service-modal__close:hover {
+  border-color: var(--text);
+}
+
+.service-modal__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-6);
+  margin-block: var(--s-6);
+  padding-block: var(--s-4);
+  border-block: 1px solid var(--hairline);
+}
+
+.service-modal__meta dd {
+  margin: var(--s-1) 0 0;
+}
+
+.service-modal__list {
+  margin-top: var(--s-3);
+}
+
+/* Stays in reach at the bottom while the details scroll on short screens. */
+.service-modal__actions {
+  position: sticky;
+  bottom: 0;
+  margin-top: var(--s-6);
+  margin-inline: calc(-1 * clamp(var(--s-5), 5vw, var(--s-7)));
+  margin-bottom: calc(-1 * clamp(var(--s-5), 5vw, var(--s-7)));
+  padding: var(--s-4) clamp(var(--s-5), 5vw, var(--s-7));
+  border-top: 1px solid var(--hairline);
+  background-color: var(--surface);
+}
+
+/* Cards that used to be links are now buttons that open the dialog. */
+button.services-stack__card,
+button.service-card__link,
+button.mini-card {
+  appearance: none;
+  width: 100%;
+  background: none;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+button.services-stack__card {
+  padding: 0;
+  border: 0;
+}
